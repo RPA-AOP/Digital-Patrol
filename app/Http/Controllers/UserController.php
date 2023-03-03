@@ -1,0 +1,162 @@
+<?php
+
+namespace App\Http\Controllers;
+
+use App\Helpers\Permission;
+use App\Models\Jabatan;
+use App\Models\MasterCompany;
+use App\Models\UnitKerja;
+use App\Models\UserGroup;
+use App\Models\Users;
+use Illuminate\Contracts\Foundation\Application;
+use Illuminate\Contracts\View\Factory;
+use Illuminate\Http\RedirectResponse;
+use Illuminate\Http\Request;
+use Illuminate\Http\Response;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\View\View;
+use Yajra\DataTables\DataTables;
+
+class UserController extends Controller
+{
+    /**
+     * Display a listing of the resource.
+     *
+     * @return Application|Factory|View
+     */
+    public function index()
+    {
+        $permission = Permission::get();
+        if ($permission->has_view) {
+            $data = ['permission' => $permission];
+            if ($permission->has_create) {
+                $data['userGroup'] = UserGroup::whereStatus(1)->get();
+                $data['company'] = MasterCompany::whereStatus(1)->select(['id_company', 'company_name'])->get();
+            }
+            return view('modules.users.index', $data);
+        } else {
+            return abort(403, 'Anda tidak memiliki akses pada menu ini');
+        }
+    }
+
+    public function list()
+    {
+        $permission = Permission::get();
+        if (!$permission->has_view) {
+            return response()->json([
+                'status' => 'error',
+                'msg' => 'anda tidak memiliki akses untuk melakukan operasi ini'
+            ]);
+        }
+
+        $data = Users::with('userGroup')->get();
+        return DataTables::of($data)->addIndexColumn()->make(true);
+    }
+
+    /**
+     * Show the form for creating a new resource.
+     *
+     * @return Response
+     */
+    public function create()
+    {
+        //
+    }
+
+    /**
+     * Store a newly created resource in storage.
+     *
+     * @param Request $request
+     */
+    public function store(Request $request)
+    {
+        $request->validate([
+            'user-fullname' => 'required|max:255',
+            'user-npk' => 'required',
+            'user-email' => 'required',
+            'user-phone' => 'required',
+            'user-group' => 'required',
+            'user-name' => 'required',
+            'default-password' => 'required|confirmed',
+        ]);
+        $newUser = new Users();
+        $newUser->nama = $request->post('user-fullname');
+        $newUser->username = $request->post('user-name');
+        $newUser->npk = $request->post('user-npk');
+        $newUser->phone = $request->post('user-phone');
+        $newUser->id_user_group = $request->post('user-group');
+        $newUser->email = $request->post('user-email');
+        $newUser->password = \Hash::make($request->post('default-password'));
+        if ($request->post('user-company')!=null){
+            $newUser->id_company = $request->post('user-company');
+        }
+        if ($newUser->save()){
+            $newUser->refresh();
+            return response()->json(['status' => 'New User created', 'user'=>$newUser->toArray()], 200);
+        }
+        return response()->json(['status' => 'Add New user failed',], 500);
+
+    }
+
+    /**
+     * Display the specified resource.
+     *
+     * @param int $id
+     * @return Application|Factory|View
+     */
+    public function show($id)
+    {
+        $user = Users::query()->where('id_user', $id)->with('privileges')->first();
+        return view('modules.users.profile', compact('user'));
+    }
+
+  public function profile()
+  {
+    $user = Auth::user();
+    return view('modules.users.profile', compact('user'));
+  }
+    /**
+     * Show the form for editing the specified resource.
+     *
+     * @param int $id
+     * @return Application|Factory|View
+     */
+    public function edit(int $id): Factory|View|Application
+    {
+        $user = Users::query()->where('id_user', $id)->with('privileges.menu', 'userGroup')->first();
+        $userGroup = UserGroup::query()->where('status', 1)->get();
+        return view('modules.users.edit', compact('user', 'userGroup'));
+    }
+
+    /**
+     * Update the specified resource in storage.
+     *
+     * @param Request $request
+     * @param int $id
+     * @return RedirectResponse
+     */
+    public function update(Request $request, int $id): RedirectResponse
+    {
+        $user = Users::find($id);
+        $user->id_user_group = $request->userGroup;
+        $user->telp = $request->phone;
+
+        if ($user->save()) {
+            return redirect()->route('management-user.show', ['id' => $id])
+                ->with('success', 'User Berhasil Di Update');
+        }
+        return redirect()->route('management-user.show', ['id' => $id])
+            ->with('error', 'User Gagal Di Update');
+    }
+
+    /**
+     * Remove the specified resource from storage.
+     *
+     * @param int $id
+     * @return Response
+     */
+    public function destroy($id)
+    {
+        //
+    }
+}
