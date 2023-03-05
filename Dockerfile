@@ -15,6 +15,12 @@ RUN docker-php-ext-configure gd \
     --with-webp
 RUN docker-php-ext-install -j$(nproc) gd
 RUN docker-php-ext-install pdo pdo_mysql mysqli bcmath
+
+# Install Postgre PDO
+RUN apt-get install -y libpq-dev \
+    && docker-php-ext-configure pgsql -with-pgsql=/usr/local/pgsql \
+    && docker-php-ext-install pdo_pgsql pgsql
+
 RUN docker-php-ext-configure ldap --with-libdir=lib/x86_64-linux-gnu/
 RUN docker-php-ext-install ldap
 
