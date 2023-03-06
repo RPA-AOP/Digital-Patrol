@@ -4,7 +4,6 @@ pipeline {
     stages {
         stage('Build') {
             steps {
-                git 'https://gitlab.com/imamsy/digipatrol-backend.git'
                 sh 'composer install'
                 sh 'cp .env.example .env'
                 sh 'php artisan key:generate'
