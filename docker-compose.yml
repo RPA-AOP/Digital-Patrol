@@ -17,7 +17,7 @@ services:
         command:
             - /bin/bash
             - -c
-            - composer install && composer dumpautoload && npm install && npm run dev && /usr/bin/supervisord -c /etc/supervisor/conf.d/supervisord.conf
+            - whoami && composer install && composer dumpautoload && npm install && npm run dev && /usr/bin/supervisord -c /etc/supervisor/conf.d/supervisord.conf
         volumes:
             - '.:/var/www/html'
         networks:
