@@ -1,7 +1,7 @@
 version: '3'
 services:
     digipatrol:
-        user: ${WWWUSER}
+        user: "${WWWUSER}:${WWWGROUP}"
         build:
             context: ./docker/8.2
             dockerfile: Dockerfile
