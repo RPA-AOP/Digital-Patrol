@@ -17,7 +17,7 @@ services:
         command:
             - /bin/bash
             - -c
-            - echo ${WWWUSER} && composer install && composer dumpautoload && npm install && npm run dev && /usr/bin/supervisord -c /etc/supervisor/conf.d/supervisord.conf
+            - chown -Rf ${WWWUSER}:${WWWUSER} /var/www/html/ && composer install && composer dumpautoload && npm install && npm run dev && /usr/bin/supervisord -c /etc/supervisor/conf.d/supervisord.conf
         volumes:
             - '.:/var/www/html'
         networks:
