@@ -22,7 +22,3 @@ networks:
     digipatrol-network:
         name: nginx-proxy-manager_default
         external: true
-volumes:
-  portainer_data:
-    name: portainer_data
-    external: false
