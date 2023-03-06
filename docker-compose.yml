@@ -17,10 +17,7 @@ services:
         command:
             - /bin/bash
             - -c
-            - composer install
-            - composer dumpautoload
-            - npm install
-            - npm run dev
+            - composer install && composer dumpautoload && npm install && npm run dev && ./docker/8.2/start-container
         volumes:
             - '.:/var/www/html'
         networks:
