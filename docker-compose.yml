@@ -22,4 +22,3 @@ networks:
     digipatrol-network:
         name: nginx-proxy-manager_default
         external: true
-
