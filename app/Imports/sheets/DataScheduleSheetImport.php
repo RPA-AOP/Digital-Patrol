@@ -41,7 +41,6 @@ class DataScheduleSheetImport implements ToArray, WithCalculatedFormulas, WithHe
       ->whereYear('created_at', '=', $this->year)
       ->whereMonth('created_at', '=', $this->month)
       ->delete();
-
     foreach ($array as $index => $item) {
       if (!$item[0]) continue;
       $patrolDate = Carbon::createFromFormat('d-n-Y', "{$item[0]}-{$this->month}-{$this->year}");
@@ -49,8 +48,7 @@ class DataScheduleSheetImport implements ToArray, WithCalculatedFormulas, WithHe
         if ($k == 0) continue;
         if ($v == null) continue;
 
-
-        $user = Users::whereNpk($k)
+        $user = Users::where('npk',$k)
           ->where('id_company', $this->idCompany)
           ->where('id_user_group', 4)->first();
 

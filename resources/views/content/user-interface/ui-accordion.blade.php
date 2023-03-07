@@ -18,7 +18,6 @@
             Accordion Item 1
           </button>
         </h2>
-
         <div id="accordionOne" class="accordion-collapse collapse show" data-bs-parent="#accordionExample">
           <div class="accordion-body">
             Lemon drops chocolate cake gummies carrot cake chupa chups muffin topping. Sesame snaps icing marzipan gummi

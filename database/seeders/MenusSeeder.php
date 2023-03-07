@@ -27,6 +27,26 @@ class MenusSeeder extends Seeder
 
       ],
       [
+        'name' => 'Report',
+        'url' => "#",
+        'icon' => null,
+        'type' => 'label',
+        'slug' => 'report',
+        'is_hidden' => 0,
+        'created_by' => 1,
+        'updated_by' => 0,
+      ],
+      [
+        'name' => 'Patrol Report',
+        'icon' => 'menu-icon tf-icons ti ti-report',
+        'url' => '/report-patrol',
+        'slug' => 'report.patrol',
+        'type' => 'menu',
+        'is_hidden' => 0,
+        'created_by' => 1,
+        'updated_by' => 0
+      ],
+      [
         'name' => 'Patrol',
         'url' => "#",
         'icon' => null,

@@ -128,7 +128,7 @@ class UserGroupController extends Controller
                     array_push($privileges, $mn);
                 }
 
-                $data->privileges = $privileges;
+                $data['privileges'] = $privileges;
 
                 return response()->json([
                     'status' => 'success',

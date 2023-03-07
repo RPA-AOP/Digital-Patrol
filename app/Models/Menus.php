@@ -48,6 +48,10 @@ use Illuminate\Database\Eloquent\Model;
  * @method static Builder|Menus whereUrl($value)
  * @property-read \Illuminate\Database\Eloquent\Collection<int, Menus> $submenu
  * @property-read \Illuminate\Database\Eloquent\Collection<int, Menus> $submenu
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, Menus> $submenu
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, Menus> $submenu
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, Menus> $submenu
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, Menus> $submenu
  * @mixin Eloquent
  */
 class Menus extends Model

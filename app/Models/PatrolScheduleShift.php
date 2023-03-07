@@ -40,6 +40,10 @@ use Illuminate\Support\Carbon;
  * @method static Builder|PatrolScheduleShift wherePatrolScheduleShiftId($value)
  * @method static Builder|PatrolScheduleShift whereShiftCode($value)
  * @method static Builder|PatrolScheduleShift whereShiftName($value)
+ * @property string|null $start_hour
+ * @property string|null $end_hour
+ * @method static Builder|PatrolScheduleShift whereEndHour($value)
+ * @method static Builder|PatrolScheduleShift whereStartHour($value)
  * @mixin Eloquent
  */
 class PatrolScheduleShift extends Model

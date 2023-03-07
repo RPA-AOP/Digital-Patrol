@@ -63,6 +63,7 @@ use Illuminate\Support\Carbon;
  * @method static Builder|PatrolScheduleDetailConfig wherePatrolScheduleDetail($value)
  * @method static Builder|PatrolScheduleDetailConfig wherePatrolScheduleId($value)
  * @method static Builder|PatrolScheduleDetailConfig wherePatrolScheduleShiftId($value)
+ * @property-read \App\Models\PatrolScheduleShift|null $patrolShift
  * @mixin Eloquent
  */
 class PatrolScheduleDetailConfig extends Model

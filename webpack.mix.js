@@ -1,4 +1,4 @@
-const { EnvironmentPlugin } = require('webpack');
+const { EnvironmentPlugin, ContextReplacementPlugin } = require('webpack');
 const mix = require('laravel-mix');
 const glob = require('glob');
 const path = require('path');
@@ -30,7 +30,12 @@ mix.webpackConfig({
     new EnvironmentPlugin({
       // Application's public url
       BASE_URL: process.env.ASSET_URL ? `${process.env.ASSET_URL}/` : '/'
-    })
+    }),
+    new ContextReplacementPlugin(
+      /moment[\/\\]locale/,
+      // A regular expression matching files that should be included
+      /(id)\.js/
+    )
   ],
   module: {
     rules: [
@@ -79,6 +84,7 @@ mix.webpackConfig({
  | Vendor assets
  |--------------------------------------------------------------------------
  */
+
 
 function mixAssetsDir(query, cb) {
   (glob.sync('resources/assets/' + query) || []).forEach(f => {

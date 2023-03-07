@@ -5,6 +5,7 @@ use App\Http\Controllers\Components\Select2Controller;
 use App\Http\Controllers\Master\MasterCompanyController;
 use App\Http\Controllers\PatrolConfigController;
 use App\Http\Controllers\QrcodeController;
+use App\Http\Controllers\ReportPatrolController;
 use App\Http\Controllers\ScheduleConfigController;
 use App\Http\Controllers\templates\laravel_example\UserManagement;
 use App\Http\Controllers\UserController;
@@ -27,6 +28,7 @@ Route::post('/login', [AuthController::class, 'doLogin'])->name('doLogin');
 Route::group(['middleware' => ['auth',]], function () {
 
   Route::get('/logout', [AuthController::class, 'logout'])->name('logout');
+  Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
   Route::controller(Select2Controller::class)->prefix('select2')->name('select2.')->group(function () {
     Route::get('master_program/', [Select2Controller::class, 'master_program'])->name('master_program');
     Route::get('get/', [Select2Controller::class, 'get'])->name('get');
@@ -95,6 +97,13 @@ Route::group(['middleware' => ['auth',]], function () {
     });
 
 
+  Route::controller(ReportPatrolController::class)->prefix('report-patrol')
+    ->name('report.patrol.')->group(function () {
+      Route::get('/', [ReportPatrolController::class, 'index'])->name('index');
+      Route::get('/list', [ReportPatrolController::class, 'list'])->name('list');
+      Route::get('/detail/{id}', [ReportPatrolController::class, 'detail'])->name('detail');
+    });
+
 // TEMPLATE ROUTE
   $controller_path = 'App\Http\Controllers\templates';
 
@@ -162,23 +171,23 @@ Route::group(['middleware' => ['auth',]], function () {
   Route::get('/pages/misc-not-authorized', $controller_path . '\pages\MiscNotAuthorized@index')->name('pages-misc-not-authorized');
 
 // authentication
-  Route::get('/auth/login-front', $controller_path . '\authentications\LoginFront@index')->name('auth-login-front');
+//  Route::get('/auth/login-front', $controller_path . '\authentications\LoginFront@index')->name('auth-login-front');
   Route::get('/auth/login-basic', $controller_path . '\authentications\LoginBasic@index')->name('auth-login-basic');
   Route::get('/auth/login-cover', $controller_path . '\authentications\LoginCover@index')->name('auth-login-cover');
-  Route::get('/auth/register-front', $controller_path . '\authentications\RegisterFront@index')->name('auth-register-front');
+//  Route::get('/auth/register-front', $controller_path . '\authentications\RegisterFront@index')->name('auth-register-front');
   Route::get('/auth/register-basic', $controller_path . '\authentications\RegisterBasic@index')->name('auth-register-basic');
   Route::get('/auth/register-cover', $controller_path . '\authentications\RegisterCover@index')->name('auth-register-cover');
   Route::get('/auth/register-multisteps', $controller_path . '\authentications\RegisterMultiSteps@index')->name('auth-register-multisteps');
-  Route::get('/auth/verify-email-front', $controller_path . '\authentications\VerifyEmailFront@index')->name('auth-verify-email-front');
+//  Route::get('/auth/verify-email-front', $controller_path . '\authentications\VerifyEmailFront@index')->name('auth-verify-email-front');
   Route::get('/auth/verify-email-basic', $controller_path . '\authentications\VerifyEmailBasic@index')->name('auth-verify-email-basic');
   Route::get('/auth/verify-email-cover', $controller_path . '\authentications\VerifyEmailCover@index')->name('auth-verify-email-cover');
-  Route::get('/auth/reset-password-front', $controller_path . '\authentications\ResetPasswordFront@index')->name('auth-reset-password-front');
+//  Route::get('/auth/reset-password-front', $controller_path . '\authentications\ResetPasswordFront@index')->name('auth-reset-password-front');
   Route::get('/auth/reset-password-basic', $controller_path . '\authentications\ResetPasswordBasic@index')->name('auth-reset-password-basic');
   Route::get('/auth/reset-password-cover', $controller_path . '\authentications\ResetPasswordCover@index')->name('auth-reset-password-cover');
-  Route::get('/auth/forgot-password-front', $controller_path . '\authentications\ForgotPasswordFront@index')->name('auth-forgot-password-front');
+//  Route::get('/auth/forgot-password-front', $controller_path . '\authentications\ForgotPasswordFront@index')->name('auth-forgot-password-front');
   Route::get('/auth/forgot-password-basic', $controller_path . '\authentications\ForgotPasswordBasic@index')->name('auth-forgot-password-basic');
   Route::get('/auth/forgot-password-cover', $controller_path . '\authentications\ForgotPasswordCover@index')->name('auth-forgot-password-cover');
-  Route::get('/auth/two-steps-front', $controller_path . '\authentications\TwoStepsFront@index')->name('auth-two-steps-front');
+//  Route::get('/auth/two-steps-front', $controller_path . '\authentications\TwoStepsFront@index')->name('auth-two-steps-front');
   Route::get('/auth/two-steps-basic', $controller_path . '\authentications\TwoStepsBasic@index')->name('auth-two-steps-basic');
   Route::get('/auth/two-steps-cover', $controller_path . '\authentications\TwoStepsCover@index')->name('auth-two-steps-cover');
 
