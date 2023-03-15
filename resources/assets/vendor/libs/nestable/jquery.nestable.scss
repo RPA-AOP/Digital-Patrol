@@ -1,8 +1,12 @@
+@use '../../scss/_bootstrap-extended/include' as light;
+@use '../../scss/_bootstrap-extended/include-dark' as dark;
+@import '../../scss/_custom-variables/libs';
+
 $color_1: #6F7B8A;
 $color_2: #505458;
 $color_3: #8E9AA2;
 $color_4: #333;
-$color_5: #7367f0;
+$color_5: light.$primary;
 $color_6: #fff;
 $color_7: #575757;
 $font-family_1: Consolas, monospace;
@@ -38,21 +42,25 @@ $border-color_3: rgba(87, 87, 87, 0.5);
   font-size: 13px;
   line-height: 20px;
 }
+
 .dd-list {
   display: block;
   position: relative;
   margin: 0;
   padding: 0;
   list-style: none;
+
   .dd-list {
     padding-left: 30px;
   }
 }
+
 .dd-collapsed {
   .dd-list {
     display: none;
   }
 }
+
 .dd-item {
   display: block;
   position: relative;
@@ -61,7 +69,8 @@ $border-color_3: rgba(87, 87, 87, 0.5);
   min-height: 20px;
   font-size: 13px;
   line-height: 20px;
-  >button {
+
+  > button {
     display: block;
     position: relative;
     cursor: pointer;
@@ -79,6 +88,7 @@ $border-color_3: rgba(87, 87, 87, 0.5);
     text-align: center;
     font-weight: bold;
     font-size: 11px;
+
     &:before {
       display: block;
       position: absolute;
@@ -89,13 +99,15 @@ $border-color_3: rgba(87, 87, 87, 0.5);
       content: "\ea5f";
     }
   }
-  >button[data-action="collapse"] {
+
+  > button[data-action="collapse"] {
     &:before {
       font-family: $font-family_2 !important;
       content: "\ea62";
     }
   }
 }
+
 .dd-empty {
   display: block;
   position: relative;
@@ -113,6 +125,7 @@ $border-color_3: rgba(87, 87, 87, 0.5);
   background: #e7e7e7 none;
   border-color: $border-color_3;
 }
+
 .dd-placeholder {
   display: block;
   position: relative;
@@ -143,29 +156,35 @@ $border-color_3: rgba(87, 87, 87, 0.5);
   box-sizing: border-box;
   -moz-box-sizing: border-box;
   color: $color_7;
+
   &:hover {
     background-color: $background-color_3;
   }
 }
+
 .dd-dragel {
   position: absolute;
   pointer-events: none;
   z-index: 9999;
-  >.dd-item {
+
+  > .dd-item {
     .dd-handle {
       margin-top: 0;
     }
   }
+
   .dd-handle {
     -webkit-box-shadow: 2px 4px 6px 0 rgba(0, 0, 0, .1);
     box-shadow: 2px 4px 6px 0 rgba(0, 0, 0, .1);
   }
-  >.dd3-item {
-    >.dd3-content {
+
+  > .dd3-item {
+    > .dd3-content {
       margin: 0;
     }
   }
 }
+
 .nestable-lists {
   display: block;
   clear: both;
@@ -173,10 +192,12 @@ $border-color_3: rgba(87, 87, 87, 0.5);
   width: 100%;
   border: 0;
 }
+
 #nestable-menu {
   padding: 0;
   margin: 20px 0;
 }
+
 #nestable-output {
   width: 100%;
   height: 7em;
@@ -187,6 +208,7 @@ $border-color_3: rgba(87, 87, 87, 0.5);
   box-sizing: border-box;
   -moz-box-sizing: border-box;
 }
+
 #nestable2-output {
   width: 100%;
   height: 7em;
@@ -197,32 +219,38 @@ $border-color_3: rgba(87, 87, 87, 0.5);
   box-sizing: border-box;
   -moz-box-sizing: border-box;
 }
+
 .dark {
   .dd-handle {
     color: $color_1;
     border: none;
     background: #d9e0e4;
+
     &:hover {
       color: $color_2;
       background-color: $background-color_3;
     }
   }
+
   .dd-item {
-    >button {
+    > button {
       &:before {
         color: $color_3;
       }
     }
   }
+
   .dd-placeholder {
     background-color: $background-color_4;
   }
 }
+
 .dd-hover {
-  >.dd-handle {
+  > .dd-handle {
     background: #7367f0 !important;
   }
 }
+
 .dd3-content {
   display: block;
   height: 30px;
@@ -248,11 +276,13 @@ $border-color_3: rgba(87, 87, 87, 0.5);
     cursor: pointer;
   }
 }
+
 .dd3-item {
-  >button {
+  > button {
     margin-left: 30px;
   }
 }
+
 .dd3-handle {
   position: absolute;
   margin: 0;
@@ -263,7 +293,6 @@ $border-color_3: rgba(87, 87, 87, 0.5);
   height: 30px;
   white-space: nowrap;
   overflow: hidden;
-  border: 1px solid #aaa;
   background: #ddd;
   background: -webkit-linear-gradient(to bottom, #ddd 0%, #bbb 100%);
   background: -moz-linear-gradient(to bottom, #ddd 0%, #bbb 100%);
@@ -272,6 +301,7 @@ $border-color_3: rgba(87, 87, 87, 0.5);
   border-bottom-right-radius: 0;
   background: transparent;
   text-indent: 9999px;
+
   &:before {
     display: block;
     position: absolute;
@@ -286,14 +316,17 @@ $border-color_3: rgba(87, 87, 87, 0.5);
     font-size: 20px;
     top: 5px;
   }
+
   &:hover {
     background: #ddd;
   }
 }
+
 @media only screen and (min-width: 700px) {
   .dd {
     float: left;
     width: 100%;
+
     + {
       .dd {
         margin-left: 2%;

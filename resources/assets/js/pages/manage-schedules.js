@@ -223,7 +223,7 @@ document.addEventListener('DOMContentLoaded', function () {
     function fetchEvents(info, successCallback) {
       let events = $.ajax(
         {
-          url: baseUrl + '/scheduleconfig/list',
+          url: baseUrl + 'scheduleconfig/list',
           type: 'GET',
           data: {
             'start': moment(info.start).format("YYYY-MM-DD"),

@@ -116,7 +116,7 @@
   const weeklyEarningReportsEl = document.querySelector('#weeklyEarningReports'),
     weeklyEarningReportsConfig = {
       chart: {
-        height: 202,
+        height: 182,
         parentHeightOffset: 0,
         type: 'bar',
         toolbar: {

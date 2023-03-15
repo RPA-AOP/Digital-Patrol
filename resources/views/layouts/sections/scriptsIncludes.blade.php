@@ -19,20 +19,20 @@
       displayCustomizer: {{$configData['displayCustomizer']}},
       lang: '{{ app()->getLocale() }}',
       pathResolver: function(path) {
-        var resolvedPaths = {
+        const resolvedPaths = {
           // Core stylesheets
           @foreach (['core'] as $name)
-            '{{ $name }}.css': '{{ asset(mix("assets/vendor/css{$configData['rtlSupport']}/{$name}.css")) }}',
-            '{{ $name }}-dark.css': '{{ asset(mix("assets/vendor/css{$configData['rtlSupport']}/{$name}-dark.css")) }}',
+          '{{ $name }}.css': '{{ asset(mix("assets/vendor/css{$configData['rtlSupport']}/{$name}.css")) }}',
+          '{{ $name }}-dark.css': '{{ asset(mix("assets/vendor/css{$configData['rtlSupport']}/{$name}-dark.css")) }}',
           @endforeach
 
           // Themes
           @foreach (['default', 'bordered', 'semi-dark', 'astra'] as $name)
-            'theme-{{ $name }}.css': '{{ asset(mix("assets/vendor/css{$configData['rtlSupport']}/theme-{$name}.css")) }}',
-            'theme-{{ $name }}-dark.css':
+          'theme-{{ $name }}.css': '{{ asset(mix("assets/vendor/css{$configData['rtlSupport']}/theme-{$name}.css")) }}',
+          'theme-{{ $name }}-dark.css':
             '{{ asset(mix("assets/vendor/css{$configData['rtlSupport']}/theme-{$name}-dark.css")) }}',
           @endforeach
-        }
+        };
         return resolvedPaths[path] || path;
       },
       'controls': <?php echo json_encode($configData['customizerControls']); ?>,
