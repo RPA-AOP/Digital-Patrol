@@ -45,4 +45,8 @@ class ReportPatrolDetail extends Model
   {
     return $this->belongsTo(DetailPatrolConfig::class, 'patrol_object_id', 'id_detail_patrol_config');
   }
+  public function objectParent(): BelongsTo
+  {
+    return $this->belongsTo(DetailPatrolConfig::class, 'parent_level', 'id_detail_patrol_config');
+  }
 }

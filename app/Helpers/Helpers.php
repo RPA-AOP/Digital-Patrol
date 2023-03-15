@@ -111,27 +111,27 @@ class Helpers
     ];
 
     // sidebar Collapsed
-    if ($layoutClasses['menuCollapsed'] == true) {
+    if ($layoutClasses['menuCollapsed']) {
       $layoutClasses['menuCollapsed'] = 'layout-menu-collapsed';
     }
 
     // Menu Fixed
-    if ($layoutClasses['menuFixed'] == true) {
+    if ($layoutClasses['menuFixed']) {
       $layoutClasses['menuFixed'] = 'layout-menu-fixed';
     }
 
     // Navbar Fixed
-    if ($layoutClasses['navbarFixed'] == true) {
+    if ($layoutClasses['navbarFixed']) {
       $layoutClasses['navbarFixed'] = 'layout-navbar-fixed';
     }
 
     // Footer Fixed
-    if ($layoutClasses['footerFixed'] == true) {
+    if ($layoutClasses['footerFixed']) {
       $layoutClasses['footerFixed'] = 'layout-footer-fixed';
     }
 
     // Menu Flipped
-    if ($layoutClasses['menuFlipped'] == true) {
+    if ($layoutClasses['menuFlipped']) {
       $layoutClasses['menuFlipped'] = 'layout-menu-flipped';
     }
 
@@ -141,12 +141,12 @@ class Helpers
     // }
 
     // RTL Supported template
-    if ($layoutClasses['rtlSupport'] == true) {
+    if ($layoutClasses['rtlSupport']) {
       $layoutClasses['rtlSupport'] = '/rtl';
     }
 
     // RTL Layout/Mode
-    if ($layoutClasses['rtlMode'] == true) {
+    if ($layoutClasses['rtlMode']) {
       $layoutClasses['rtlMode'] = 'rtl';
       $layoutClasses['textDirection'] = 'rtl';
     } else {
@@ -155,14 +155,14 @@ class Helpers
     }
 
     // Show DropdownOnHover for Horizontal Menu
-    if ($layoutClasses['showDropdownOnHover'] == true) {
+    if ($layoutClasses['showDropdownOnHover']) {
       $layoutClasses['showDropdownOnHover'] = 'true';
     } else {
       $layoutClasses['showDropdownOnHover'] = 'false';
     }
 
     // To hide/show display customizer UI, not js
-    if ($layoutClasses['displayCustomizer'] == true) {
+    if ($layoutClasses['displayCustomizer']) {
       $layoutClasses['displayCustomizer'] = 'true';
     } else {
       $layoutClasses['displayCustomizer'] = 'false';
@@ -171,7 +171,7 @@ class Helpers
     return $layoutClasses;
   }
 
-  public static function updatePageConfig($pageConfigs)
+  public static function updatePageConfig($pageConfigs): void
   {
     $demo = 'custom';
     if (isset($pageConfigs)) {

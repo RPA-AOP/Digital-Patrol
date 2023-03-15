@@ -3,10 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Helpers\Permission;
-use App\Models\Jabatan;
 use App\Models\MasterCompany;
-use App\Models\UnitKerja;
 use App\Models\UserGroup;
+use App\Models\UserGroupPrivilege;
 use App\Models\Users;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\View\Factory;
@@ -24,13 +23,13 @@ class UserController extends Controller
      *
      * @return Application|Factory|View
      */
-    public function index()
+    public function index(): Factory|View|Application
     {
         $permission = Permission::get();
         if ($permission->has_view) {
             $data = ['permission' => $permission];
             if ($permission->has_create) {
-                $data['userGroup'] = UserGroup::whereStatus(1)->get();
+                $data['userGroup'] = UserGroup::with('privilages', 'privilages.menu')->whereStatus(1)->get();
                 $data['company'] = MasterCompany::whereStatus(1)->select(['id_company', 'company_name'])->get();
             }
             return view('modules.users.index', $data);
@@ -49,18 +48,8 @@ class UserController extends Controller
             ]);
         }
 
-        $data = Users::with('userGroup')->get();
+        $data = Users::with('userGroup', 'company')->get();
         return DataTables::of($data)->addIndexColumn()->make(true);
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return Response
-     */
-    public function create()
-    {
-        //
     }
 
     /**
@@ -87,12 +76,12 @@ class UserController extends Controller
         $newUser->id_user_group = $request->post('user-group');
         $newUser->email = $request->post('user-email');
         $newUser->password = \Hash::make($request->post('default-password'));
-        if ($request->post('user-company')!=null){
+        if ($request->post('user-company') != null) {
             $newUser->id_company = $request->post('user-company');
         }
-        if ($newUser->save()){
+        if ($newUser->save()) {
             $newUser->refresh();
-            return response()->json(['status' => 'New User created', 'user'=>$newUser->toArray()], 200);
+            return response()->json(['status' => 'New User created', 'user' => $newUser->toArray()], 200);
         }
         return response()->json(['status' => 'Add New user failed',], 500);
 
@@ -110,11 +99,12 @@ class UserController extends Controller
         return view('modules.users.profile', compact('user'));
     }
 
-  public function profile()
-  {
-    $user = Auth::user();
-    return view('modules.users.profile', compact('user'));
-  }
+    public function profile()
+    {
+        $user = Auth::user();
+        return view('modules.users.profile', compact('user'));
+    }
+
     /**
      * Show the form for editing the specified resource.
      *
@@ -139,7 +129,10 @@ class UserController extends Controller
     {
         $user = Users::find($id);
         $user->id_user_group = $request->userGroup;
-        $user->telp = $request->phone;
+        $user->nama = $request->name;
+        $user->phone = $request->phone;
+        $user->email = $request->email;
+        $user->npk = $request->npk;
 
         if ($user->save()) {
             return redirect()->route('management-user.show', ['id' => $id])
@@ -147,6 +140,30 @@ class UserController extends Controller
         }
         return redirect()->route('management-user.show', ['id' => $id])
             ->with('error', 'User Gagal Di Update');
+    }
+
+    public function updateUserGroup(Request $request, $id): RedirectResponse
+    {
+        $permission = Permission::get();
+        if (!$permission->has_edit) {
+            return abort(403, 'You dont have permission to access this feature');
+        }
+
+        if ($request->privilege) {
+            foreach ($request->privilege as $key => $privilege) {
+                UserGroupPrivilege::whereIdUserGroupPrivilege($key)
+                    ->whereIdUserGroup($id)
+                    ->update([
+                        'has_view' => array_key_exists('has_view', $privilege),
+                        'has_edit' => array_key_exists('has_edit', $privilege),
+                        'has_create' => array_key_exists('has_create', $privilege),
+                        'has_delete' => array_key_exists('has_delete', $privilege),
+                    ]);
+            }
+        }
+
+        return redirect()->route('management-user.index')
+            ->with('success', 'User group has been updated');
     }
 
     /**

@@ -47,6 +47,16 @@ class MenusSeeder extends Seeder
         'updated_by' => 0
       ],
       [
+        'name' => 'Abnormal Report',
+        'icon' => 'menu-icon tf-icons ti ti-alert-circle',
+        'url' => '/report-abnormality',
+        'slug' => 'report.abnormal',
+        'type' => 'menu',
+        'is_hidden' => 0,
+        'created_by' => 1,
+        'updated_by' => 0
+      ],
+      [
         'name' => 'Patrol',
         'url' => "#",
         'icon' => null,

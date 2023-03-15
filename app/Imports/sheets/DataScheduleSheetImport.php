@@ -2,11 +2,8 @@
 
 namespace App\Imports\sheets;
 
-use App\Models\DetailPatrolConfig;
-use App\Models\MasterCategory;
 use App\Models\PatrolScheduleDetailConfig;
 use App\Models\PatrolScheduleShift;
-use App\Models\User;
 use App\Models\Users;
 use Carbon\Carbon;
 use Maatwebsite\Excel\Concerns\ToArray;
