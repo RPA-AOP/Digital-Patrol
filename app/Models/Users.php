@@ -12,6 +12,7 @@ use Illuminate\Notifications\DatabaseNotification;
 use Illuminate\Notifications\DatabaseNotificationCollection;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Support\Carbon;
+use Laravel\Sanctum\HasApiTokens;
 
 
 /**
@@ -62,11 +63,11 @@ use Illuminate\Support\Carbon;
  */
 class Users extends Authenticatable
 {
-    use Notifiable;
+    use HasApiTokens, Notifiable;
 
     protected $table = 'users';
     protected $primaryKey = 'id_user';
-    protected $guarded ='id_user';
+    protected $guarded = 'id_user';
     protected $fillable = [
         'username',
         'password',
@@ -83,22 +84,26 @@ class Users extends Authenticatable
         'updated_by'
     ];
 
-    public function userCreated()
+    public function userCreated(): BelongsTo
     {
         return $this->belongsTo(Users::class, 'created_by', 'id_user');
     }
-    public function userUpdated()
+
+    public function userUpdated(): BelongsTo
     {
         return $this->belongsTo(Users::class, 'updated_by', 'id_user');
     }
+
     public function userGroup(): BelongsTo
     {
         return $this->belongsTo(UserGroup::class, 'id_user_group', 'id_user_group');
     }
-  public function company(): BelongsTo
-  {
-    return $this->belongsTo(MasterCompany::class, 'id_company', 'id_company');
-  }
+
+    public function company(): BelongsTo
+    {
+        return $this->belongsTo(MasterCompany::class, 'id_company', 'id_company');
+    }
+
     public function privileges(): HasMany
     {
         return $this->hasMany(UserGroupPrivilege::class, 'id_user_group', 'id_user_group');
