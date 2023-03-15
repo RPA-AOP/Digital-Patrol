@@ -63,9 +63,9 @@
               </div>
               <div class="col-md-4">
 
-                <label class="form-label" for="nrk">NPK</label>
-                <input type="text" class="form-control" placeholder="NRK"
-                       value="{{ $user->npk }}" name="nrk" id="nrk"/>
+                <label class="form-label" for="npk">NPK</label>
+                <input type="text" class="form-control" placeholder="NPK"
+                       value="{{ $user->npk }}" name="npk" id="npk"/>
               </div>
               <div class="col-lg-4">
                 <label class="form-label" for="mobile">Phone Number</label>
@@ -116,37 +116,37 @@
                         <td>
 
                           <div class="form-check mt-3">
-                            <input class="form-check-input" type="checkbox" value=""
+                            <input class="form-check-input" type="checkbox" value="1"
                                    id="view_{{strtolower(str_replace(" ","_",$privilege->menu->title))}}"
                                    @if($privilege->has_edit) checked @endif
-                                   name="has_view[{{$privilege->id_user_privilege}}]"
+                                   name="privilege[{{$privilege->id_user_group_privilege}}][has_view]"
                             />
                           </div>
                         </td>
                         <td>
                           <div class="form-check mt-3">
-                            <input class="form-check-input" type="checkbox" value=""
+                            <input class="form-check-input" type="checkbox" value="1"
                                    id="write_{{strtolower(str_replace(" ","_",$privilege->menu->title))}}"
                                    @if($privilege->has_edit) checked @endif
-                                   name="has_edit[{{$privilege->id_user_privilege}}]"
+                                   name="privilege[{{$privilege->id_user_group_privilege}}][has_edit]"
                             />
                           </div>
                         </td>
                         <td>
                           <div class="form-check mt-3">
-                            <input class="form-check-input" type="checkbox" value=""
+                            <input class="form-check-input" type="checkbox" value="1"
                                    id="create_{{strtolower(str_replace(" ","_",$privilege->menu->title))}}"
                                    @if($privilege->has_edit) checked @endif
-                                   name="has_create[{{$privilege->id_user_privilege}}]"
+                                   name="privilege[{{$privilege->id_user_group_privilege}}][has_create]"
                             />
                           </div>
                         </td>
                         <td>
                           <div class="form-check mt-3">
-                            <input class="form-check-input" type="checkbox" value=""
+                            <input class="form-check-input" type="checkbox" value="1"
                                    id="delete_{{strtolower(str_replace(" ","_",$privilege->menu->title))}}"
                                    @if($privilege->has_edit) checked @endif
-                                   name="has_delete[{{$privilege->id_user_privilege}}]"
+                                   name="privilege[{{$privilege->id_user_group_privilege}}][has_delete]"
                             />
                           </div>
 
