@@ -25,15 +25,15 @@
       <div class="col app-calendar-sidebar" id="app-calendar-sidebar">
         <div class="border-bottom p-4 my-sm-0 mb-3">
           <div class="d-grid">
-{{--            <button class="btn btn-primary btn-toggle-sidebar mb-3" data-bs-toggle="offcanvas"--}}
-{{--                    data-bs-target="#addEventSidebar" aria-controls="addEventSidebar">--}}
-{{--              <i class="ti ti-plus me-1"></i>--}}
-{{--              <span class="align-middle">Add Event</span>--}}
-{{--            </button>--}}
             <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#uploadSchedule">
               <i class="ti ti-upload me-1"></i>
               <span class="align-middle">Upload Patrol Schedule</span>
             </button>
+
+              <button class="btn btn-secondary mt-2" data-bs-toggle="modal" data-bs-target="#updateShift">
+                  <i class="ti ti-file-settings me-1"></i>
+                  <span class="align-middle">Update Shift Config</span>
+              </button>
           </div>
         </div>
         <div class="p-3">
@@ -175,6 +175,7 @@
     </div>
   </div>
   @include('modules.schedule.modal-upload-schedule')
+  @include('modules.schedule.modal-update-shift')
 @endsection
 
 @section('vendor-script')
@@ -195,6 +196,15 @@
     var idCompany = {{$company->id_company}};
     var calendarsColor = @json($calendarsColorJs);
     const selectPicker = $('.selectpicker').selectpicker();
+
+    $(".flatpickr").flatpickr({
+        enableTime: true,
+        noCalendar: true,
+        time_24hr: true,
+        dateFormat: "H:i",
+        minuteIncrement: 1
+    });
+
   </script>
   <script src="{{asset('assets/js/pages/manage-schedules.js')}}"></script>
   <script>

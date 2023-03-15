@@ -65,6 +65,7 @@ Route::group(['middleware' => ['auth',]], function () {
             Route::post('/edit/{id}', [ScheduleConfigController::class, 'update'])->name('update');
             Route::post('/updateConfigHierarchy/{id}', [ScheduleConfigController::class, 'updateConfigHierarchy'])->name('updateConfigHierarchy');
             Route::post('/import', [ScheduleConfigController::class, 'import'])->name('import');
+            Route::post('/updateShift/{company_id}', [ScheduleConfigController::class, 'updateShift'])->name('updateShift');
         });
 
     Route::controller(UserController::class)->prefix('management-user')
