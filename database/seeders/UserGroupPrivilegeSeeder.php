@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Models\Menus;
 use App\Models\UserGroup;
 use App\Models\UserGroupPrivilege;
 use Illuminate\Database\Seeder;
@@ -16,7 +17,7 @@ class UserGroupPrivilegeSeeder extends Seeder
     public function run()
     {
         $groups = UserGroup::select('id_user_group as id')->get();
-        $menus = \App\Models\Menus::where('is_hidden', 0)->orderBy('sort', 'ASC')
+        $menus = Menus::where('is_hidden', 0)->orderBy('sort', 'ASC')
             ->select('id_menu as id')->get();
 
         foreach ($groups as $group) {

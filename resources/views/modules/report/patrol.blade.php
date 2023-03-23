@@ -36,27 +36,27 @@
   <script>
     $('#table-report-patrol').DataTable({
       ajax: "{{route('report.patrol.list')}}",
-      responsive: false,
-      columns: [
-        {
-          data: 'id_report_patrol',
-          render: function (item, data, row, meta) {
-            return meta.row + meta.settings._iDisplayStart + 1;
-          }
-        },
-        {
-          data: 'user.nama',
-          name: 'user.nama',
-          title: 'Name'
-        }, {
-          data: 'user.npk',
-          name: 'user.npk',
-          title: 'NPK'
-        },
-        {
-          data: 'patrol_shift.shift_name',
-          name: 'patrol_shift.shift_name',
-          title: 'SHIFT'
+        responsive: false,
+        columns: [
+            {
+                data: 'id_report_patrol',
+                render: function (item, data, row, meta) {
+                    return meta.row + meta.settings._iDisplayStart + 1;
+                }
+            },
+            {
+                data: 'user.name',
+                name: 'user.name',
+                title: 'Name'
+            }, {
+                data: 'user.npk',
+                name: 'user.npk',
+                title: 'NPK'
+            },
+            {
+                data: 'patrol_shift.shift_name',
+                name: 'patrol_shift.shift_name',
+                title: 'SHIFT'
         },
         {
           data: 'patrol_start_time',

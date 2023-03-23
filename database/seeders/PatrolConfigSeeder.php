@@ -23,6 +23,6 @@ class PatrolConfigSeeder extends Seeder
       $patrolScheduleConfig = PatrolScheduleConfig::create(['id_company'=>1, 'status'=>true]);
 
       Excel::import(new ImportPatrolConfig(1, $patrolConfig->id_company), storage_path('template/TEMPLATE-KONFIGURASI-PATROLI.xlsx'));
-      Excel::import(new ImportPatrolScheduleConfig(1, $patrolScheduleConfig->patrol_schedule_id, Carbon::now()->month, Carbon::now()->year), storage_path('template/TEMPLATE-JADWAL-PATROLI.xlsx'));
+        Excel::import(new ImportPatrolScheduleConfig(1, $patrolScheduleConfig->patrol_schedule_id, Carbon::now()->month, Carbon::now()->year, 2), storage_path('template/TEMPLATE-JADWAL-PATROLI.xlsx'));
     }
 }

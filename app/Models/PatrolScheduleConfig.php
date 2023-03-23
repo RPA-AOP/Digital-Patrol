@@ -12,35 +12,31 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Support\Carbon;
 
 /**
- * App\Models\PatrolConfig
+ * App\Models\PatrolScheduleConfig
  *
- * @property int $id_patrol_config
- * @property int $id_company
+ * @property int $patrol_schedule_id
+ * @property int|null $id_company
  * @property bool $status
- * @property int|null $created_by
- * @property int|null $updated_by
  * @property Carbon|null $created_at
  * @property Carbon|null $updated_at
- * @method static Builder|PatrolConfig newModelQuery()
- * @method static Builder|PatrolConfig newQuery()
- * @method static Builder|PatrolConfig query()
- * @method static Builder|PatrolConfig whereCreatedAt($value)
- * @method static Builder|PatrolConfig whereCreatedBy($value)
- * @method static Builder|PatrolConfig whereIdCompany($value)
- * @method static Builder|PatrolConfig whereIdPatrolConfig($value)
- * @method static Builder|PatrolConfig whereStatus($value)
- * @method static Builder|PatrolConfig whereUpdatedAt($value)
- * @method static Builder|PatrolConfig whereUpdatedBy($value)
- * @property-read MasterCompany $company
- * @property-read Collection|DetailPatrolConfig[] $patrolDetail
+ * @property-read MasterCompany|null $company
+ * @property-read Collection<int, DetailPatrolConfig> $patrolDetail
  * @property-read int|null $patrol_detail_count
- * @property int $patrol_schedule_id
+ * @method static Builder|PatrolScheduleConfig newModelQuery()
+ * @method static Builder|PatrolScheduleConfig newQuery()
+ * @method static Builder|PatrolScheduleConfig query()
+ * @method static Builder|PatrolScheduleConfig whereCreatedAt($value)
+ * @method static Builder|PatrolScheduleConfig whereIdCompany($value)
  * @method static Builder|PatrolScheduleConfig wherePatrolScheduleId($value)
+ * @method static Builder|PatrolScheduleConfig whereStatus($value)
+ * @method static Builder|PatrolScheduleConfig whereUpdatedAt($value)
  * @mixin Eloquent
  */
 class PatrolScheduleConfig extends Model
 {
     use HasFactory;
+
+    protected $casts = ['status' => 'boolean'];
     protected $table = 'patrol_schedule';
     protected $primaryKey = 'patrol_schedule_id';
     protected $fillable = [

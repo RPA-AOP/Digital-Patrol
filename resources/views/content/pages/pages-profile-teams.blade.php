@@ -65,13 +65,13 @@
 
 <!-- Teams Cards -->
 <div class="row g-4">
-  <div class="col-xl-4 col-lg-6 col-md-6">
-    <div class="card">
-      <div class="card-body">
-        <div class="d-flex align-items-center mb-3">
-          <a href="javascript:;" class="d-flex align-items-center">
-            <div class="avatar me-2">
-              <img src="{{ asset('assets/img/icons/brands/react-label.png') }}" alt="Avatar" class="rounded-circle">
+    <div class="col-xl-4 col-lg-6 col-md-6">
+        <div class="card">
+            <div class="card-body">
+                <div class="d-flex align-items-center mb-3">
+                    <a href="javascript:" class="d-flex align-items-center">
+                        <div class="avatar me-2">
+                            <img src="{{ asset('assets/img/icons/brands/react-label.png') }}" alt="Avatar" class="rounded-circle">
             </div>
             <div class="me-2 text-body h5 mb-0">
               React Developers
@@ -110,26 +110,27 @@
               <li data-bs-toggle="tooltip" data-popup="tooltip-custom" data-bs-placement="top" title="Julee Rossignol" class="avatar avatar-sm pull-up">
                 <img class="rounded-circle" src="{{ asset('assets/img/avatars/6.png') }}" alt="Avatar">
               </li>
-              <li class="avatar avatar-sm">
-                <span class="avatar-initial rounded-circle pull-up" data-bs-toggle="tooltip" data-bs-placement="top" title="8 more">+8</span>
-              </li>
+                <li class="avatar avatar-sm">
+                    <span class="avatar-initial rounded-circle pull-up" data-bs-toggle="tooltip" data-bs-placement="top"
+                          title="8 more">+8</span>
+                </li>
             </ul>
           </div>
-          <div class="ms-auto">
-            <a href="javascript:;" class="me-2"><span class="badge bg-label-primary">React</span></a>
-            <a href="javascript:;"><span class="badge bg-label-warning">Vue.JS</span></a>
-          </div>
+            <div class="ms-auto">
+                <a href="javascript:" class="me-2"><span class="badge bg-label-primary">React</span></a>
+                <a href="javascript:"><span class="badge bg-label-warning">Vue.JS</span></a>
+            </div>
         </div>
-      </div>
+            </div>
+        </div>
     </div>
-  </div>
-  <div class="col-xl-4 col-lg-6 col-md-6">
-    <div class="card">
-      <div class="card-body">
-        <div class="d-flex align-items-center mb-3">
-          <a href="javascript:;" class="d-flex align-items-center">
-            <div class="avatar me-2">
-              <img src="{{ asset('assets/img/icons/brands/vue-label.png') }}" alt="Avatar" class="rounded-circle">
+    <div class="col-xl-4 col-lg-6 col-md-6">
+        <div class="card">
+            <div class="card-body">
+                <div class="d-flex align-items-center mb-3">
+                    <a href="javascript:" class="d-flex align-items-center">
+                        <div class="avatar me-2">
+                            <img src="{{ asset('assets/img/icons/brands/vue-label.png') }}" alt="Avatar" class="rounded-circle">
             </div>
             <div class="me-2 text-body h5 mb-0">
               Vue.js Dev Team
@@ -168,25 +169,26 @@
               <li data-bs-toggle="tooltip" data-popup="tooltip-custom" data-bs-placement="top" title="Alan Walker" class="avatar avatar-sm pull-up">
                 <img class="rounded-circle" src="{{ asset('assets/img/avatars/6.png') }}" alt="Avatar">
               </li>
-              <li class="avatar avatar-sm">
-                <span class="avatar-initial rounded-circle pull-up" data-bs-toggle="tooltip" data-bs-placement="top" title="14 more">+14</span>
-              </li>
+                <li class="avatar avatar-sm">
+                    <span class="avatar-initial rounded-circle pull-up" data-bs-toggle="tooltip" data-bs-placement="top"
+                          title="14 more">+14</span>
+                </li>
             </ul>
           </div>
-          <div class="ms-auto">
-            <a href="javascript:;"><span class="badge bg-label-danger">Developer</span></a>
-          </div>
+            <div class="ms-auto">
+                <a href="javascript:"><span class="badge bg-label-danger">Developer</span></a>
+            </div>
         </div>
-      </div>
+            </div>
+        </div>
     </div>
-  </div>
-  <div class="col-xl-4 col-lg-6 col-md-6">
-    <div class="card">
-      <div class="card-body">
-        <div class="d-flex align-items-center mb-3">
-          <a href="javascript:;" class="d-flex align-items-center">
-            <div class="avatar me-2">
-              <img src="{{ asset('assets/img/icons/brands/xd-label.png') }}" alt="Avatar" class="rounded-circle">
+    <div class="col-xl-4 col-lg-6 col-md-6">
+        <div class="card">
+            <div class="card-body">
+                <div class="d-flex align-items-center mb-3">
+                    <a href="javascript:" class="d-flex align-items-center">
+                        <div class="avatar me-2">
+                            <img src="{{ asset('assets/img/icons/brands/xd-label.png') }}" alt="Avatar" class="rounded-circle">
             </div>
             <div class="me-2 text-body h5 mb-0">
               Creative Designers
@@ -225,26 +227,27 @@
               <li data-bs-toggle="tooltip" data-popup="tooltip-custom" data-bs-placement="top" title="Danny Paul" class="avatar avatar-sm pull-up">
                 <img class="rounded-circle" src="{{ asset('assets/img/avatars/7.png') }}" alt="Avatar">
               </li>
-              <li class="avatar avatar-sm">
-                <span class="avatar-initial rounded-circle pull-up" data-bs-toggle="tooltip" data-bs-placement="top" title="19 more">+19</span>
-              </li>
+                <li class="avatar avatar-sm">
+                    <span class="avatar-initial rounded-circle pull-up" data-bs-toggle="tooltip" data-bs-placement="top"
+                          title="19 more">+19</span>
+                </li>
             </ul>
           </div>
-          <div class="ms-auto">
-            <a href="javascript:;" class="me-2"><span class="badge bg-label-warning">Sketch</span></a>
-            <a href="javascript:;"><span class="badge bg-label-danger">XD</span></a>
-          </div>
+            <div class="ms-auto">
+                <a href="javascript:" class="me-2"><span class="badge bg-label-warning">Sketch</span></a>
+                <a href="javascript:"><span class="badge bg-label-danger">XD</span></a>
+            </div>
         </div>
-      </div>
+            </div>
+        </div>
     </div>
-  </div>
-  <div class="col-xl-4 col-lg-6 col-md-6">
-    <div class="card">
-      <div class="card-body">
-        <div class="d-flex align-items-center mb-3">
-          <a href="javascript:;" class="d-flex align-items-center">
-            <div class="avatar me-2">
-              <img src="{{ asset('assets/img/icons/brands/support-label.png') }}" alt="Avatar" class="rounded-circle">
+    <div class="col-xl-4 col-lg-6 col-md-6">
+        <div class="card">
+            <div class="card-body">
+                <div class="d-flex align-items-center mb-3">
+                    <a href="javascript:" class="d-flex align-items-center">
+                        <div class="avatar me-2">
+                            <img src="{{ asset('assets/img/icons/brands/support-label.png') }}" alt="Avatar" class="rounded-circle">
             </div>
             <div class="me-2 text-body h5 mb-0">
               Support Team
@@ -283,25 +286,26 @@
               <li data-bs-toggle="tooltip" data-popup="tooltip-custom" data-bs-placement="top" title="Rossie Kim" class="avatar avatar-sm pull-up">
                 <img class="rounded-circle" src="{{ asset('assets/img/avatars/12.png') }}" alt="Avatar">
               </li>
-              <li class="avatar avatar-sm">
-                <span class="avatar-initial rounded-circle pull-up" data-bs-toggle="tooltip" data-bs-placement="top" title="14 more">+21</span>
-              </li>
+                <li class="avatar avatar-sm">
+                    <span class="avatar-initial rounded-circle pull-up" data-bs-toggle="tooltip" data-bs-placement="top"
+                          title="14 more">+21</span>
+                </li>
             </ul>
           </div>
-          <div class="ms-auto">
-            <a href="javascript:;"><span class="badge bg-label-info">Zendesk</span></a>
-          </div>
+            <div class="ms-auto">
+                <a href="javascript:"><span class="badge bg-label-info">Zendesk</span></a>
+            </div>
         </div>
-      </div>
+            </div>
+        </div>
     </div>
-  </div>
-  <div class="col-xl-4 col-lg-6 col-md-6">
-    <div class="card">
-      <div class="card-body">
-        <div class="d-flex align-items-center mb-3">
-          <a href="javascript:;" class="d-flex align-items-center">
-            <div class="avatar me-2">
-              <img src="{{ asset('assets/img/icons/brands/social-label.png') }}" alt="Avatar" class="rounded-circle">
+    <div class="col-xl-4 col-lg-6 col-md-6">
+        <div class="card">
+            <div class="card-body">
+                <div class="d-flex align-items-center mb-3">
+                    <a href="javascript:" class="d-flex align-items-center">
+                        <div class="avatar me-2">
+                            <img src="{{ asset('assets/img/icons/brands/social-label.png') }}" alt="Avatar" class="rounded-circle">
             </div>
             <div class="me-2 text-body h5 mb-0">
               Digital Marketing
@@ -340,26 +344,27 @@
               <li data-bs-toggle="tooltip" data-popup="tooltip-custom" data-bs-placement="top" title="Nurvi Karlos" class="avatar avatar-sm pull-up">
                 <img class="rounded-circle" src="{{ asset('assets/img/avatars/5.png') }}" alt="Avatar">
               </li>
-              <li class="avatar avatar-sm">
-                <span class="avatar-initial rounded-circle pull-up" data-bs-toggle="tooltip" data-bs-placement="top" title="53 more">+53</span>
-              </li>
+                <li class="avatar avatar-sm">
+                    <span class="avatar-initial rounded-circle pull-up" data-bs-toggle="tooltip" data-bs-placement="top"
+                          title="53 more">+53</span>
+                </li>
             </ul>
           </div>
-          <div class="ms-auto">
-            <a href="javascript:;" class="me-2"><span class="badge bg-label-primary">Twitter</span></a>
-            <a href="javascript:;"><span class="badge bg-label-success">Email</span></a>
-          </div>
+            <div class="ms-auto">
+                <a href="javascript:" class="me-2"><span class="badge bg-label-primary">Twitter</span></a>
+                <a href="javascript:"><span class="badge bg-label-success">Email</span></a>
+            </div>
         </div>
-      </div>
+            </div>
+        </div>
     </div>
-  </div>
-  <div class="col-xl-4 col-lg-6 col-md-6">
-    <div class="card">
-      <div class="card-body">
-        <div class="d-flex align-items-center mb-3">
-          <a href="javascript:;" class="d-flex align-items-center">
-            <div class="avatar me-2">
-              <img src="{{ asset('assets/img/icons/brands/event-label.png') }}" alt="Avatar" class="rounded-circle">
+    <div class="col-xl-4 col-lg-6 col-md-6">
+        <div class="card">
+            <div class="card-body">
+                <div class="d-flex align-items-center mb-3">
+                    <a href="javascript:" class="d-flex align-items-center">
+                        <div class="avatar me-2">
+                            <img src="{{ asset('assets/img/icons/brands/event-label.png') }}" alt="Avatar" class="rounded-circle">
             </div>
             <div class="me-2 text-body h5 mb-0">
               Event
@@ -398,25 +403,26 @@
               <li data-bs-toggle="tooltip" data-popup="tooltip-custom" data-bs-placement="top" title="Julee Rossignol" class="avatar avatar-sm pull-up">
                 <img class="rounded-circle" src="{{ asset('assets/img/avatars/7.png') }}" alt="Avatar">
               </li>
-              <li class="avatar avatar-sm">
-                <span class="avatar-initial rounded-circle pull-up" data-bs-toggle="tooltip" data-bs-placement="top" title="32 more">+32</span>
-              </li>
+                <li class="avatar avatar-sm">
+                    <span class="avatar-initial rounded-circle pull-up" data-bs-toggle="tooltip" data-bs-placement="top"
+                          title="32 more">+32</span>
+                </li>
             </ul>
           </div>
-          <div class="ms-auto">
-            <a href="javascript:;"><span class="badge bg-label-success">Hubilo</span></a>
-          </div>
+            <div class="ms-auto">
+                <a href="javascript:"><span class="badge bg-label-success">Hubilo</span></a>
+            </div>
         </div>
-      </div>
+            </div>
+        </div>
     </div>
-  </div>
-  <div class="col-xl-4 col-lg-6 col-md-6">
-    <div class="card">
-      <div class="card-body">
-        <div class="d-flex align-items-center mb-3">
-          <a href="javascript:;" class="d-flex align-items-center">
-            <div class="avatar me-2">
-              <img src="{{ asset('assets/img/icons/brands/figma-label.png') }}" alt="Avatar" class="rounded-circle">
+    <div class="col-xl-4 col-lg-6 col-md-6">
+        <div class="card">
+            <div class="card-body">
+                <div class="d-flex align-items-center mb-3">
+                    <a href="javascript:" class="d-flex align-items-center">
+                        <div class="avatar me-2">
+                            <img src="{{ asset('assets/img/icons/brands/figma-label.png') }}" alt="Avatar" class="rounded-circle">
             </div>
             <div class="me-2 text-body h5 mb-0">
               Figma Resources
@@ -455,26 +461,27 @@
               <li data-bs-toggle="tooltip" data-popup="tooltip-custom" data-bs-placement="top" title="Michel Pal" class="avatar avatar-sm pull-up">
                 <img class="rounded-circle" src="{{ asset('assets/img/avatars/6.png') }}" alt="Avatar">
               </li>
-              <li class="avatar avatar-sm">
-                <span class="avatar-initial rounded-circle pull-up" data-bs-toggle="tooltip" data-bs-placement="top" title="22 more">+22</span>
-              </li>
+                <li class="avatar avatar-sm">
+                    <span class="avatar-initial rounded-circle pull-up" data-bs-toggle="tooltip" data-bs-placement="top"
+                          title="22 more">+22</span>
+                </li>
             </ul>
           </div>
-          <div class="ms-auto">
-            <a href="javascript:;" class="me-2"><span class="badge bg-label-success">UI/UX</span></a>
-            <a href="javascript:;"><span class="badge bg-label-secondary">Figma</span></a>
-          </div>
+            <div class="ms-auto">
+                <a href="javascript:" class="me-2"><span class="badge bg-label-success">UI/UX</span></a>
+                <a href="javascript:"><span class="badge bg-label-secondary">Figma</span></a>
+            </div>
         </div>
-      </div>
+            </div>
+        </div>
     </div>
-  </div>
-  <div class="col-xl-4 col-lg-6 col-md-6">
-    <div class="card">
-      <div class="card-body">
-        <div class="d-flex align-items-center mb-3">
-          <a href="javascript:;" class="d-flex align-items-center">
-            <div class="avatar me-2">
-              <img src="{{ asset('assets/img/icons/brands/html-label.png') }}" alt="Avatar" class="rounded-circle">
+    <div class="col-xl-4 col-lg-6 col-md-6">
+        <div class="card">
+            <div class="card-body">
+                <div class="d-flex align-items-center mb-3">
+                    <a href="javascript:" class="d-flex align-items-center">
+                        <div class="avatar me-2">
+                            <img src="{{ asset('assets/img/icons/brands/html-label.png') }}" alt="Avatar" class="rounded-circle">
             </div>
             <div class="me-2 text-body h5 mb-0">
               Only Beginners
@@ -513,19 +520,20 @@
               <li data-bs-toggle="tooltip" data-popup="tooltip-custom" data-bs-placement="top" title="Peter Adward" class="avatar avatar-sm pull-up">
                 <img class="rounded-circle" src="{{ asset('assets/img/avatars/5.png') }}" alt="Avatar">
               </li>
-              <li class="avatar avatar-sm">
-                <span class="avatar-initial rounded-circle pull-up" data-bs-toggle="tooltip" data-bs-placement="top" title="41 more">+41</span>
-              </li>
+                <li class="avatar avatar-sm">
+                    <span class="avatar-initial rounded-circle pull-up" data-bs-toggle="tooltip" data-bs-placement="top"
+                          title="41 more">+41</span>
+                </li>
             </ul>
           </div>
-          <div class="ms-auto">
-            <a href="javascript:;" class="me-2"><span class="badge bg-label-info">CSS</span></a>
-            <a href="javascript:;"><span class="badge bg-label-warning">HTML</span></a>
-          </div>
+            <div class="ms-auto">
+                <a href="javascript:" class="me-2"><span class="badge bg-label-info">CSS</span></a>
+                <a href="javascript:"><span class="badge bg-label-warning">HTML</span></a>
+            </div>
         </div>
-      </div>
+            </div>
+        </div>
     </div>
-  </div>
 </div>
 <!--/ Teams Cards -->
 @endsection

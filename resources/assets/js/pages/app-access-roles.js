@@ -21,7 +21,7 @@ $(function () {
             columns: [
                 // columns according to JSON
                 {data: ''},
-                {data: 'nama'},
+                {data: 'name'},
                 {data: 'npk'},
                 {data: 'user_group.name',},
                 {
@@ -48,7 +48,7 @@ $(function () {
                     targets: 1,
                     responsivePriority: 4,
                     render: function (data, type, full, meta) {
-                        var $name = full['nama'],
+                        var $name = full['name'],
                             $email = full['email'],
                             $image = full['image'];
                         if ($image) {
@@ -60,7 +60,7 @@ $(function () {
                             var stateNum = Math.floor(Math.random() * 6);
                             var states = ['success', 'danger', 'warning', 'info', 'primary', 'secondary'];
                             var $state = states[stateNum],
-                                $name = full['nama'],
+                                $name = full['name'],
                                 $initials = $name.match(/\b\w/g) || [];
                             $initials = (($initials.shift() || '') + ($initials.pop() || '')).toUpperCase();
                             $output = '<span class="avatar-initial rounded-circle bg-label-' + $state + '">' + $initials + '</span>';
@@ -181,7 +181,7 @@ $(function () {
                     display: $.fn.dataTable.Responsive.display.modal({
                         header: function (row) {
                             var data = row.data();
-                            return 'Details of ' + data['nama'];
+                            return 'Details of ' + data['name'];
                         }
                     }),
                     type: 'column',

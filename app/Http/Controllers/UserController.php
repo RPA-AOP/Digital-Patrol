@@ -7,6 +7,7 @@ use App\Models\MasterCompany;
 use App\Models\UserGroup;
 use App\Models\UserGroupPrivilege;
 use App\Models\Users;
+use Hash;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Http\RedirectResponse;
@@ -69,15 +70,18 @@ class UserController extends Controller
             'default-password' => 'required|confirmed',
         ]);
         $newUser = new Users();
-        $newUser->nama = $request->post('user-fullname');
+        $newUser->name = $request->post('user-fullname');
         $newUser->username = $request->post('user-name');
         $newUser->npk = $request->post('user-npk');
         $newUser->phone = $request->post('user-phone');
         $newUser->id_user_group = $request->post('user-group');
         $newUser->email = $request->post('user-email');
-        $newUser->password = \Hash::make($request->post('default-password'));
+        $newUser->password = Hash::make($request->post('default-password'));
         if ($request->post('user-company') != null) {
             $newUser->id_company = $request->post('user-company');
+        }
+        if ($request->post('area') != null) {
+            $newUser->area = $request->post('area');
         }
         if ($newUser->save()) {
             $newUser->refresh();
@@ -129,7 +133,7 @@ class UserController extends Controller
     {
         $user = Users::find($id);
         $user->id_user_group = $request->userGroup;
-        $user->nama = $request->name;
+        $user->name = $request->name;
         $user->phone = $request->phone;
         $user->email = $request->email;
         $user->npk = $request->npk;

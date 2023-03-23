@@ -63,25 +63,25 @@
                   ];
               $calendarsColorJs = [];
             @endphp
-            @foreach($patrolUsersShift as $key => $user)
-              @php
-                $userIdElm=str_replace(' ','_',strtolower($user->npk));
-                $calendarsColorJs[$userIdElm] = $calendarsColor[$key];
-              @endphp
-              <div class="form-check form-check-{{$calendarsColor[$key]}} mb-2">
-                <input class="form-check-input input-filter" type="checkbox" id="select{{$userIdElm}}"
-                       data-value="{{$userIdElm}}" checked>
-                <label class="form-check-label" for="select{{$userIdElm}}">{{$user->nama}}</label>
-              </div>
-            @endforeach
+              @foreach($patrolUsersShift as $key => $user)
+                  @php
+                      $userIdElm=str_replace(' ','_',strtolower($user->npk));
+                      $calendarsColorJs[$userIdElm] = $calendarsColor[$key];
+                  @endphp
+                  <div class="form-check form-check-{{$calendarsColor[$key]}} mb-2">
+                      <input class="form-check-input input-filter" type="checkbox" id="select{{$userIdElm}}"
+                             data-value="{{$userIdElm}}" checked>
+                      <label class="form-check-label" for="select{{$userIdElm}}">{{$user->name}}</label>
+                  </div>
+              @endforeach
 
           </div>
         </div>
       </div>
-      <!-- /Calendar Sidebar -->
+        <!-- /Calendar Sidebar -->
 
-      <!-- Calendar & Modal -->
-      <div class="col app-calendar-content">
+        <!-- Calendar & Modal -->
+        <div class="col app-calendar-content">
         <div class="card shadow-none border-0">
           <div class="card-body pb-0">
             <!-- FullCalendar -->

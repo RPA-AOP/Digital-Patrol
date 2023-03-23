@@ -1,6 +1,6 @@
 @php
-$configData = \App\Helpers\Helpers::appClasses();
-$isNavbar = false;
+    use App\Helpers\Helpers;$configData = Helpers::appClasses();
+    $isNavbar = false;
 @endphp
 
 @extends('layouts/layoutMaster')
@@ -9,16 +9,19 @@ $isNavbar = false;
 
 @section('content')
 
-<!-- Layout Demo -->
-<div class="layout-demo-wrapper">
-  <div class="layout-demo-placeholder">
-    <img src="{{asset('assets/img/layouts/layout-without-navbar-'.$configData['style'].'.png')}}" class="img-fluid" alt="Layout without navbar" data-app-light-img="layouts/layout-without-navbar-light.png" data-app-dark-img="layouts/layout-without-navbar-dark.png">
-  </div>
-  <div class="layout-demo-info">
-    <h4>Layout without Navbar</h4>
-    <p>Layout does not contain Navbar component.</p>
-  </div>
-</div>
-<!--/ Layout Demo -->
+    <!-- Layout Demo -->
+    <div class="layout-demo-wrapper">
+        <div class="layout-demo-placeholder">
+            <img src="{{asset('assets/img/layouts/layout-without-navbar-'.$configData['style'].'.png')}}"
+                 class="img-fluid" alt="Layout without navbar"
+                 data-app-light-img="layouts/layout-without-navbar-light.png"
+                 data-app-dark-img="layouts/layout-without-navbar-dark.png">
+        </div>
+        <div class="layout-demo-info">
+            <h4>Layout without Navbar</h4>
+            <p>Layout does not contain Navbar component.</p>
+        </div>
+    </div>
+    <!--/ Layout Demo -->
 
 @endsection

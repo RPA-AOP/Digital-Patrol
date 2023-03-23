@@ -2,8 +2,11 @@
 
 namespace App\Models;
 
+use Eloquent;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Carbon;
 
 /**
  * App\Models\MasterCompany
@@ -24,37 +27,37 @@ use Illuminate\Database\Eloquent\Model;
  * @property bool $status
  * @property int|null $created_by
  * @property int|null $updated_by
- * @property \Illuminate\Support\Carbon|null $created_at
- * @property \Illuminate\Support\Carbon|null $updated_at
- * @property-read \App\Models\Users|null $user_created
- * @property-read \App\Models\Users|null $user_updated
- * @method static \Illuminate\Database\Eloquent\Builder|MasterCompany newModelQuery()
- * @method static \Illuminate\Database\Eloquent\Builder|MasterCompany newQuery()
- * @method static \Illuminate\Database\Eloquent\Builder|MasterCompany query()
- * @method static \Illuminate\Database\Eloquent\Builder|MasterCompany whereAlamat($value)
- * @method static \Illuminate\Database\Eloquent\Builder|MasterCompany whereCreatedAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder|MasterCompany whereCreatedBy($value)
- * @method static \Illuminate\Database\Eloquent\Builder|MasterCompany whereIdCompany($value)
- * @method static \Illuminate\Database\Eloquent\Builder|MasterCompany whereJumlahKaryawanKontrak($value)
- * @method static \Illuminate\Database\Eloquent\Builder|MasterCompany whereJumlahKaryawanOutsource($value)
- * @method static \Illuminate\Database\Eloquent\Builder|MasterCompany whereJumlahKaryawanTetap($value)
- * @method static \Illuminate\Database\Eloquent\Builder|MasterCompany whereLat($value)
- * @method static \Illuminate\Database\Eloquent\Builder|MasterCompany whereLong($value)
- * @method static \Illuminate\Database\Eloquent\Builder|MasterCompany whereLuasBangunan($value)
- * @method static \Illuminate\Database\Eloquent\Builder|MasterCompany whereLuasTanah($value)
- * @method static \Illuminate\Database\Eloquent\Builder|MasterCompany whereNamaCompany($value)
- * @method static \Illuminate\Database\Eloquent\Builder|MasterCompany whereNamaProduk($value)
- * @method static \Illuminate\Database\Eloquent\Builder|MasterCompany whereProsesUtama($value)
- * @method static \Illuminate\Database\Eloquent\Builder|MasterCompany whereStatus($value)
- * @method static \Illuminate\Database\Eloquent\Builder|MasterCompany whereStatusBangunan($value)
- * @method static \Illuminate\Database\Eloquent\Builder|MasterCompany whereUpdatedAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder|MasterCompany whereUpdatedBy($value)
- * @method static \Illuminate\Database\Eloquent\Builder|MasterCompany whereCompanyName($value)
- * @mixin \Eloquent
+ * @property Carbon|null $created_at
+ * @property Carbon|null $updated_at
+ * @property-read Users|null $user_created
+ * @property-read Users|null $user_updated
+ * @method static Builder|MasterCompany newModelQuery()
+ * @method static Builder|MasterCompany newQuery()
+ * @method static Builder|MasterCompany query()
+ * @method static Builder|MasterCompany whereAlamat($value)
+ * @method static Builder|MasterCompany whereCompanyName($value)
+ * @method static Builder|MasterCompany whereCreatedAt($value)
+ * @method static Builder|MasterCompany whereCreatedBy($value)
+ * @method static Builder|MasterCompany whereIdCompany($value)
+ * @method static Builder|MasterCompany whereJumlahKaryawanKontrak($value)
+ * @method static Builder|MasterCompany whereJumlahKaryawanOutsource($value)
+ * @method static Builder|MasterCompany whereJumlahKaryawanTetap($value)
+ * @method static Builder|MasterCompany whereLat($value)
+ * @method static Builder|MasterCompany whereLong($value)
+ * @method static Builder|MasterCompany whereLuasBangunan($value)
+ * @method static Builder|MasterCompany whereLuasTanah($value)
+ * @method static Builder|MasterCompany whereNamaProduk($value)
+ * @method static Builder|MasterCompany whereProsesUtama($value)
+ * @method static Builder|MasterCompany whereStatus($value)
+ * @method static Builder|MasterCompany whereStatusBangunan($value)
+ * @method static Builder|MasterCompany whereUpdatedAt($value)
+ * @method static Builder|MasterCompany whereUpdatedBy($value)
+ * @mixin Eloquent
  */
 class MasterCompany extends Model
 {
     use HasFactory;
+
     protected $table = 'master_company';
     protected $primaryKey = 'id_company';
     protected $fillable = [
@@ -80,6 +83,7 @@ class MasterCompany extends Model
     {
         return $this->belongsTo(Users::class, 'created_by', 'id_user');
     }
+
     public function user_updated()
     {
         return $this->belongsTo(Users::class, 'updated_by', 'id_user');

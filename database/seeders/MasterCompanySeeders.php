@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Models\MasterCompany;
 use Illuminate\Database\Seeder;
 
 class MasterCompanySeeders extends Seeder
@@ -13,7 +14,7 @@ class MasterCompanySeeders extends Seeder
      */
     public function run()
     {
-        \App\Models\MasterCompany::create([
+        MasterCompany::create([
             'company_name' => 'PT. EXAMPLE',
             'alamat' => 'Jl.ABC',
             'luas_tanah' => 1200,

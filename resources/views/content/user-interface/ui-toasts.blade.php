@@ -531,19 +531,19 @@
         </div>
         <div class="mb-3 kt-form__grou">
           <label class="form-label" for="timeOut">Time out</label>
-          <input id="timeOut" type="text" class="form-control" placeholder="ms" value="5000" />
+            <input id="timeOut" type="text" class="form-control" placeholder="ms" value="5000"/>
         </div>
-        <div class="mb-3 kt-form__grou">
-          <label class="form-label" for="extendedTimeOut">Extended time out</label>
-          <input id="extendedTimeOut" class="form-control" type="text" placeholder="ms" value="1000" />
-        </div>
+          <div class="mb-3 kt-form__grou">
+              <label class="form-label" for="extendedTimeOut">Extended time out</label>
+              <input id="extendedTimeOut" class="form-control" type="text" placeholder="ms" value="1000"/>
+          </div>
       </div>
     </div>
-    <hr />
+      <hr/>
 
-    <a href="javascript:;" class="btn btn-primary mb-1" id="showtoast">Show Toast</a>
-    <a href="javascript:;" class="btn btn-danger mb-1" id="cleartoasts">Clear Toasts</a>
-    <a href="javascript:;" class="btn btn-danger mb-1" id="clearlasttoast">Clear Last Toast</a>
+      <a href="javascript:" class="btn btn-primary mb-1" id="showtoast">Show Toast</a>
+      <a href="javascript:" class="btn btn-danger mb-1" id="cleartoasts">Clear Toasts</a>
+      <a href="javascript:" class="btn btn-danger mb-1" id="clearlasttoast">Clear Last Toast</a>
   </div>
 </div>
 <!--/ Toastr Demo -->

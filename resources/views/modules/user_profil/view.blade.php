@@ -93,7 +93,9 @@
                     <div class="col-md-12">
                         <div class="form-group">
                             <label class="form-label">Nama<sup class="text-danger">* Wajib diisi</sup></label>
-                            <input id="nama" name="nama" class="form-control @error('nama') is-invalid @enderror" type="text" placeholder="Nama Lengkap" required value="{{ old('nama') ? old('nama') : $detail_user->nama }}" />
+                            <input id="name" name="name" class="form-control @error('name') is-invalid @enderror"
+                                   type="text" placeholder="Nama Lengkap" required
+                                   value="{{ old('nama') ? old('nama') : $detail_user->nama }}"/>
                             @error('nama')
                             <div class="invalid-feedback">{{ $message }}</div>
                             @enderror
@@ -102,7 +104,9 @@
                     <div class="col-sm-6 col-md-6">
                         <div class="form-group">
                             <label class="form-label">Nomor WA <sup class="text-danger">* Wajib diisi</sup></label>
-                            <input id="telp" name="telp" class="form-control @error('telp') is-invalid @enderror" type="number" value="{{ old('telp') ? old('telp') : $detail_user->telp }}" required placeholder="Nomor Whatsapp">
+                            <input id="telp" name="telp" class="form-control @error('telp') is-invalid @enderror"
+                                   type="number" value="{{ old('telp') ? old('telp') : $detail_user->telp }}" required
+                                   placeholder="Nomor Whatsapp">
                             @error('telp')
                             <div class="invalid-feedback">{{ $message }}</div>
                             @enderror

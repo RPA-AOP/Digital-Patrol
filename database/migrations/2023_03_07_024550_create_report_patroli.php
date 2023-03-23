@@ -18,38 +18,26 @@ return new class extends Migration {
 
       $table->foreignId('id_patrol_activity')->nullable()
         ->constrained('patrol_activity', 'id_patrol_activity')
-        ->nullOnDelete();
+          ->nullOnDelete();
 
-      $table->foreignId('id_company')->nullable()
-        ->constrained('master_company', 'id_company')
-        ->nullOnDelete();
+        $table->foreignId('id_company')->nullable()
+            ->constrained('master_company', 'id_company')
+            ->nullOnDelete();
 
-      $table->foreignId('patrol_schedule_shift_id')->nullable()
-        ->constrained('patrol_schedule_shift', 'patrol_schedule_shift_id')
-        ->nullOnDelete();
+        $table->foreignId('patrol_schedule_shift_id')->nullable()
+            ->constrained('patrol_schedule_shift', 'patrol_schedule_shift_id')
+            ->nullOnDelete();
 
-      $table->foreignId('level_1')->nullable()
-        ->constrained('detail_patrol_config', 'id_detail_patrol_config')
-        ->nullOnDelete();
+        $table->foreignId('area_id')->nullable()
+            ->constrained('detail_patrol_config', 'id_detail_patrol_config')
+            ->nullOnDelete();
 
-      $table->foreignId('level_2')->nullable()
-        ->constrained('detail_patrol_config', 'id_detail_patrol_config')
-        ->nullOnDelete();
+        $table->timestamp('checkin_time');
+        $table->timestamp('checkout_time');
 
-      $table->foreignId('level_3')->nullable()
-        ->constrained('detail_patrol_config', 'id_detail_patrol_config')
-        ->nullOnDelete();
-
-      $table->foreignId('level_4')->nullable()
-        ->constrained('detail_patrol_config', 'id_detail_patrol_config')
-        ->nullOnDelete();
-
-      $table->timestamp('checkin_time');
-      $table->timestamp('checkout_time');
-
-      $table->boolean('status');
-      $table->uuid('sync_token')->default(Uuid::uuid4()->toString());
-      $table->timestamps();
+        $table->boolean('status');
+        $table->uuid('sync_token')->default(Uuid::uuid4()->toString());
+        $table->timestamps();
     });
   }
 

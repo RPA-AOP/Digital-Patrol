@@ -5,24 +5,23 @@ namespace App\Models;
 use Eloquent;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Carbon;
 
 /**
  * App\Models\FileUpload
  *
  * @property int $id_file_upload
  * @property int $tahun
- * @property string $id_kegiatan
  * @property string $jenis_dokumen
  * @property string $nama_lampiran
  * @property string $path_file
- * @property \Illuminate\Support\Carbon|null $created_at
- * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property Carbon|null $created_at
+ * @property Carbon|null $updated_at
  * @method static Builder|FileUpload newModelQuery()
  * @method static Builder|FileUpload newQuery()
  * @method static Builder|FileUpload query()
  * @method static Builder|FileUpload whereCreatedAt($value)
  * @method static Builder|FileUpload whereIdFileUpload($value)
- * @method static Builder|FileUpload whereIdKegiatan($value)
  * @method static Builder|FileUpload whereJenisDokumen($value)
  * @method static Builder|FileUpload whereNamaLampiran($value)
  * @method static Builder|FileUpload wherePathFile($value)

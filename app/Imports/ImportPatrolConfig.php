@@ -2,7 +2,9 @@
 
 namespace App\Imports;
 
-use App\Imports\sheets\DataSheetImport;
+use App\Imports\sheets\DataCategoryAbnormalEventSheetImport;
+use App\Imports\sheets\DataCategorySheetImport;
+use App\Imports\sheets\DataConfigSheetImport;
 use Maatwebsite\Excel\Concerns\Importable;
 use Maatwebsite\Excel\Concerns\SkipsUnknownSheets;
 use Maatwebsite\Excel\Concerns\WithMultipleSheets;
@@ -35,7 +37,9 @@ class ImportPatrolConfig implements WithMultipleSheets, SkipsUnknownSheets
     public function sheets(): array
     {
         return [
-            'SAMPLE DATA' => new DataSheetImport($this->idCompany, $this->idPatrolConfig)
+            'KATEGORI' => new DataCategorySheetImport($this->idCompany,),
+            'EVENT KATEGORI' => new DataCategoryAbnormalEventSheetImport($this->idCompany, $this->idPatrolConfig),
+            'DATA' => new DataConfigSheetImport($this->idCompany, $this->idPatrolConfig),
         ];
     }
 }

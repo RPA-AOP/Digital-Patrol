@@ -21,6 +21,9 @@ use Illuminate\Support\Carbon;
  * @property int|null $updated_by
  * @property Carbon|null $created_at
  * @property Carbon|null $updated_at
+ * @property-read MasterCompany $company
+ * @property-read Collection<int, DetailPatrolConfig> $patrolDetail
+ * @property-read int|null $patrol_detail_count
  * @method static Builder|PatrolConfig newModelQuery()
  * @method static Builder|PatrolConfig newQuery()
  * @method static Builder|PatrolConfig query()
@@ -31,14 +34,13 @@ use Illuminate\Support\Carbon;
  * @method static Builder|PatrolConfig whereStatus($value)
  * @method static Builder|PatrolConfig whereUpdatedAt($value)
  * @method static Builder|PatrolConfig whereUpdatedBy($value)
- * @property-read MasterCompany $company
- * @property-read Collection|DetailPatrolConfig[] $patrolDetail
- * @property-read int|null $patrol_detail_count
  * @mixin Eloquent
  */
 class PatrolConfig extends Model
 {
     use HasFactory;
+
+    protected $casts = ['status' => 'boolean'];
     protected $table = 'patrol_config';
     protected $primaryKey = 'id_patrol_config';
     protected $fillable = [

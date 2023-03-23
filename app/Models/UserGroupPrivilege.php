@@ -6,18 +6,14 @@ use Eloquent;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Support\Carbon;
 
 /**
  * App\Models\UserGroupPrivilege
  *
- * @method static Builder|UserGroupPrivilege newModelQuery()
- * @method static Builder|UserGroupPrivilege newQuery()
- * @method static Builder|UserGroupPrivilege query()
- * @property-read \App\Models\Users $userCreated
- * @property-read \App\Models\Users $userUpdated
  * @property int $id_user_group_privilege
- * @property int $id_user_group
- * @property int $id_menu
+ * @property int|null $id_user_group
+ * @property int|null $id_menu
  * @property int $has_view
  * @property int $has_create
  * @property int $has_edit
@@ -25,8 +21,14 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
  * @property int $has_delete
  * @property int|null $created_by
  * @property int|null $updated_by
- * @property \Illuminate\Support\Carbon|null $created_at
- * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property Carbon|null $created_at
+ * @property Carbon|null $updated_at
+ * @property-read Menus|null $menu
+ * @property-read Users|null $userCreated
+ * @property-read Users|null $userUpdated
+ * @method static Builder|UserGroupPrivilege newModelQuery()
+ * @method static Builder|UserGroupPrivilege newQuery()
+ * @method static Builder|UserGroupPrivilege query()
  * @method static Builder|UserGroupPrivilege whereCreatedAt($value)
  * @method static Builder|UserGroupPrivilege whereCreatedBy($value)
  * @method static Builder|UserGroupPrivilege whereHasCreate($value)
@@ -39,7 +41,6 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
  * @method static Builder|UserGroupPrivilege whereIdUserGroupPrivilege($value)
  * @method static Builder|UserGroupPrivilege whereUpdatedAt($value)
  * @method static Builder|UserGroupPrivilege whereUpdatedBy($value)
- * @property-read \App\Models\Menus|null $menu
  * @mixin Eloquent
  */
 class UserGroupPrivilege extends Model

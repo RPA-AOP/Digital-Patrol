@@ -15,6 +15,8 @@ use App\Models\PatrolScheduleDetailConfig;
 use App\Models\PatrolScheduleShift;
 use App\Models\Users;
 use Carbon\Carbon;
+use DB;
+use Exception;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
@@ -48,8 +50,8 @@ class ScheduleConfigController extends Controller
             ->whereDate('patrol_date', '>=', $request->start)
             ->whereDate('patrol_date', '<=', $request->end)
             ->select(['patrol_schedule_detail as id', 'pss.shift_code', 'pss.patrol_schedule_shift_id as shift_id',
-                \DB::raw('CONCAT(pss.shift_name, \' \',u.nama) as title'),
-                'u.nama as user',
+                DB::raw('CONCAT(pss.shift_name, \' \',u.name) as title'),
+                'u.name as user',
                 'pss.shift_name',
                 'u.npk',
                 'patrol_schedule_detail.patrol_date',
@@ -99,13 +101,18 @@ class ScheduleConfigController extends Controller
             ->whereStatus(true)
             ->whereIdUserGroup(4)->get();
         $patrolScheduleShift = PatrolScheduleShift::where('id_company', $id)->get();
-        return view('modules.schedule.manage', compact(['company', 'patrolUsersShift', 'patrolScheduleShift']));
+        $area = DetailPatrolConfig::where('level', '<=', 2)
+            ->whereStatus(true)
+            ->orderBy('level')
+            ->get();
+        return view('modules.schedule.manage', compact(['company', 'patrolUsersShift', 'patrolScheduleShift', 'area']));
 
     }
 
     public function import(Request $request): RedirectResponse
     {
         $idCompany = $request->get('id_company');
+        $area = $request->get('area');
         $patrolScheduleConfig = PatrolScheduleConfig::where('id_company', $idCompany)->first();
         $files = $request->file('import-data_patroli');
         if ($files) {
@@ -123,7 +130,7 @@ class ScheduleConfigController extends Controller
                     $month = $request->get('month');
                     $year = $request->get('year');
 
-                    Excel::import(new ImportPatrolScheduleConfig($idCompany, $patrolScheduleConfig->patrol_schedule_id, $month, $year), $files->store('temp'));
+                    Excel::import(new ImportPatrolScheduleConfig($idCompany, $patrolScheduleConfig->patrol_schedule_id, $month, $year, $area), $files->store('temp'));
                     return redirect()->route('scheduleconfig.manage', $idCompany)->with('success', 'Import Success.');
                 } else {
                     return redirect()->back(501)->with('error', 'upload failed, ');
@@ -169,7 +176,7 @@ class ScheduleConfigController extends Controller
                     ->where('id_patrol_config', $idPatrolConfig)->first();
                 $detailConfig->parent_id = $parent_id;
                 $detailConfig->save();
-            } catch (\Exception $e) {
+            } catch (Exception $e) {
                 return false;
             }
             if (array_key_exists("children", $item)) {
@@ -179,19 +186,6 @@ class ScheduleConfigController extends Controller
         return true;
     }
 
-    public function updateConfigHierarchy(Request $request, $id): JsonResponse
-    {
-        $patrolConfig = PatrolConfig::where('id_patrol_config', $id)->first();
-        if (!$patrolConfig) {
-            return response()->json(['status' => 'Update failed, Patrol config not found',], 500);
-        }
-
-        $data = json_decode($request->post('data'), true);
-
-        if ($this->updateList($data[0]['children'], $id, $data[0]['id']))
-            return response()->json(['status' => 'updated'], 200);
-        return response()->json(['status' => 'update failed',], 500);
-    }
 
     public function updateShift(Request $request, $companyId)
     {

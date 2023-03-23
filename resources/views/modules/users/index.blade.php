@@ -53,7 +53,7 @@
                             <div class="d-flex justify-content-between align-items-end mt-1">
                                 <div class="role-heading">
                                     <h4 class="mb-1">{{ucwords(strtolower($group->name))}}</h4>
-                                    <a href="javascript:;" data-bs-toggle="modal"
+                                    <a href="javascript:" data-bs-toggle="modal"
                                        data-bs-target="#addRoleModal_{{$group->id_user_group}}"
                                        class="role-edit-modal"><span>Edit Role</span></a>
                                 </div>

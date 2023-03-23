@@ -8,6 +8,7 @@ use Barryvdh\LaravelIdeHelper\IdeHelperServiceProvider;
 use Bpocallaghan\Generators\GeneratorsServiceProvider;
 use Illuminate\Support\Facades\Blade;
 use Illuminate\Support\ServiceProvider;
+use URL;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -31,7 +32,7 @@ class AppServiceProvider extends ServiceProvider
     public function boot()
     {
         if($this->app->environment('production') || $this->app->environment('development')) {
-            \URL::forceScheme('https');
+            URL::forceScheme('https');
         }
         Blade::component('select2', Select2::class);
         Blade::component('fileinput', FileInput::class);

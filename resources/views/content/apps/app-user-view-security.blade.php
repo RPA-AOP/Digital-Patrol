@@ -87,28 +87,28 @@
               <span class="fw-semibold me-1">Contact:</span>
               <span>(123) 456-7890</span>
             </li>
-            <li class="mb-2 pt-1">
-              <span class="fw-semibold me-1">Languages:</span>
-              <span>French</span>
-            </li>
-            <li class="pt-1">
-              <span class="fw-semibold me-1">Country:</span>
-              <span>England</span>
-            </li>
+              <li class="mb-2 pt-1">
+                  <span class="fw-semibold me-1">Languages:</span>
+                  <span>French</span>
+              </li>
+              <li class="pt-1">
+                  <span class="fw-semibold me-1">Country:</span>
+                  <span>England</span>
+              </li>
           </ul>
-          <div class="d-flex justify-content-center">
-            <a href="javascript:;" class="btn btn-primary me-3" data-bs-target="#editUser" data-bs-toggle="modal">Edit</a>
-            <a href="javascript:;" class="btn btn-label-danger suspend-user">Suspended</a>
-          </div>
+            <div class="d-flex justify-content-center">
+                <a href="javascript:" class="btn btn-primary me-3" data-bs-target="#editUser" data-bs-toggle="modal">Edit</a>
+                <a href="javascript:" class="btn btn-label-danger suspend-user">Suspended</a>
+            </div>
         </div>
       </div>
     </div>
-    <!-- /User Card -->
-    <!-- Plan Card -->
-    <div class="card mb-4">
-      <div class="card-body">
-        <div class="d-flex justify-content-between align-items-start">
-          <span class="badge bg-label-primary">Standard</span>
+      <!-- /User Card -->
+      <!-- Plan Card -->
+      <div class="card mb-4">
+          <div class="card-body">
+              <div class="d-flex justify-content-between align-items-start">
+                  <span class="badge bg-label-primary">Standard</span>
           <div class="d-flex justify-content-center">
             <sup class="h6 pricing-currency mt-3 mb-0 me-1 text-primary fw-normal">$</sup>
             <h1 class="fw-semibold mb-0 text-primary">99</h1>
@@ -184,27 +184,29 @@
     </div>
     <!--/ Change Password -->
 
-    <!-- Two-steps verification -->
-    <div class="card mb-4">
-      <h5 class="card-header pb-2">Two-steps verification</h5>
-      <div class="card-body">
-        <span>Keep your account secure with authentication step.</span>
-        <h6 class="mt-3 mb-2">SMS</h6>
-        <div class="d-flex justify-content-between border-bottom mb-3 pb-2">
-          <span>+1(968) 945-8832</span>
-          <div class="action-icons">
-            <a href="javascript:;" class="text-body me-1" data-bs-target="#enableOTP" data-bs-toggle="modal"><i class="ti ti-edit ti-sm"></i></a>
-            <a href="javascript:;" class="text-body"><i class="ti ti-trash ti-sm"></i></a>
+      <!-- Two-steps verification -->
+      <div class="card mb-4">
+          <h5 class="card-header pb-2">Two-steps verification</h5>
+          <div class="card-body">
+              <span>Keep your account secure with authentication step.</span>
+              <h6 class="mt-3 mb-2">SMS</h6>
+              <div class="d-flex justify-content-between border-bottom mb-3 pb-2">
+                  <span>+1(968) 945-8832</span>
+                  <div class="action-icons">
+                      <a href="javascript:" class="text-body me-1" data-bs-target="#enableOTP" data-bs-toggle="modal"><i
+                              class="ti ti-edit ti-sm"></i></a>
+                      <a href="javascript:" class="text-body"><i class="ti ti-trash ti-sm"></i></a>
+                  </div>
+              </div>
+              <p class="mb-0">Two-factor authentication adds an additional layer of security to your account by
+                  requiring more than just a password to log in.
+                  <a href="javascript:void(0);" class="text-body">Learn more.</a>
+              </p>
           </div>
-        </div>
-        <p class="mb-0">Two-factor authentication adds an additional layer of security to your account by requiring more than just a password to log in.
-          <a href="javascript:void(0);" class="text-body">Learn more.</a>
-        </p>
       </div>
-    </div>
-    <!--/ Two-steps verification -->
+      <!--/ Two-steps verification -->
 
-    <!-- Recent Devices -->
+      <!-- Recent Devices -->
     <div class="card mb-4">
       <h5 class="card-header">Recent Devices</h5>
       <div class="table-responsive">

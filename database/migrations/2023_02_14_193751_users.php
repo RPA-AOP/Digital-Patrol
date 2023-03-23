@@ -17,7 +17,7 @@ class Users extends Migration
             $table->id('id_user');
             $table->string('username');
             $table->string('password', 1000);
-            $table->string('nama');
+            $table->string('name');
             $table->string('email')->nullable();
             $table->string('npk')->nullable();
             $table->string('image')->nullable();
@@ -27,6 +27,9 @@ class Users extends Migration
                 ->nullOnDelete();
             $table->foreignId('id_user_group')->nullable()
                 ->constrained('user_groups', 'id_user_group')->onDelete('cascade');
+            $table->foreignId('area')->nullable()
+                ->constrained('detail_patrol_config', 'id_detail_patrol_config')
+                ->nullOnDelete();
             $table->smallInteger('status')->default(0);
             $table->integer('created_by')->nullable();
             $table->integer('updated_by')->nullable();

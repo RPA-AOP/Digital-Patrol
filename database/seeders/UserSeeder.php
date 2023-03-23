@@ -24,8 +24,8 @@ class UserSeeder extends Seeder
     $data = new Users();
     $data->username = env('EMAIL_DEVELOPER', 'root@localhost.com');
     $data->password = Hash::make('root');
-    $data->nama = 'Administrator';
-    $data->email = env('EMAIL_DEVELOPER', 'root@localhost.com');
+      $data->name = 'Administrator';
+      $data->email = env('EMAIL_DEVELOPER', 'root@localhost.com');
     $data->id_user_group = 1;
     $data->status = 1;
     $data->created_by = 1;
@@ -36,11 +36,12 @@ class UserSeeder extends Seeder
     foreach ($NPK as $npk) {
       $data = new Users();
       $data->username = $npk.'@localhost.com';
-      $data->password = Hash::make('root');
-      $data->nama = 'Sekuriti '.$npk;
-      $data->email = $npk.'@localhost.com';
+        $data->password = Hash::make('root');
+        $data->name = 'Sekuriti ' . $npk;
+        $data->email = $npk . '@localhost.com';
       $data->id_user_group = 4;
       $data->npk = $npk;
+//      $data->area = 2;
       $data->id_company = 1;
       $data->status = 1;
       $data->created_by = 1;

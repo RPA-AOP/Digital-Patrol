@@ -86,7 +86,8 @@
                                                     <i data-feather="plus" class="mr-25"></i>
                                                     <span>Tambah Point</span>
                                                 </button>
-                                                <a href="javascript:;" class="btn btn-sm btn-outline-primary waves-effect"
+                                                <a href="javascript:"
+                                                   class="btn btn-sm btn-outline-primary waves-effect"
                                                    onclick="previewKAK()">
                                                     <i data-feather="info" class="font-medium-2 mr-50"></i>
                                                     Preview Dokumen KAK</a>

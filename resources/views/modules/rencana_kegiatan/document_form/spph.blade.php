@@ -50,7 +50,7 @@
                             </div>
                         </div>
                         <div class="text-center">
-                            <a href="javascript:;" onclick="previewSPPH()"
+                            <a href="javascript:" onclick="previewSPPH()"
                                class="btn btn-sm btn-outline-primary round waves-effect">
                                 <i data-feather="info" class="font-medium-2 mr-50"></i>
                                 Preview Cetak Surat Permintaan Penawaran Harga</a>

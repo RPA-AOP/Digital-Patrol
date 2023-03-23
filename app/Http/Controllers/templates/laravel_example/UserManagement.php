@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\User;
 use App\Models\Users;
 use Illuminate\Http\Request;
+use Illuminate\Http\Response;
 use Illuminate\Support\Str;
 
 class UserManagement extends Controller
@@ -31,11 +32,11 @@ class UserManagement extends Controller
     ]);
   }
 
-  /**
-   * Display a listing of the resource.
-   *
-   * @return \Illuminate\Http\Response
-   */
+    /**
+     * Display a listing of the resource.
+     *
+     * @return Response
+     */
   public function index(Request $request)
   {
     $columns = [
@@ -112,22 +113,22 @@ class UserManagement extends Controller
     }
   }
 
-  /**
-   * Show the form for creating a new resource.
-   *
-   * @return \Illuminate\Http\Response
-   */
+    /**
+     * Show the form for creating a new resource.
+     *
+     * @return Response
+     */
   public function create()
   {
     //
   }
 
-  /**
-   * Store a newly created resource in storage.
-   *
-   * @param  \Illuminate\Http\Request  $request
-   * @return \Illuminate\Http\Response
-   */
+    /**
+     * Store a newly created resource in storage.
+     *
+     * @param Request $request
+     * @return Response
+     */
   public function store(Request $request)
   {
     $userID = $request->id;
@@ -160,23 +161,23 @@ class UserManagement extends Controller
     }
   }
 
-  /**
-   * Display the specified resource.
-   *
-   * @param  int  $id
-   * @return \Illuminate\Http\Response
-   */
+    /**
+     * Display the specified resource.
+     *
+     * @param int $id
+     * @return Response
+     */
   public function show($id)
   {
     //
   }
 
-  /**
-   * Show the form for editing the specified resource.
-   *
-   * @param  int  $id
-   * @return \Illuminate\Http\Response
-   */
+    /**
+     * Show the form for editing the specified resource.
+     *
+     * @param int $id
+     * @return Response
+     */
   public function edit($id)
   {
     $where = ['id' => $id];
@@ -186,23 +187,23 @@ class UserManagement extends Controller
     return response()->json($users);
   }
 
-  /**
-   * Update the specified resource in storage.
-   *
-   * @param  \Illuminate\Http\Request  $request
-   * @param  int  $id
-   * @return \Illuminate\Http\Response
-   */
+    /**
+     * Update the specified resource in storage.
+     *
+     * @param Request $request
+     * @param int $id
+     * @return Response
+     */
   public function update(Request $request, $id)
   {
   }
 
-  /**
-   * Remove the specified resource from storage.
-   *
-   * @param  int  $id
-   * @return \Illuminate\Http\Response
-   */
+    /**
+     * Remove the specified resource from storage.
+     *
+     * @param int $id
+     * @return Response
+     */
   public function destroy($id)
   {
     $users = User::where('id', $id)->delete();

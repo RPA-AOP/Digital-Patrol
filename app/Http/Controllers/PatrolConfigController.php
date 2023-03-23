@@ -9,6 +9,7 @@ use App\Models\DetailPatrolConfig;
 use App\Models\MasterCategory;
 use App\Models\MasterCompany;
 use App\Models\PatrolConfig;
+use Auth;
 use Complex\Exception;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\View\Factory;
@@ -80,9 +81,9 @@ class PatrolConfigController extends Controller
     if ($files){
       if (!$patrolConfig) {
         $patrolConfig = PatrolConfig::create([
-          'id_company' => $idCompany,
-          'created_by' => \Auth::user()->id,
-          'status' => 1
+            'id_company' => $idCompany,
+            'created_by' => Auth::user()->id,
+            'status' => 1
         ]);
         if ($patrolConfig->save()){
           $filePath = UploadFile::uploadSingle($files);

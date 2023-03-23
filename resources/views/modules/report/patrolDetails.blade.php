@@ -28,25 +28,25 @@
               </div>
             </div>
           </div>
-          <p class="mt-4 small text-uppercase text-muted">Details</p>
-          <div class="info-container table-responsive text-nowrap">
-            <table class="table table-borderless">
-              <tr>
-                <td width="40%">
-                  <span class="fw-semibold me-1">Username</span>
-                </td>
-                <td>
-                  <span>: {{$activityPatrol->user->nama}}</span>
-                </td>
-              </tr>
-              <tr>
-                <td>
-                  <span class="fw-semibold me-1">Shift</span>
-                </td>
-                <td>
-                  <span>: {{$activityPatrol->patrolShift->shift_name}}</span>
+            <p class="mt-4 small text-uppercase text-muted">Details</p>
+            <div class="info-container table-responsive text-nowrap">
+                <table class="table table-borderless">
+                    <tr>
+                        <td width="40%">
+                            <span class="fw-semibold me-1">Username</span>
+                        </td>
+                        <td>
+                            <span>: {{$activityPatrol->user->name}}</span>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <span class="fw-semibold me-1">Shift</span>
+                        </td>
+                        <td>
+                            <span>: {{$activityPatrol->patrolShift->shift_name}}</span>
 
-                </td>
+                        </td>
               </tr>
               <tr>
                 <td>

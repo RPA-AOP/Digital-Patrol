@@ -1,11 +1,12 @@
+@php use App\Helpers\Helpers; @endphp
 @isset($pageConfigs)
-{!! \App\Helpers\Helpers::updatePageConfig($pageConfigs) !!}
+    {!! Helpers::updatePageConfig($pageConfigs) !!}
 @endisset
 @php
-$configData = \App\Helpers\Helpers::appClasses();
+    $configData = Helpers::appClasses();
 
-/* Display elements */
-$customizerHidden = ($customizerHidden ?? '');
+    /* Display elements */
+    $customizerHidden = ($customizerHidden ?? '');
 
 @endphp
 
@@ -13,8 +14,8 @@ $customizerHidden = ($customizerHidden ?? '');
 
 @section('layoutContent')
 
-<!-- Content -->
-@yield('content')
-<!--/ Content -->
+    <!-- Content -->
+    @yield('content')
+    <!--/ Content -->
 
 @endsection

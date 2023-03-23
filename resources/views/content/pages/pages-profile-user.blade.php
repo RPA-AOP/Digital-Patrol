@@ -299,27 +299,28 @@
                       <img src="{{ asset('assets/img/avatars/12.png') }}" alt="Avatar" class="rounded-circle" />
                     </div>
                     <div class="me-2 ms-1">
-                      <h6 class="mb-0">Eugenia Moore</h6>
-                      <small class="text-muted">1.2k Connections</small>
+                        <h6 class="mb-0">Eugenia Moore</h6>
+                        <small class="text-muted">1.2k Connections</small>
                     </div>
                   </div>
-                  <div class="ms-auto">
-                    <button class="btn btn-label-primary btn-icon btn-sm"><i class="ti ti-user-check ti-xs"></i></button>
-                  </div>
+                    <div class="ms-auto">
+                        <button class="btn btn-label-primary btn-icon btn-sm"><i class="ti ti-user-check ti-xs"></i>
+                        </button>
+                    </div>
                 </div>
-              </li>
-              <li class="text-center">
-                <a href="javascript:;">View all connections</a>
-              </li>
+                </li>
+                <li class="text-center">
+                    <a href="javascript:">View all connections</a>
+                </li>
             </ul>
           </div>
         </div>
       </div>
-      <!--/ Connections -->
-      <!-- Teams -->
-      <div class="col-lg-12 col-xl-6">
-        <div class="card card-action mb-4">
-          <div class="card-header align-items-center">
+        <!--/ Connections -->
+        <!-- Teams -->
+        <div class="col-lg-12 col-xl-6">
+            <div class="card card-action mb-4">
+                <div class="card-header align-items-center">
             <h5 class="card-action-title mb-0">Teams</h5>
             <div class="card-action-element">
               <div class="dropdown">
@@ -341,94 +342,99 @@
                 <div class="d-flex align-items-center">
                   <div class="d-flex align-items-start">
                     <div class="avatar me-2">
-                      <img src="{{ asset('assets/img/icons/brands/react-label.png') }}" alt="Avatar" class="rounded-circle" />
+                      <img src="{{ asset('assets/img/icons/brands/react-label.png') }}" alt="Avatar"
+                           class="rounded-circle"/>
                     </div>
-                    <div class="me-2 ms-1">
-                      <h6 class="mb-0">React Developers</h6>
-                      <small class="text-muted">72 Members</small>
+                      <div class="me-2 ms-1">
+                          <h6 class="mb-0">React Developers</h6>
+                          <small class="text-muted">72 Members</small>
+                      </div>
+                  </div>
+                    <div class="ms-auto">
+                        <a href="javascript:"><span class="badge bg-label-danger">Developer</span></a>
                     </div>
-                  </div>
-                  <div class="ms-auto">
-                    <a href="javascript:;"><span class="badge bg-label-danger">Developer</span></a>
-                  </div>
                 </div>
               </li>
-              <li class="mb-3">
-                <div class="d-flex align-items-center">
-                  <div class="d-flex align-items-start">
-                    <div class="avatar me-2">
-                      <img src="{{ asset('assets/img/icons/brands/support-label.png') }}" alt="Avatar" class="rounded-circle" />
+                <li class="mb-3">
+                    <div class="d-flex align-items-center">
+                        <div class="d-flex align-items-start">
+                            <div class="avatar me-2">
+                                <img src="{{ asset('assets/img/icons/brands/support-label.png') }}" alt="Avatar"
+                                     class="rounded-circle"/>
+                            </div>
+                            <div class="me-2 ms-1">
+                                <h6 class="mb-0">Support Team</h6>
+                                <small class="text-muted">122 Members</small>
+                            </div>
+                        </div>
+                        <div class="ms-auto">
+                            <a href="javascript:"><span class="badge bg-label-primary">Support</span></a>
+                        </div>
                     </div>
-                    <div class="me-2 ms-1">
-                      <h6 class="mb-0">Support Team</h6>
-                      <small class="text-muted">122 Members</small>
+                </li>
+                <li class="mb-3">
+                    <div class="d-flex align-items-center">
+                        <div class="d-flex align-items-start">
+                            <div class="avatar me-2">
+                                <img src="{{ asset('assets/img/icons/brands/figma-label.png') }}" alt="Avatar"
+                                     class="rounded-circle"/>
+                            </div>
+                            <div class="me-2 ms-1">
+                                <h6 class="mb-0">UI Designers</h6>
+                                <small class="text-muted">7 Members</small>
+                            </div>
+                        </div>
+                        <div class="ms-auto">
+                            <a href="javascript:"><span class="badge bg-label-info">Designer</span></a>
+                        </div>
                     </div>
-                  </div>
-                  <div class="ms-auto">
-                    <a href="javascript:;"><span class="badge bg-label-primary">Support</span></a>
-                  </div>
-                </div>
-              </li>
-              <li class="mb-3">
-                <div class="d-flex align-items-center">
-                  <div class="d-flex align-items-start">
-                    <div class="avatar me-2">
-                      <img src="{{ asset('assets/img/icons/brands/figma-label.png') }}" alt="Avatar" class="rounded-circle" />
+                </li>
+                <li class="mb-3">
+                    <div class="d-flex align-items-center">
+                        <div class="d-flex align-items-start">
+                            <div class="avatar me-2">
+                                <img src="{{ asset('assets/img/icons/brands/vue-label.png') }}" alt="Avatar"
+                                     class="rounded-circle"/>
+                            </div>
+                            <div class="me-2 ms-1">
+                                <h6 class="mb-0">Vue.js Developers</h6>
+                                <small class="text-muted">289 Members</small>
+                            </div>
+                        </div>
+                        <div class="ms-auto">
+                            <a href="javascript:"><span class="badge bg-label-danger">Developer</span></a>
+                        </div>
                     </div>
-                    <div class="me-2 ms-1">
-                      <h6 class="mb-0">UI Designers</h6>
-                      <small class="text-muted">7 Members</small>
+                </li>
+                <li class="mb-3">
+                    <div class="d-flex align-items-center">
+                        <div class="d-flex align-items-start">
+                            <div class="avatar me-2">
+                                <img src="{{ asset('assets/img/icons/brands/twitter-label.png') }}" alt="Avatar"
+                                     class="rounded-circle"/>
+                            </div>
+                            <div class="me-2 ms-1">
+                                <h6 class="mb-0">Digital Marketing</h6>
+                                <small class="text-muted">24 Members</small>
+                            </div>
+                        </div>
+                        <div class="ms-auto">
+                            <a href="javascript:"><span class="badge bg-label-secondary">Marketing</span></a>
+                        </div>
                     </div>
-                  </div>
-                  <div class="ms-auto">
-                    <a href="javascript:;"><span class="badge bg-label-info">Designer</span></a>
-                  </div>
-                </div>
-              </li>
-              <li class="mb-3">
-                <div class="d-flex align-items-center">
-                  <div class="d-flex align-items-start">
-                    <div class="avatar me-2">
-                      <img src="{{ asset('assets/img/icons/brands/vue-label.png') }}" alt="Avatar" class="rounded-circle" />
-                    </div>
-                    <div class="me-2 ms-1">
-                      <h6 class="mb-0">Vue.js Developers</h6>
-                      <small class="text-muted">289 Members</small>
-                    </div>
-                  </div>
-                  <div class="ms-auto">
-                    <a href="javascript:;"><span class="badge bg-label-danger">Developer</span></a>
-                  </div>
-                </div>
-              </li>
-              <li class="mb-3">
-                <div class="d-flex align-items-center">
-                  <div class="d-flex align-items-start">
-                    <div class="avatar me-2">
-                      <img src="{{ asset('assets/img/icons/brands/twitter-label.png') }}" alt="Avatar" class="rounded-circle" />
-                    </div>
-                    <div class="me-2 ms-1">
-                      <h6 class="mb-0">Digital Marketing</h6>
-                      <small class="text-muted">24 Members</small>
-                    </div>
-                  </div>
-                  <div class="ms-auto">
-                    <a href="javascript:;"><span class="badge bg-label-secondary">Marketing</span></a>
-                  </div>
-                </div>
-              </li>
-              <li class="text-center">
-                <a href="javascript:;">View all teams</a>
-              </li>
+                </li>
+                <li class="text-center">
+                    <a href="javascript:">View all teams</a>
+                </li>
             </ul>
           </div>
+            </div>
         </div>
-      </div>
-      <!--/ Teams -->
+        <!--/ Teams -->
     </div>
-    <!-- Projects table -->
-    <div class="card mb-4">
-      <div class="card-datatable table-responsive">
+      <!-- Projects table -->
+      <div class="card mb-4">
+          <div class="card-datatable table-responsive">
         <table class="datatables-projects table border-top">
           <thead>
             <tr>

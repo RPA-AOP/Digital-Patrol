@@ -70,20 +70,22 @@
         <div class="d-flex align-items-start">
           <div class="d-flex align-items-start">
             <div class="avatar me-2">
-              <img src="{{ asset('assets/img/icons/brands/social-label.png') }}" alt="Avatar" class="rounded-circle" />
+              <img src="{{ asset('assets/img/icons/brands/social-label.png') }}" alt="Avatar" class="rounded-circle"/>
             </div>
-            <div class="me-2 ms-1">
-              <h5 class="mb-0"><a href="javascript:;" class="stretched-link text-body">Social Banners</a></h5>
-              <div class="client-info"><strong>Client: </strong><span class="text-muted">Christian Jimenez</span></div>
-            </div>
+              <div class="me-2 ms-1">
+                  <h5 class="mb-0"><a href="javascript:" class="stretched-link text-body">Social Banners</a></h5>
+                  <div class="client-info"><strong>Client: </strong><span class="text-muted">Christian Jimenez</span>
+                  </div>
+              </div>
           </div>
-          <div class="ms-auto">
-            <div class="dropdown zindex-2">
-              <button type="button" class="btn dropdown-toggle hide-arrow p-0" data-bs-toggle="dropdown" aria-expanded="false"><i class="ti ti-dots-vertical text-muted"></i></button>
-              <ul class="dropdown-menu dropdown-menu-end">
-                <li><a class="dropdown-item" href="javascript:void(0);">Rename project</a></li>
-                <li><a class="dropdown-item" href="javascript:void(0);">View details</a></li>
-                <li><a class="dropdown-item" href="javascript:void(0);">Add to favorites</a></li>
+            <div class="ms-auto">
+                <div class="dropdown zindex-2">
+                    <button type="button" class="btn dropdown-toggle hide-arrow p-0" data-bs-toggle="dropdown"
+                            aria-expanded="false"><i class="ti ti-dots-vertical text-muted"></i></button>
+                    <ul class="dropdown-menu dropdown-menu-end">
+                        <li><a class="dropdown-item" href="javascript:void(0);">Rename project</a></li>
+                        <li><a class="dropdown-item" href="javascript:void(0);">View details</a></li>
+                        <li><a class="dropdown-item" href="javascript:void(0);">Add to favorites</a></li>
                 <li>
                   <hr class="dropdown-divider">
                 </li>
@@ -146,20 +148,22 @@
         <div class="d-flex align-items-start">
           <div class="d-flex align-items-start">
             <div class="avatar me-2">
-              <img src="{{ asset('assets/img/icons/brands/react-label.png') }}" alt="Avatar" class="rounded-circle" />
+              <img src="{{ asset('assets/img/icons/brands/react-label.png') }}" alt="Avatar" class="rounded-circle"/>
             </div>
-            <div class="me-2 ms-1">
-              <h5 class="mb-0"><a href="javascript:;" class="stretched-link text-body">Admin Template</a></h5>
-              <div class="client-info"><strong>Client: </strong><span class="text-muted">Jeffrey Phillips</span></div>
-            </div>
+              <div class="me-2 ms-1">
+                  <h5 class="mb-0"><a href="javascript:" class="stretched-link text-body">Admin Template</a></h5>
+                  <div class="client-info"><strong>Client: </strong><span class="text-muted">Jeffrey Phillips</span>
+                  </div>
+              </div>
           </div>
-          <div class="ms-auto">
-            <div class="dropdown zindex-2">
-              <button type="button" class="btn dropdown-toggle hide-arrow p-0" data-bs-toggle="dropdown" aria-expanded="false"><i class="ti ti-dots-vertical text-muted"></i></button>
-              <ul class="dropdown-menu dropdown-menu-end">
-                <li><a class="dropdown-item" href="javascript:void(0);">Rename project</a></li>
-                <li><a class="dropdown-item" href="javascript:void(0);">View details</a></li>
-                <li><a class="dropdown-item" href="javascript:void(0);">Add to favorites</a></li>
+            <div class="ms-auto">
+                <div class="dropdown zindex-2">
+                    <button type="button" class="btn dropdown-toggle hide-arrow p-0" data-bs-toggle="dropdown"
+                            aria-expanded="false"><i class="ti ti-dots-vertical text-muted"></i></button>
+                    <ul class="dropdown-menu dropdown-menu-end">
+                        <li><a class="dropdown-item" href="javascript:void(0);">Rename project</a></li>
+                        <li><a class="dropdown-item" href="javascript:void(0);">View details</a></li>
+                        <li><a class="dropdown-item" href="javascript:void(0);">Add to favorites</a></li>
                 <li>
                   <hr class="dropdown-divider">
                 </li>
@@ -222,20 +226,21 @@
         <div class="d-flex align-items-start">
           <div class="d-flex align-items-start">
             <div class="avatar me-2">
-              <img src="{{ asset('assets/img/icons/brands/vue-label.png') }}" alt="Avatar" class="rounded-circle" />
+              <img src="{{ asset('assets/img/icons/brands/vue-label.png') }}" alt="Avatar" class="rounded-circle"/>
             </div>
-            <div class="me-2 ms-1">
-              <h5 class="mb-0"><a href="javascript:;" class="stretched-link text-body">App Design</a></h5>
-              <div class="client-info"><strong>Client: </strong><span class="text-muted">Ricky McDonald</span></div>
-            </div>
+              <div class="me-2 ms-1">
+                  <h5 class="mb-0"><a href="javascript:" class="stretched-link text-body">App Design</a></h5>
+                  <div class="client-info"><strong>Client: </strong><span class="text-muted">Ricky McDonald</span></div>
+              </div>
           </div>
-          <div class="ms-auto">
-            <div class="dropdown zindex-2">
-              <button type="button" class="btn dropdown-toggle hide-arrow p-0" data-bs-toggle="dropdown" aria-expanded="false"><i class="ti ti-dots-vertical text-muted"></i></button>
-              <ul class="dropdown-menu dropdown-menu-end">
-                <li><a class="dropdown-item" href="javascript:void(0);">Rename project</a></li>
-                <li><a class="dropdown-item" href="javascript:void(0);">View details</a></li>
-                <li><a class="dropdown-item" href="javascript:void(0);">Add to favorites</a></li>
+            <div class="ms-auto">
+                <div class="dropdown zindex-2">
+                    <button type="button" class="btn dropdown-toggle hide-arrow p-0" data-bs-toggle="dropdown"
+                            aria-expanded="false"><i class="ti ti-dots-vertical text-muted"></i></button>
+                    <ul class="dropdown-menu dropdown-menu-end">
+                        <li><a class="dropdown-item" href="javascript:void(0);">Rename project</a></li>
+                        <li><a class="dropdown-item" href="javascript:void(0);">View details</a></li>
+                        <li><a class="dropdown-item" href="javascript:void(0);">Add to favorites</a></li>
                 <li>
                   <hr class="dropdown-divider">
                 </li>
@@ -298,20 +303,21 @@
         <div class="d-flex align-items-start">
           <div class="d-flex align-items-start">
             <div class="avatar me-2">
-              <img src="{{ asset('assets/img/icons/brands/html-label.png') }}" alt="Avatar" class="rounded-circle" />
+              <img src="{{ asset('assets/img/icons/brands/html-label.png') }}" alt="Avatar" class="rounded-circle"/>
             </div>
-            <div class="me-2 ms-1">
-              <h5 class="mb-0"><a href="javascript:;" class="stretched-link text-body">Create Website</a></h5>
-              <div class="client-info"><strong>Client: </strong><span class="text-muted">Hulda Wright</span></div>
-            </div>
+              <div class="me-2 ms-1">
+                  <h5 class="mb-0"><a href="javascript:" class="stretched-link text-body">Create Website</a></h5>
+                  <div class="client-info"><strong>Client: </strong><span class="text-muted">Hulda Wright</span></div>
+              </div>
           </div>
-          <div class="ms-auto">
-            <div class="dropdown zindex-2">
-              <button type="button" class="btn dropdown-toggle hide-arrow p-0" data-bs-toggle="dropdown" aria-expanded="false"><i class="ti ti-dots-vertical text-muted"></i></button>
-              <ul class="dropdown-menu dropdown-menu-end">
-                <li><a class="dropdown-item" href="javascript:void(0);">Rename project</a></li>
-                <li><a class="dropdown-item" href="javascript:void(0);">View details</a></li>
-                <li><a class="dropdown-item" href="javascript:void(0);">Add to favorites</a></li>
+            <div class="ms-auto">
+                <div class="dropdown zindex-2">
+                    <button type="button" class="btn dropdown-toggle hide-arrow p-0" data-bs-toggle="dropdown"
+                            aria-expanded="false"><i class="ti ti-dots-vertical text-muted"></i></button>
+                    <ul class="dropdown-menu dropdown-menu-end">
+                        <li><a class="dropdown-item" href="javascript:void(0);">Rename project</a></li>
+                        <li><a class="dropdown-item" href="javascript:void(0);">View details</a></li>
+                        <li><a class="dropdown-item" href="javascript:void(0);">Add to favorites</a></li>
                 <li>
                   <hr class="dropdown-divider">
                 </li>
@@ -374,20 +380,21 @@
         <div class="d-flex align-items-start">
           <div class="d-flex align-items-start">
             <div class="avatar me-2">
-              <img src="{{ asset('assets/img/icons/brands/figma-label.png') }}" alt="Avatar" class="rounded-circle" />
+              <img src="{{ asset('assets/img/icons/brands/figma-label.png') }}" alt="Avatar" class="rounded-circle"/>
             </div>
-            <div class="me-2 ms-1">
-              <h5 class="mb-0"><a href="javascript:;" class="stretched-link text-body">Figma Dashboard</a></h5>
-              <div class="client-info"><strong>Client: </strong><span class="text-muted">Jerry Greene</span></div>
-            </div>
+              <div class="me-2 ms-1">
+                  <h5 class="mb-0"><a href="javascript:" class="stretched-link text-body">Figma Dashboard</a></h5>
+                  <div class="client-info"><strong>Client: </strong><span class="text-muted">Jerry Greene</span></div>
+              </div>
           </div>
-          <div class="ms-auto">
-            <div class="dropdown zindex-2">
-              <button type="button" class="btn dropdown-toggle hide-arrow p-0" data-bs-toggle="dropdown" aria-expanded="false"><i class="ti ti-dots-vertical text-muted"></i></button>
-              <ul class="dropdown-menu dropdown-menu-end">
-                <li><a class="dropdown-item" href="javascript:void(0);">Rename project</a></li>
-                <li><a class="dropdown-item" href="javascript:void(0);">View details</a></li>
-                <li><a class="dropdown-item" href="javascript:void(0);">Add to favorites</a></li>
+            <div class="ms-auto">
+                <div class="dropdown zindex-2">
+                    <button type="button" class="btn dropdown-toggle hide-arrow p-0" data-bs-toggle="dropdown"
+                            aria-expanded="false"><i class="ti ti-dots-vertical text-muted"></i></button>
+                    <ul class="dropdown-menu dropdown-menu-end">
+                        <li><a class="dropdown-item" href="javascript:void(0);">Rename project</a></li>
+                        <li><a class="dropdown-item" href="javascript:void(0);">View details</a></li>
+                        <li><a class="dropdown-item" href="javascript:void(0);">Add to favorites</a></li>
                 <li>
                   <hr class="dropdown-divider">
                 </li>
@@ -450,20 +457,22 @@
         <div class="d-flex align-items-start">
           <div class="d-flex align-items-start">
             <div class="avatar me-2">
-              <img src="{{ asset('assets/img/icons/brands/xd-label.png') }}" alt="Avatar" class="rounded-circle" />
+              <img src="{{ asset('assets/img/icons/brands/xd-label.png') }}" alt="Avatar" class="rounded-circle"/>
             </div>
-            <div class="me-2 ms-1">
-              <h5 class="mb-0"><a href="javascript:;" class="stretched-link text-body">Logo Design</a></h5>
-              <div class="client-info"><strong>Client: </strong><span class="text-muted">Olive Strickland</span></div>
-            </div>
+              <div class="me-2 ms-1">
+                  <h5 class="mb-0"><a href="javascript:" class="stretched-link text-body">Logo Design</a></h5>
+                  <div class="client-info"><strong>Client: </strong><span class="text-muted">Olive Strickland</span>
+                  </div>
+              </div>
           </div>
-          <div class="ms-auto">
-            <div class="dropdown zindex-2">
-              <button type="button" class="btn dropdown-toggle hide-arrow p-0" data-bs-toggle="dropdown" aria-expanded="false"><i class="ti ti-dots-vertical text-muted"></i></button>
-              <ul class="dropdown-menu dropdown-menu-end">
-                <li><a class="dropdown-item" href="javascript:void(0);">Rename project</a></li>
-                <li><a class="dropdown-item" href="javascript:void(0);">View details</a></li>
-                <li><a class="dropdown-item" href="javascript:void(0);">Add to favorites</a></li>
+            <div class="ms-auto">
+                <div class="dropdown zindex-2">
+                    <button type="button" class="btn dropdown-toggle hide-arrow p-0" data-bs-toggle="dropdown"
+                            aria-expanded="false"><i class="ti ti-dots-vertical text-muted"></i></button>
+                    <ul class="dropdown-menu dropdown-menu-end">
+                        <li><a class="dropdown-item" href="javascript:void(0);">Rename project</a></li>
+                        <li><a class="dropdown-item" href="javascript:void(0);">View details</a></li>
+                        <li><a class="dropdown-item" href="javascript:void(0);">Add to favorites</a></li>
                 <li>
                   <hr class="dropdown-divider">
                 </li>

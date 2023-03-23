@@ -2,8 +2,11 @@
 
 namespace App\Models;
 
+use Eloquent;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Carbon;
 
 /**
  * App\Models\MasterCategory
@@ -15,23 +18,23 @@ use Illuminate\Database\Eloquent\Model;
  * @property bool $status
  * @property int|null $created_by
  * @property int|null $updated_by
- * @property \Illuminate\Support\Carbon|null $created_at
- * @property \Illuminate\Support\Carbon|null $updated_at
- * @method static \Illuminate\Database\Eloquent\Builder|MasterCategory newModelQuery()
- * @method static \Illuminate\Database\Eloquent\Builder|MasterCategory newQuery()
- * @method static \Illuminate\Database\Eloquent\Builder|MasterCategory query()
- * @method static \Illuminate\Database\Eloquent\Builder|MasterCategory whereCreatedAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder|MasterCategory whereCreatedBy($value)
- * @method static \Illuminate\Database\Eloquent\Builder|MasterCategory whereIdCategory($value)
- * @method static \Illuminate\Database\Eloquent\Builder|MasterCategory whereIdCompany($value)
- * @method static \Illuminate\Database\Eloquent\Builder|MasterCategory whereKodeCategory($value)
- * @method static \Illuminate\Database\Eloquent\Builder|MasterCategory whereNamaCategory($value)
- * @method static \Illuminate\Database\Eloquent\Builder|MasterCategory whereStatus($value)
- * @method static \Illuminate\Database\Eloquent\Builder|MasterCategory whereUpdatedAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder|MasterCategory whereUpdatedBy($value)
- * @method static \Illuminate\Database\Eloquent\Builder|MasterCategory whereCategoryCode($value)
- * @method static \Illuminate\Database\Eloquent\Builder|MasterCategory whereCategoryName($value)
- * @mixin \Eloquent
+ * @property Carbon|null $created_at
+ * @property Carbon|null $updated_at
+ * @method static Builder|MasterCategory newModelQuery()
+ * @method static Builder|MasterCategory newQuery()
+ * @method static Builder|MasterCategory query()
+ * @method static Builder|MasterCategory whereCreatedAt($value)
+ * @method static Builder|MasterCategory whereCreatedBy($value)
+ * @method static Builder|MasterCategory whereIdCategory($value)
+ * @method static Builder|MasterCategory whereIdCompany($value)
+ * @method static Builder|MasterCategory whereKodeCategory($value)
+ * @method static Builder|MasterCategory whereNamaCategory($value)
+ * @method static Builder|MasterCategory whereStatus($value)
+ * @method static Builder|MasterCategory whereUpdatedAt($value)
+ * @method static Builder|MasterCategory whereUpdatedBy($value)
+ * @method static Builder|MasterCategory whereCategoryCode($value)
+ * @method static Builder|MasterCategory whereCategoryName($value)
+ * @mixin Eloquent
  */
 class MasterCategory extends Model
 {

@@ -25,11 +25,11 @@ use Illuminate\Support\Carbon;
  * @property int $status
  * @property Carbon|null $created_at
  * @property Carbon|null $updated_at
- * @property-read \App\Models\MasterCompany|null $company
- * @property-read \App\Models\PatrolScheduleShift|null $patrolShift
- * @property-read Collection<int, \App\Models\ReportPatrol> $reportPatrol
+ * @property-read MasterCompany|null $company
+ * @property-read PatrolScheduleShift|null $patrolShift
+ * @property-read Collection<int, ReportPatrol> $reportPatrol
  * @property-read int|null $report_patrol_count
- * @property-read \App\Models\Users|null $user
+ * @property-read Users|null $user
  * @method static Builder|PatrolActivity newModelQuery()
  * @method static Builder|PatrolActivity newQuery()
  * @method static Builder|PatrolActivity query()

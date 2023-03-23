@@ -8,7 +8,7 @@ use Maatwebsite\Excel\Concerns\ToArray;
 use Maatwebsite\Excel\Concerns\WithCalculatedFormulas;
 use Maatwebsite\Excel\Concerns\WithHeadingRow;
 
-class DataSheetImport implements ToArray, WithCalculatedFormulas, WithHeadingRow
+class DataConfigSheetImport implements ToArray, WithCalculatedFormulas, WithHeadingRow
 {
 
     /**
@@ -36,6 +36,8 @@ class DataSheetImport implements ToArray, WithCalculatedFormulas, WithHeadingRow
             4 => null,
             5 => null
         ];
+
+        $max_level = 0;
         foreach ($array as $index => $item) {
             if ($index == 0) continue;
             if (!$item[0]) continue;
@@ -63,12 +65,23 @@ class DataSheetImport implements ToArray, WithCalculatedFormulas, WithHeadingRow
                 }
                 $detailConfig->category_id = $existingCategory->id_category;
             }
+
+            if ($max_level < $item[0])
+                $max_level = $item[0];
+
             $detailConfig->save();
             $detailConfig->refresh();
-
             $parentIdLevel[$item[0] + 1] = $detailConfig->id_detail_patrol_config;
-
         }
+
+        $lastLevel = DetailPatrolConfig::whereIdCompany($this->idCompany)
+            ->whereIdPatrolConfig($this->idPatrolConfig)
+            ->select(\DB::raw('MAX(level) as last_level'))->first();
+
+        DetailPatrolConfig::whereIdCompany($this->idCompany)
+            ->whereIdPatrolConfig($this->idPatrolConfig)
+            ->where('level', $max_level)
+            ->update(['last_level' => true]);
     }
 
     public function headingRow(): int

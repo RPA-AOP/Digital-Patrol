@@ -555,7 +555,7 @@
                                                             Kerja.pdf</p>
                                                     </div>
                                                     <a class="btn-link"
-                                                       href="javascript:;" onclick="previewKAK()">Preview</a>
+                                                       href="javascript:" onclick="previewKAK()">Preview</a>
                                                 </div>
                                             </div>
                                         </div>
@@ -576,7 +576,7 @@
                                                             Harga.pdf</p>
                                                     </div>
                                                     <a class="btn-link"
-                                                       href="javascript:;" onclick="previewSPPH()">Preview</a>
+                                                       href="javascript:" onclick="previewSPPH()">Preview</a>
                                                 </div>
                                             </div>
                                         </div>

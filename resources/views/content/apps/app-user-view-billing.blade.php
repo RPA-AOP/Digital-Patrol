@@ -90,28 +90,28 @@
               <span class="fw-semibold me-1">Contact:</span>
               <span>(123) 456-7890</span>
             </li>
-            <li class="mb-2 pt-1">
-              <span class="fw-semibold me-1">Languages:</span>
-              <span>French</span>
-            </li>
-            <li class="pt-1">
-              <span class="fw-semibold me-1">Country:</span>
-              <span>England</span>
-            </li>
+              <li class="mb-2 pt-1">
+                  <span class="fw-semibold me-1">Languages:</span>
+                  <span>French</span>
+              </li>
+              <li class="pt-1">
+                  <span class="fw-semibold me-1">Country:</span>
+                  <span>England</span>
+              </li>
           </ul>
-          <div class="d-flex justify-content-center">
-            <a href="javascript:;" class="btn btn-primary me-3" data-bs-target="#editUser" data-bs-toggle="modal">Edit</a>
-            <a href="javascript:;" class="btn btn-label-danger suspend-user">Suspended</a>
-          </div>
+            <div class="d-flex justify-content-center">
+                <a href="javascript:" class="btn btn-primary me-3" data-bs-target="#editUser" data-bs-toggle="modal">Edit</a>
+                <a href="javascript:" class="btn btn-label-danger suspend-user">Suspended</a>
+            </div>
         </div>
       </div>
     </div>
-    <!-- /User Card -->
-    <!-- Plan Card -->
-    <div class="card mb-4">
-      <div class="card-body">
-        <div class="d-flex justify-content-between align-items-start">
-          <span class="badge bg-label-primary">Standard</span>
+      <!-- /User Card -->
+      <!-- Plan Card -->
+      <div class="card mb-4">
+          <div class="card-body">
+              <div class="d-flex justify-content-between align-items-start">
+                  <span class="badge bg-label-primary">Standard</span>
           <div class="d-flex justify-content-center">
             <sup class="h6 fw-semibold pricing-currency mt-3 mb-0 me-1 text-primary">$</sup>
             <h1 class="fw-semibold mb-0 text-primary">99</h1>

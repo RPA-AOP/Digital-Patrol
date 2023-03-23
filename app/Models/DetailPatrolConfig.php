@@ -4,9 +4,13 @@ namespace App\Models;
 
 use Eloquent;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Support\Carbon;
+
 
 /**
  * App\Models\DetailPatrolConfig
@@ -14,10 +18,10 @@ use Illuminate\Support\Carbon;
  * @property int $id_detail_patrol_config
  * @property int $id_company
  * @property int $id_patrol_config
- * @property string $category_name
  * @property string $code
  * @property string $name
  * @property int $level
+ * @property string|null $level_name
  * @property int|null $parent_id
  * @property int|null $category_id
  * @property string|null $identification_key
@@ -27,11 +31,14 @@ use Illuminate\Support\Carbon;
  * @property int|null $updated_by
  * @property Carbon|null $created_at
  * @property Carbon|null $updated_at
+ * @property-read MasterCategory|null $category
+ * @property-read Collection<int, DetailPatrolConfig> $child
+ * @property-read int|null $child_count
+ * @property-read DetailPatrolConfig|null $parent
  * @method static Builder|DetailPatrolConfig newModelQuery()
  * @method static Builder|DetailPatrolConfig newQuery()
  * @method static Builder|DetailPatrolConfig query()
  * @method static Builder|DetailPatrolConfig whereCategoryId($value)
- * @method static Builder|DetailPatrolConfig whereCategoryName($value)
  * @method static Builder|DetailPatrolConfig whereCode($value)
  * @method static Builder|DetailPatrolConfig whereCreatedAt($value)
  * @method static Builder|DetailPatrolConfig whereCreatedBy($value)
@@ -41,23 +48,22 @@ use Illuminate\Support\Carbon;
  * @method static Builder|DetailPatrolConfig whereIdentificationKey($value)
  * @method static Builder|DetailPatrolConfig whereLastLevel($value)
  * @method static Builder|DetailPatrolConfig whereLevel($value)
+ * @method static Builder|DetailPatrolConfig whereLevelName($value)
  * @method static Builder|DetailPatrolConfig whereName($value)
  * @method static Builder|DetailPatrolConfig whereParentId($value)
  * @method static Builder|DetailPatrolConfig whereStatus($value)
  * @method static Builder|DetailPatrolConfig whereUpdatedAt($value)
  * @method static Builder|DetailPatrolConfig whereUpdatedBy($value)
- * @property string|null $level_name
- * @method static Builder|DetailPatrolConfig whereLevelName($value)
- * @property-read \App\Models\MasterCategory|null $category
- * @property-read \Illuminate\Database\Eloquent\Collection|DetailPatrolConfig[] $child
- * @property-read int|null $child_count
- * @property-read DetailPatrolConfig $parent
  * @mixin Eloquent
  */
 class DetailPatrolConfig extends Model
 {
     use HasFactory;
 
+    protected $casts = [
+        'status' => 'boolean',
+        'last_level' => 'boolean',
+    ];
     protected $table = 'detail_patrol_config';
     protected $primaryKey = 'id_detail_patrol_config';
     protected $fillable = [
@@ -75,14 +81,23 @@ class DetailPatrolConfig extends Model
         'updated_by'
     ];
 
-    public function parent(){
+    public function parent(): BelongsTo
+    {
         return $this->belongsTo(DetailPatrolConfig::class, 'id_detail_patrol_config', 'parent_id');
     }
 
-    public function child(){
-        return $this->hasMany(DetailPatrolConfig::class, 'parent_id','id_detail_patrol_config');
+    public function child(): HasMany
+    {
+        return $this->hasMany(DetailPatrolConfig::class, 'parent_id', 'id_detail_patrol_config');
     }
-    public function category(){
-        return $this->belongsTo(MasterCategory::class, 'category_id', 'category_id');
+
+    public function category(): BelongsTo
+    {
+        return $this->belongsTo(MasterCategory::class, 'category_id', 'id_category');
+    }
+
+    public function event(): HasMany
+    {
+        return $this->hasMany(MasterCategoryAbnormalEvent::class, 'id_category', 'category_id');
     }
 }

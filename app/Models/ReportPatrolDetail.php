@@ -11,42 +11,89 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Support\Carbon;
 
+/**
+ * App\Models\ReportPatrolDetail
+ *
+ * @property int $id_report_patrol_detail
+ * @property int|null $id_company
+ * @property int|null $id_report_patrol
+ * @property int|null $parent_level
+ * @property int|null $patrol_object_id
+ * @property bool $is_normal
+ * @property string $patrol_note
+ * @property bool $is_accident_report
+ * @property bool $report_ga
+ * @property bool $quick_action
+ * @property string|null $quick_action_note
+ * @property string $sync_token
+ * @property Carbon|null $created_at
+ * @property Carbon|null $updated_at
+ * @property-read MasterCompany|null $company
+ * @property-read DetailPatrolConfig|null $object
+ * @property-read DetailPatrolConfig|null $objectParent
+ * @property-read Collection<int, ReportPatrol> $reportPatrol
+ * @property-read int|null $report_patrol_count
+ * @method static Builder|ReportPatrolDetail newModelQuery()
+ * @method static Builder|ReportPatrolDetail newQuery()
+ * @method static Builder|ReportPatrolDetail query()
+ * @method static Builder|ReportPatrolDetail whereCreatedAt($value)
+ * @method static Builder|ReportPatrolDetail whereIdCompany($value)
+ * @method static Builder|ReportPatrolDetail whereIdReportPatrol($value)
+ * @method static Builder|ReportPatrolDetail whereIdReportPatrolDetail($value)
+ * @method static Builder|ReportPatrolDetail whereIsAccidentReport($value)
+ * @method static Builder|ReportPatrolDetail whereIsNormal($value)
+ * @method static Builder|ReportPatrolDetail whereParentLevel($value)
+ * @method static Builder|ReportPatrolDetail wherePatrolNote($value)
+ * @method static Builder|ReportPatrolDetail wherePatrolObjectId($value)
+ * @method static Builder|ReportPatrolDetail whereQuickAction($value)
+ * @method static Builder|ReportPatrolDetail whereQuickActionNote($value)
+ * @method static Builder|ReportPatrolDetail whereReportGa($value)
+ * @method static Builder|ReportPatrolDetail whereSyncToken($value)
+ * @method static Builder|ReportPatrolDetail whereUpdatedAt($value)
+ * @mixin Eloquent
+ */
 class ReportPatrolDetail extends Model
 {
-  use HasFactory;
+    use HasFactory;
 
-  protected $table = 'report_patrol_detail';
-  protected $primaryKey = 'id_report_patrol_detail';
-  protected $fillable = [
-    'id_company',
-    'id_report_patrol',
-    'parent_level',
-    'patrol_object_id',
-    'is_normal',
-    'patrol_note',
-    'is_accident_report',
-    'report_ga',
-    'quick_action',
-    'quick_action_note',
-    'created_at',
-    'updated_at',
-  ];
+    protected $casts = [
+        'is_normal' => 'boolean',
+        'is_accident_report' => 'boolean'
+    ];
+    protected $table = 'report_patrol_detail';
+    protected $primaryKey = 'id_report_patrol_detail';
+    protected $fillable = [
+        'id_company',
+        'id_report_patrol',
+        'parent_level',
+        'patrol_object_id',
+        'is_normal',
+        'patrol_note',
+        'is_accident_report',
+        'report_ga',
+        'quick_action',
+        'quick_action_note',
+        'created_at',
+        'updated_at',
+    ];
 
-  public function reportPatrol(): HasMany
-  {
-    return $this->hasMany(ReportPatrol::class, 'id_report_patrol', 'id_report_patrol');
-  }
+    public function reportPatrol(): HasMany
+    {
+        return $this->hasMany(ReportPatrol::class, 'id_report_patrol', 'id_report_patrol');
+    }
 
-  public function company(): BelongsTo
-  {
-    return $this->belongsTo(MasterCompany::class, 'id_company', 'id_company');
-  }
-  public function object(): BelongsTo
-  {
-    return $this->belongsTo(DetailPatrolConfig::class, 'patrol_object_id', 'id_detail_patrol_config');
-  }
-  public function objectParent(): BelongsTo
-  {
-    return $this->belongsTo(DetailPatrolConfig::class, 'parent_level', 'id_detail_patrol_config');
-  }
+    public function company(): BelongsTo
+    {
+        return $this->belongsTo(MasterCompany::class, 'id_company', 'id_company');
+    }
+
+    public function object(): BelongsTo
+    {
+        return $this->belongsTo(DetailPatrolConfig::class, 'patrol_object_id', 'id_detail_patrol_config');
+    }
+
+    public function objectParent(): BelongsTo
+    {
+        return $this->belongsTo(DetailPatrolConfig::class, 'parent_level', 'id_detail_patrol_config');
+    }
 }
