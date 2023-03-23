@@ -4,7 +4,7 @@
       class="{{ $configData['style'] }}-style {{ $navbarFixed ?? '' }} {{ $menuFixed ?? '' }} {{ $menuCollapsed ?? '' }} {{ $footerFixed ?? '' }} {{ $customizerHidden ?? '' }}"
       dir="{{ $configData['textDirection'] }}" data-theme="{{ $configData['theme'] }}"
       data-assets-path="{{ asset('/assets') . '/' }}"
-      data-base-url="{{config('app.url')}}" data-framework="laravel"
+      data-base-url="{{ str_ends_with(url('/'),'/')? url('/'): url('/').'/'}}" data-framework="laravel"
       data-template="{{ $configData['layout'] . '-menu-' . $configData['theme'] . '-' . $configData['style'] }}">
 
 <head>
@@ -19,31 +19,31 @@
           content="{{ config('variables.templateDescription') ? config('variables.templateDescription') : '' }}"/>
     <meta name="keywords"
           content="{{ config('variables.templateKeyword') ? config('variables.templateKeyword') : '' }}">
-  <!-- laravel CRUD token -->
-  <meta name="csrf-token" content="{{ csrf_token() }}">
-  <!-- Canonical SEO -->
-  <link rel="canonical" href="{{ config('variables.productPage') ? config('variables.productPage') : '' }}">
-  <!-- Favicon -->
-  <link rel="icon" type="image/x-icon" href="{{ asset('assets/img/favicon/favicon.ico') }}" />
+    <!-- laravel CRUD token -->
+    <meta name="csrf-token" content="{{ csrf_token() }}">
+    <!-- Canonical SEO -->
+    <link rel="canonical" href="{{ config('variables.productPage') ? config('variables.productPage') : '' }}">
+    <!-- Favicon -->
+    <link rel="icon" type="image/x-icon" href="{{ asset('assets/img/favicon/favicon.ico') }}"/>
 
 
     <!-- Include Styles -->
-  @include('layouts/sections/styles')
+    @include('layouts/sections/styles')
 
-  <!-- Include Scripts for customizer, helper, analytics, config -->
-  @include('layouts/sections/scriptsIncludes')
+    <!-- Include Scripts for customizer, helper, analytics, config -->
+    @include('layouts/sections/scriptsIncludes')
 </head>
 
 <body>
 
 
 <!-- Layout Content -->
-  @yield('layoutContent')
-  <!--/ Layout Content -->
+@yield('layoutContent')
+<!--/ Layout Content -->
 
 
 <!-- Include Scripts -->
-  @include('layouts/sections/scripts')
+@include('layouts/sections/scripts')
 
 </body>
 
