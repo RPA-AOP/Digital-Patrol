@@ -45,7 +45,7 @@ class MasterCategoryAbnormalEvent extends Model
     protected $fillable = [
         'id_category',
         'id_company',
-        'category_eveny',
+        'category_event',
         'created_at',
         'updated_at',
         'created_by',

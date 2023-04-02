@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Helpers\Permission;
+use App\Models\DetailPatrolConfig;
 use App\Models\MasterCompany;
 use App\Models\UserGroup;
 use App\Models\UserGroupPrivilege;
@@ -49,7 +50,7 @@ class UserController extends Controller
             ]);
         }
 
-        $data = Users::with('userGroup', 'company')->get();
+        $data = Users::with('userGroup', 'company', 'patrolArea')->get();
         return DataTables::of($data)->addIndexColumn()->make(true);
     }
 
@@ -100,7 +101,7 @@ class UserController extends Controller
     public function show($id)
     {
         $user = Users::query()->where('id_user', $id)->with('privileges')->first();
-        return view('modules.users.profile', compact('user'));
+        return view('modules.users.profile', compact('user',));
     }
 
     public function profile()
@@ -119,7 +120,12 @@ class UserController extends Controller
     {
         $user = Users::query()->where('id_user', $id)->with('privileges.menu', 'userGroup')->first();
         $userGroup = UserGroup::query()->where('status', 1)->get();
-        return view('modules.users.edit', compact('user', 'userGroup'));
+        $area = DetailPatrolConfig::where('level', '<=', 2)
+            ->where('id_company', $user->id_company)
+            ->whereStatus(true)
+            ->orderBy('level')
+            ->get();
+        return view('modules.users.edit', compact('user', 'userGroup', 'area'));
     }
 
     /**
@@ -137,6 +143,7 @@ class UserController extends Controller
         $user->phone = $request->phone;
         $user->email = $request->email;
         $user->npk = $request->npk;
+        $user->area = $request->area;
 
         if ($user->save()) {
             return redirect()->route('management-user.show', ['id' => $id])

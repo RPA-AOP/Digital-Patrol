@@ -45,28 +45,31 @@
         @if ($isNavbar)
           @include('layouts/sections/navbar/navbar')
         @endif
-        <!-- END: Navbar-->
+          <!-- END: Navbar-->
 
 
-        <!-- Content wrapper -->
-        <div class="content-wrapper">
+          <!-- Content wrapper -->
+          <div class="content-wrapper">
 
-          <!-- Content -->
-          @if ($isFlex)
-            <div class="{{$container}} d-flex align-items-stretch flex-grow-1 p-0">
-              @else
-                <div class="{{$container}} flex-grow-1 container-p-y">
-                  @endif
+              <!-- Content -->
+              @if ($isFlex)
+                  <div class="{{$container}} d-flex align-items-stretch flex-grow-1 p-0">
+                      @else
+                          <div class="{{$container}} flex-grow-1 container-p-y">
+                              @endif
+                              <!-- ALERT-->
+                              @include('layouts.sections.alert')
+                              <!-- ALERT-->
 
-                  @yield('content')
+                              @yield('content')
 
-                  <!-- pricingModal -->
-                  @if ($pricingModal)
-                    @include('_partials/_modals/modal-pricing')
-                  @endif
-                  <!--/ pricingModal -->
+                              <!-- pricingModal -->
+                              @if ($pricingModal)
+                                  @include('_partials/_modals/modal-pricing')
+                              @endif
+                              <!--/ pricingModal -->
 
-                </div>
+                          </div>
                 <!-- / Content -->
 
                 <!-- Footer -->

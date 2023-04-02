@@ -2,10 +2,12 @@
 
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\Components\Select2Controller;
+use App\Http\Controllers\HomeController;
 use App\Http\Controllers\Master\MasterCompanyController;
 use App\Http\Controllers\PatrolConfigController;
 use App\Http\Controllers\QrcodeController;
 use App\Http\Controllers\ReportAbnormalityController;
+use App\Http\Controllers\ReportAccidentController;
 use App\Http\Controllers\ReportPatrolController;
 use App\Http\Controllers\ScheduleConfigController;
 use App\Http\Controllers\templates\laravel_example\UserManagement;
@@ -34,12 +36,7 @@ Route::group(['middleware' => ['auth',]], function () {
         Route::get('get/', [Select2Controller::class, 'get'])->name('get');
         Route::post('add', [Select2Controller::class, 'store'])->name('add');
     });
-
-    Route::get('/dashboard', function () {
-        return view('modules.dashboard');
-    })->name('dashboard');
-
-
+    Route::get('/dashboard', [HomeController::class, 'dashboard'])->name('dashboard');
     Route::controller(PatrolConfigController::class)->prefix('patrolconfig')
         ->name('patrolconfig.')->group(function () {
             Route::get('/', [PatrolConfigController::class, 'index'])->name('index');
@@ -100,11 +97,20 @@ Route::group(['middleware' => ['auth',]], function () {
         });
 
 
+    Route::controller(ReportAccidentController::class)->prefix('report-accident')
+        ->name('report.accident.')->group(function () {
+            Route::get('/', [ReportAccidentController::class, 'index'])->name('index');
+            Route::get('/list', [ReportAccidentController::class, 'list'])->name('list');
+            Route::get('/detail/{id}', [ReportAccidentController::class, 'detail'])->name('detail');
+        });
+
+
     Route::controller(ReportPatrolController::class)->prefix('report-patrol')
         ->name('report.patrol.')->group(function () {
             Route::get('/', [ReportPatrolController::class, 'index'])->name('index');
             Route::get('/list', [ReportPatrolController::class, 'list'])->name('list');
             Route::get('/detail/{id}', [ReportPatrolController::class, 'detail'])->name('detail');
+            Route::get('/preview', [ReportPatrolController::class, 'preview'])->name('preview');
         });
 
     Route::controller(ReportAbnormalityController::class)->prefix('report-abnormality')

@@ -33,10 +33,10 @@ return new class extends Migration {
             ->nullOnDelete();
 
         $table->timestamp('checkin_time');
-        $table->timestamp('checkout_time');
+        $table->timestamp('checkout_time')->nullable();
 
         $table->boolean('status');
-        $table->uuid('sync_token')->default(Uuid::uuid4()->toString());
+        $table->string('sync_token');
         $table->timestamps();
     });
   }

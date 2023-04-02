@@ -99,10 +99,12 @@ class ScheduleConfigController extends Controller
         $company = MasterCompany::where('id_company', $id)->first();
         $patrolUsersShift = Users::whereIdCompany($id)
             ->whereStatus(true)
-            ->whereIdUserGroup(4)->get();
+            ->whereIdUserGroup(4)
+            ->get();
         $patrolScheduleShift = PatrolScheduleShift::where('id_company', $id)->get();
         $area = DetailPatrolConfig::where('level', '<=', 2)
             ->whereStatus(true)
+            ->whereIdCompany($id)
             ->orderBy('level')
             ->get();
         return view('modules.schedule.manage', compact(['company', 'patrolUsersShift', 'patrolScheduleShift', 'area']));

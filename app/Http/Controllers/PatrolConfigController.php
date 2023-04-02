@@ -79,22 +79,21 @@ class PatrolConfigController extends Controller
     $patrolConfig = PatrolConfig::where('id_company', $idCompany)->first();
     $files = $request->file('import-data_patroli');
     if ($files){
-      if (!$patrolConfig) {
-        $patrolConfig = PatrolConfig::create([
-            'id_company' => $idCompany,
-            'created_by' => Auth::user()->id,
-            'status' => 1
-        ]);
-        if ($patrolConfig->save()){
-          $filePath = UploadFile::uploadSingle($files);
-          if ($filePath){
+        if (!$patrolConfig) {
+            $patrolConfig = PatrolConfig::create([
+                'id_company' => $idCompany,
+                'created_by' => Auth::user()->id,
+                'status' => 1
+            ]);
+            $patrolConfig->save();
+        }
+        $filePath = UploadFile::uploadSingle($files);
+        if ($filePath) {
             Excel::import(new ImportPatrolConfig($idCompany, $patrolConfig->id_patrol_config), $files->store('temp'));
             return redirect()->route('patrolconfig.manage', $idCompany)->with('success', 'Import Success.');
-          }else{
+        } else {
             return redirect()->back(501)->with('error', 'upload failed, ');
-          }
         }
-      }
     }
     return redirect()->route('patrolconfig.manage', $idCompany);
   }

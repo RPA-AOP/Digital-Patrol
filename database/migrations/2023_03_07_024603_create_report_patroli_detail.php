@@ -38,8 +38,8 @@ return new class extends Migration {
       $table->boolean('report_ga')->default(false);
       $table->boolean('quick_action')->default(false);
       $table->string('quick_action_note')->nullable();
-      $table->uuid('sync_token')->default(Uuid::uuid4()->toString());
-      $table->timestamps();
+        $table->string('sync_token');
+        $table->timestamps();
     });
   }
 

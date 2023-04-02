@@ -23,19 +23,23 @@ class DataCategoryAbnormalEventSheetImport implements ToArray, WithCalculatedFor
 
     public function array(array $array)
     {
-        MasterCategoryAbnormalEvent::where('id_company', $this->idCompany)
-            ->delete();
+//        MasterCategoryAbnormalEvent::where('id_company', $this->idCompany)
+//            ->delete();
+
 
         foreach ($array as $index => $item) {
             $category = MasterCategory::whereIdCompany($this->idCompany)
                 ->where('category_code', $item['kode'])
                 ->first();
-            MasterCategoryAbnormalEvent::create([
-                'id_company' => $this->idCompany,
-                'id_category' => $category->id_category,
-                'category_event' => $item['event'],
-                'status' => true
-            ]);
+            $event = MasterCategoryAbnormalEvent::updateOrCreate(
+                [
+                    'id_company' => $this->idCompany,
+                    'id_category' => $category->id_category,
+                    'category_event' => $item['event'],
+                ],
+                [
+                    'status' => true
+                ]);
         }
     }
 

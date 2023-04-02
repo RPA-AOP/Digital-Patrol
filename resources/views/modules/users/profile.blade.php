@@ -35,32 +35,32 @@
         <div class="user-profile-header-banner">
           <img src="{{ asset('assets/img/pages/profile-banner.png') }}" alt="Banner image" class="rounded-top">
         </div>
-        <div class="user-profile-header d-flex flex-column flex-sm-row text-sm-start text-center mb-4">
-          <div class="flex-shrink-0 mt-n2 mx-sm-0 mx-auto">
-            <img src="{{ $user->image?? asset('assets/img/avatars/no-img.png') }}" alt="user image"
-                 class="d-block h-auto ms-0 ms-sm-4 rounded user-profile-img bg-white">
-          </div>
-          <div class="flex-grow-1 mt-3 mt-sm-5">
-            <div
-              class="d-flex align-items-md-end align-items-sm-start align-items-center justify-content-md-between justify-content-start mx-4 flex-md-row flex-column gap-4">
-              <div class="user-profile-info">
-                <h4>{{$user->nama}}</h4>
-                <ul
-                  class="list-inline mb-0 d-flex align-items-center flex-wrap justify-content-sm-start justify-content-center gap-2">
-                  <li class="list-inline-item">
-                    <i class='ti ti-color-swatch'></i> {{$user->userGroup->name }}
-                  </li>
-                  <li class="list-inline-item">
-                    <i class='ti ti-map-pin'></i> {{$user->company->name??"-" }}
-                  </li>
-                  <li class="list-inline-item">
-                    <i class='ti ti-calendar'></i> Join at {{$user->created_at->toFormattedDateString() }}
-                  </li>
-                </ul>
+          <div class="user-profile-header d-flex flex-column flex-sm-row text-sm-start text-center mb-4">
+              <div class="flex-shrink-0 mt-n2 mx-sm-0 mx-auto">
+                  <img src="{{ $user->image?? asset('assets/img/avatars/no-img.png') }}" alt="user image"
+                       class="d-block h-auto ms-0 ms-sm-4 rounded user-profile-img bg-white">
               </div>
-            </div>
+              <div class="flex-grow-1 mt-3 mt-sm-5">
+                  <div
+                      class="d-flex align-items-md-end align-items-sm-start align-items-center justify-content-md-between justify-content-start mx-4 flex-md-row flex-column gap-4">
+                      <div class="user-profile-info">
+                          <h4>{{$user->name}}</h4>
+                          <ul
+                              class="list-inline mb-0 d-flex align-items-center flex-wrap justify-content-sm-start justify-content-center gap-2">
+                              <li class="list-inline-item">
+                                  <i class='ti ti-color-swatch'></i> {{$user->userGroup->name }}
+                              </li>
+                              <li class="list-inline-item">
+                                  <i class='ti ti-map-pin'></i> {{$user->company->company_name??"-" }}
+                              </li>
+                              <li class="list-inline-item">
+                                  <i class='ti ti-calendar'></i> Join at {{$user->created_at->toFormattedDateString() }}
+                              </li>
+                          </ul>
+                      </div>
+                  </div>
+              </div>
           </div>
-        </div>
       </div>
     </div>
   </div>
@@ -69,32 +69,36 @@
 
   <!-- User Profile Content -->
   <div class="row">
-    <div class="col-xl-4 col-lg-5 col-md-5">
-      <!-- About User -->
-      <div class="card mb-4">
-        <div class="card-body">
-          <small class="card-text text-uppercase">About</small>
-          <ul class="list-unstyled mb-4 mt-3">
-            <li class="d-flex align-items-center mb-3"><i class="ti ti-user"></i><span
-                class="fw-bold mx-2">Full Name:</span> <span>{{$user->nama}}</span></li>
-            <li class="d-flex align-items-center mb-3"><i class="ti ti-file-description"></i><span class="fw-bold mx-2">NPK:</span>
-              <span>{{$user->npk}}</span></li>
-            <li class="d-flex align-items-center mb-3"><i class="ti ti-check"></i><span
-                class="fw-bold mx-2">Status:</span> <span>{{$user->status==1?'Active':'Suspend'}}</span></li>
-            <li class="d-flex align-items-center mb-3"><i class="ti ti-crown"></i><span
-                class="fw-bold mx-2">Role:</span> <span>{{$user->userGroup->name??'-'}}</span></li>
-            <li class="d-flex align-items-center mb-3"><i class="ti ti-flag"></i><span
-                class="fw-bold mx-2">Company:</span> <span>{{$user->company->name??'-'}}</span></li>
+      <div class="col-xl-4 col-lg-5 col-md-5">
+          <!-- About User -->
+          <div class="card mb-4">
+              <div class="card-body">
+                  <small class="card-text text-uppercase">About</small>
+                  <ul class="list-unstyled mb-4 mt-3">
+                      <li class="d-flex align-items-center mb-3"><i class="ti ti-user"></i><span
+                              class="fw-bold mx-2">Full Name:</span> <span>{{$user->name}}</span></li>
+                      <li class="d-flex align-items-center mb-3"><i class="ti ti-file-description"></i><span
+                              class="fw-bold mx-2">NPK:</span>
+                          <span>{{$user->npk}}</span></li>
+                      <li class="d-flex align-items-center mb-3"><i class="ti ti-check"></i><span
+                              class="fw-bold mx-2">Status:</span> <span>{{$user->status==1?'Active':'Suspend'}}</span>
+                      </li>
+                      <li class="d-flex align-items-center mb-3"><i class="ti ti-crown"></i><span
+                              class="fw-bold mx-2">Role:</span> <span>{{$user->userGroup->name??'-'}}</span></li>
+                      <li class="d-flex align-items-center mb-3"><i class="ti ti-flag"></i><span
+                              class="fw-bold mx-2">Company:</span> <span>{{$user->company->company_name??'-'}}</span>
+                      </li>
 
-          </ul>
-          <small class="card-text text-uppercase">Contacts</small>
-          <ul class="list-unstyled mb-4 mt-3">
-            <li class="d-flex align-items-center mb-3"><i class="ti ti-phone-call"></i><span class="fw-bold mx-2">Contact:</span>
-              <span>{{$user->phone??'-'}}</span></li>
-            <li class="d-flex align-items-center mb-3"><i class="ti ti-mail"></i><span
-                class="fw-bold mx-2">Email:</span> <span>{{$user->email??'-'}}</span></li>
-          </ul>
-        </div>
+                  </ul>
+                  <small class="card-text text-uppercase">Contacts</small>
+                  <ul class="list-unstyled mb-4 mt-3">
+                      <li class="d-flex align-items-center mb-3"><i class="ti ti-phone-call"></i><span
+                              class="fw-bold mx-2">Contact:</span>
+                          <span>{{$user->phone??'-'}}</span></li>
+                      <li class="d-flex align-items-center mb-3"><i class="ti ti-mail"></i><span
+                              class="fw-bold mx-2">Email:</span> <span>{{$user->email??'-'}}</span></li>
+                  </ul>
+              </div>
       </div>
       <!--/ About User -->
       <!-- Profile Overview -->

@@ -64,12 +64,13 @@ class ReportPatrol extends Model
     protected $table = 'report_patrol';
     protected $primaryKey = 'id_report_patrol';
     protected $fillable = [
+        'id_patrol_activity',
         'id_company',
-        'id_area',
-        'id_user',
-        'in_shift',
+        'patrol_schedule_shift_id',
+        'area_id',
         'checkin_time',
         'checkout_time',
+        'sync_token',
         'status',
         'created_at',
         'updated_at',

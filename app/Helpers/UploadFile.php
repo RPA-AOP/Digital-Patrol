@@ -20,33 +20,35 @@ class UploadFile
     return null;
   }
 
-  public static function uploadSingle($file): ?string
+  public static function uploadSingle($file, $path = null): ?string
   {
-    if ($file) {
-      return self::upload($file);
-    }
-    return null;
+      if ($file) {
+          return self::upload($file, $path);
+      }
+      return null;
   }
 
   /**
    * @param $file
    * @return string|void
    */
-  public static function upload($file)
-  {
-    $datePath = Carbon::now()->format('Y/m/d');
-    $extention = $file->getClientOriginalExtension();
-    $oriname = $file->getClientOriginalName();
-    $pathFile = $datePath . "/" . $oriname;
-    if (!File::isDirectory(Storage::path($datePath))) {
-      Storage::makeDirectory($datePath);
-    }
-    $uploaded =  Storage::disk('local')->put(
-      $pathFile, file_get_contents($file)
-    );
-    if ($uploaded){
-      return $pathFile;
-    }
+    public static function upload($file, $path = null)
+    {
+        $datePath = Carbon::now()->format('Y/m/d');
+        $extention = $file->getClientOriginalExtension();
+        $oriname = $file->getClientOriginalName();
+        if ($path)
+            $datePath = $path . "/" . $datePath;
+        $pathFile = $datePath . "/" . $oriname;
+        if (!File::isDirectory(Storage::path($datePath))) {
+            Storage::makeDirectory($datePath);
+        }
+        $uploaded = Storage::disk('local')->put(
+            $pathFile, file_get_contents($file)
+        );
+        if ($uploaded) {
+            return $pathFile;
+        }
   }
 }
 

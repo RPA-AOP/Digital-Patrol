@@ -22,33 +22,6 @@
                         <div class="card-body">
                             <div class="d-flex justify-content-between">
                                 <h6 class="fw-normal mb-2">Total 4 users</h6>
-                                <ul class="list-unstyled d-flex align-items-center avatar-group mb-0">
-                                    <li data-bs-toggle="tooltip" data-popup="tooltip-custom" data-bs-placement="top"
-                                        title="Vinnie Mostowy" class="avatar avatar-sm pull-up">
-                                        <img class="rounded-circle" src="{{ asset('assets/img/avatars/5.png') }}"
-                                             alt="Avatar">
-                                    </li>
-                                    <li data-bs-toggle="tooltip" data-popup="tooltip-custom" data-bs-placement="top"
-                                        title="Allen Rieske" class="avatar avatar-sm pull-up">
-                                        <img class="rounded-circle" src="{{ asset('assets/img/avatars/12.png') }}"
-                                             alt="Avatar">
-                                    </li>
-                                    <li data-bs-toggle="tooltip" data-popup="tooltip-custom" data-bs-placement="top"
-                                        title="Julee Rossignol" class="avatar avatar-sm pull-up">
-                                        <img class="rounded-circle" src="{{ asset('assets/img/avatars/6.png') }}"
-                                             alt="Avatar">
-                                    </li>
-                                    <li data-bs-toggle="tooltip" data-popup="tooltip-custom" data-bs-placement="top"
-                                        title="Kaith D'souza" class="avatar avatar-sm pull-up">
-                                        <img class="rounded-circle" src="{{ asset('assets/img/avatars/3.png') }}"
-                                             alt="Avatar">
-                                    </li>
-                                    <li data-bs-toggle="tooltip" data-popup="tooltip-custom" data-bs-placement="top"
-                                        title="John Doe" class="avatar avatar-sm pull-up">
-                                        <img class="rounded-circle" src="{{ asset('assets/img/avatars/1.png') }}"
-                                             alt="Avatar">
-                                    </li>
-                                </ul>
                             </div>
                             <div class="d-flex justify-content-between align-items-end mt-1">
                                 <div class="role-heading">
@@ -319,6 +292,7 @@
                             <th>NPK</th>
                             <th>Role</th>
                             <th>Company</th>
+                            <th>Area</th>
                             <th>Status</th>
                             <th>Actions</th>
                         </tr>

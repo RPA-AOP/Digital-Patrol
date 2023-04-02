@@ -28,6 +28,7 @@ $(function () {
                     data: 'company.company_name',
                     defaultContent: '-'
                 },
+                {data: 'patrol_area.name'},
                 {data: 'status'},
                 {data: ''}
             ],
@@ -130,8 +131,18 @@ $(function () {
                     }
                 },
                 {
-                    // User Status
+                    // Area
                     targets: 5,
+                    render: function (data, type, full, meta) {
+                        let $area = '-';
+                        if (full['patrol_area'])
+                            $area = full['patrol_area']['name'];
+                        return '<span class="badge bg-label-primaryca">' + $area + '</span>';
+                    }
+                },
+                {
+                    // User Status
+                    targets: 6,
                     render: function (data, type, full, meta) {
                         var $status = full['status'];
 
@@ -270,7 +281,6 @@ $(function () {
         $('.dataTables_filter .form-control').removeClass('form-control-sm');
         $('.dataTables_length .form-select').removeClass('form-select-sm');
     }, 300);
-
 
 
 });

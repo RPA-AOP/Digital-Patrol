@@ -28,6 +28,7 @@ class DataConfigSheetImport implements ToArray, WithCalculatedFormulas, WithHead
 
     public function array(array $array)
     {
+
         $parentIdLevel = [
             0 => null,
             1 => null,
@@ -42,17 +43,7 @@ class DataConfigSheetImport implements ToArray, WithCalculatedFormulas, WithHead
             if ($index == 0) continue;
             if (!$item[0]) continue;
 
-            $detailConfig = new DetailPatrolConfig();
-            $detailConfig->id_company = $this->idCompany;
-            $detailConfig->id_patrol_config = $this->idPatrolConfig;
-            $detailConfig->level = $item[0];
-            $detailConfig->code = $item[1];
-            $detailConfig->name = $item[2];
-            $detailConfig->level_name = $item[3];
-            $detailConfig->identification_key = $item[4];
-            $detailConfig->parent_id = $parentIdLevel[$item[0]];
-
-
+            $category_id = null;
             if ($item[5] != null) {
                 $existingCategory = MasterCategory::where('category_name', $item[5])
                     ->where('id_company', $this->idCompany)->first();
@@ -61,22 +52,33 @@ class DataConfigSheetImport implements ToArray, WithCalculatedFormulas, WithHead
                         'category_name' => $item[5],
                         'id_company' => $this->idCompany
                     ]);
-                    $existingCategory->refresh();
                 }
-                $detailConfig->category_id = $existingCategory->id_category;
+                $existingCategory->refresh();
+                $category_id = $existingCategory->id_category;
             }
 
             if ($max_level < $item[0])
                 $max_level = $item[0];
 
-            $detailConfig->save();
+            $detailConfig = DetailPatrolConfig::updateOrCreate(
+                [
+                    'id_company' => $this->idCompany,
+                    'id_patrol_config' => $this->idPatrolConfig,
+                    'code' => $item[1],
+                ],
+                [
+                    'level' => $item[0],
+                    'name' => $item[2],
+                    'level_name' => $item[3],
+                    'identification_key' => $item[4],
+                    'parent_id' => $parentIdLevel[$item[0]],
+                    'category_id' => $category_id
+                ]
+            );
+
             $detailConfig->refresh();
             $parentIdLevel[$item[0] + 1] = $detailConfig->id_detail_patrol_config;
         }
-
-        $lastLevel = DetailPatrolConfig::whereIdCompany($this->idCompany)
-            ->whereIdPatrolConfig($this->idPatrolConfig)
-            ->select(\DB::raw('MAX(level) as last_level'))->first();
 
         DetailPatrolConfig::whereIdCompany($this->idCompany)
             ->whereIdPatrolConfig($this->idPatrolConfig)

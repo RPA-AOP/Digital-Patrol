@@ -73,13 +73,19 @@ class ReportPatrolDetail extends Model
         'report_ga',
         'quick_action',
         'quick_action_note',
+        'sync_token',
         'created_at',
         'updated_at',
     ];
 
-    public function reportPatrol(): HasMany
+    public function reportPatrol(): BelongsTo
     {
-        return $this->hasMany(ReportPatrol::class, 'id_report_patrol', 'id_report_patrol');
+        return $this->belongsTo(ReportPatrol::class, 'id_report_patrol', 'id_report_patrol');
+    }
+
+    public function files(): hasMany
+    {
+        return $this->hasMany(ReportPatrolFiles::class, 'id_report_patrol_detail', 'id_report_patrol_detail');
     }
 
     public function company(): BelongsTo

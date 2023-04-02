@@ -22,16 +22,17 @@ class DataCategorySheetImport implements ToArray, WithCalculatedFormulas, WithHe
 
     public function array(array $array)
     {
-        MasterCategory::where('id_company', $this->idCompany)
-            ->delete();
 
         foreach ($array as $index => $item) {
-            MasterCategory::create([
-                'id_company' => $this->idCompany,
-                'category_code' => $item['kode_kategori'],
-                'category_name' => $item['nama_kategori'],
-                'status' => true
-            ]);
+            MasterCategory::updateOrCreate(
+                [
+                    'id_company' => $this->idCompany,
+                    'category_code' => $item['kode_kategori'],
+                ],
+                [
+                    'category_name' => $item['nama_kategori'],
+                    'status' => true
+                ]);
         }
     }
 
