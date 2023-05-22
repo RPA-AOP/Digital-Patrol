@@ -21,6 +21,113 @@
     </script>
     <script src="{{asset('assets/vendor/libs/apex-charts/apexcharts.js')}}"></script>
     <script src="{{asset('assets/vendor/libs/datatables-bs5/datatables-bootstrap5.js')}}"></script>
+    <script src="{{asset('assets/vendor/libs/moment/moment.js')}}"></script>
+    <script src="{{asset('assets/vendor/libs/datatables-bs5/datatables-bootstrap5.js')}}"></script>
+    <script src="{{asset('assets/vendor/libs/formvalidation/dist/js/FormValidation.min.js')}}"></script>
+    <script src="{{asset('assets/vendor/libs/formvalidation/dist/js/plugins/Bootstrap5.min.js')}}"></script>
+    <script src="{{asset('assets/vendor/libs/formvalidation/dist/js/plugins/AutoFocus.min.js')}}"></script>
+    <script src="{{asset('assets/vendor/libs/cleavejs/cleave.js')}}"></script>
+    <script src="{{asset('assets/vendor/libs/cleavejs/cleave-phone.js')}}"></script>
+    <script src="{{asset('assets/vendor/libs/select2/select2.js')}}"></script>
+
+
+    <script>
+        $('#table-report-abnormal').DataTable({
+            ajax: "{{route('report.abnormal.list')}}",
+            responsive: false,
+            columns: [
+                {
+                    data: 'id_report_patrol_detail',
+                    render: function (item, data, row, meta) {
+                        return meta.row + meta.settings._iDisplayStart + 1;
+                    }
+                },
+                {
+                    data: 'company.company_name',
+                    name: 'company.company_name',
+                    title: 'PERUSAHAAN'
+                },
+                {
+                    data: 'object.name',
+                    name: 'object.name',
+                    title: 'NAMA OBJEK'
+                },
+                {
+                    data: 'patrol_note',
+                    name: 'patrol_note',
+                    title: 'CATATAN',
+                    render: function (item, row, full) {
+                        if (full.report_ga) {
+                            return 'Repot KE PIC/GA'
+                        }
+                        if (full.quick_action) {
+                            return full.quick_action_note
+                        }
+                        return item
+                    }
+                },
+                {
+                    data: 'report_ga',
+                    name: 'report_ga',
+                    title: 'SHIFT'
+                },
+                {
+                    data: 'created_at',
+                    name: 'created_at',
+                    title: 'Create at',
+                    render: function (item) {
+                        return moment(item).format('DD MMMM YYYY, HH:mm:ss')
+                    }
+                },
+            ],
+            order: [[0, 'asc']],
+            dom: '<"card-header flex-column flex-md-row"<"head-label text-center"><"dt-action-buttons text-end pt-3 pt-md-0"B>><"row"<"col-sm-12 col-md-6"l><"col-sm-12 col-md-6 d-flex justify-content-center justify-content-md-end"f>>t<"row"<"col-sm-12 col-md-6"i><"col-sm-12 col-md-6"p>>',
+            language: {
+                sLengthMenu: '_MENU_',
+                search: '',
+                searchPlaceholder: 'Search..',
+            },
+            buttons: [
+                {
+                    extend: 'collection',
+                    className: 'btn btn-label-primary btn-sm dropdown-toggle ms-2',
+                    text: '<i class="ti ti-file-export me-sm-1"></i> <span class="d-none d-sm-inline-block">Export</span>',
+                    buttons: [
+                        {
+                            extend: 'print',
+                            text: '<i class="ti ti-printer me-1" ></i>Print',
+                            className: 'dropdown-item',
+                        },
+                        {
+                            extend: 'csv',
+                            text: '<i class="ti ti-file-text me-1" ></i>Csv',
+                            className: 'dropdown-item'
+                        },
+                        {
+                            extend: 'excel',
+                            text: '<i class="ti ti-file-spreadsheet me-1"></i>Excel',
+                            className: 'dropdown-item',
+
+                        },
+                        {
+                            extend: 'pdf',
+                            text: '<i class="ti ti-file-description me-1"></i>Pdf',
+                            className: 'dropdown-item',
+
+                        },
+                        {
+                            extend: 'copy',
+                            text: '<i class="ti ti-copy me-1" ></i>Copy',
+                            className: 'dropdown-item',
+                        }
+                    ]
+                }
+            ],
+
+        });
+        $('div.head-label').html('<h5 class="card-title mb-0">Abnormality Report</h5>');
+
+    </script>
 @endsection
 
 @section('page-script')
@@ -140,6 +247,25 @@
     </script>
     <script src="{{asset('assets/js/dashboards-analytics.js')}}"></script>
     <script src="{{asset('assets/js/cards-statistics.js')}}"></script>
+
+    <script>
+        function getData(param, callback) {
+            $.ajax({
+                headers: {
+                    'X-CSRF-TOKEN': '{{ csrf_token() }}'
+                },
+                url: '{{route('dashboard.chart')}}',
+                method: 'GET',
+                data: param,
+                dataType: "JSON",
+                success: function (resp) {
+                    if (resp.data) {
+                        callback(resp)
+                    }
+                }
+            });
+        }
+    </script>
 @endsection
 
 @section('content')
@@ -152,15 +278,6 @@
                     <div class="card-title mb-0">
                         <h5 class="mb-0">Laporan Patroli Hari Ini</h5>
                         {{--            <small class="text-muted">Last 7 Days</small>--}}
-                    </div>
-                    <div class="dropdown">
-                        <button class="btn p-0" type="button" id="supportTrackerMenu" data-bs-toggle="dropdown"
-                                aria-haspopup="true" aria-expanded="false">
-                            <i class="ti ti-dots-vertical ti-sm text-muted"></i>
-                        </button>
-                        <div class="dropdown-menu dropdown-menu-end" aria-labelledby="supportTrackerMenu">
-                            <a class="dropdown-item" href="javascript:void(0);">View More</a>
-                        </div>
                     </div>
                 </div>
                 <div class="card-body">
@@ -213,16 +330,6 @@
                         <h5 class="mb-0">Patrol Report</h5>
                         <small class="text-muted">Last week report</small>
                     </div>
-                    <div class="dropdown">
-                        <button class="btn p-0" type="button" id="earningReportsId" data-bs-toggle="dropdown"
-                                aria-haspopup="true" aria-expanded="false">
-                            <i class="ti ti-dots-vertical ti-sm text-muted"></i>
-                        </button>
-                        <div class="dropdown-menu dropdown-menu-end" aria-labelledby="earningReportsId">
-                            <a class="dropdown-item" href="javascript:void(0);">View More</a>
-                        </div>
-                    </div>
-                    <!-- </div> -->
                 </div>
                 <div class="card-body">
                     <div class="row">
@@ -351,99 +458,10 @@
             </div>
         </div>
 
-        <!-- Statistics -->
-        <div class="col-lg-8 mb-4 col-md-12">
-            <div class="card">
-                <div class="card-header d-flex justify-content-between">
-                    <h5 class="card-title mb-0">Statistics</h5>
-                    <small class="text-muted">Updated 1 month ago</small>
-                </div>
-                <div class="card-body pt-2">
-                    <div class="row gy-3">
-                        <div class="col-md-3 col-6">
-                            <div class="d-flex align-items-center">
-                                <div class="badge rounded-pill bg-label-primary me-3 p-2"><i
-                                        class="ti ti-chart-pie-2 ti-sm"></i></div>
-                                <div class="card-info">
-                                    <h5 class="mb-0">230k</h5>
-                                    <small>Sales</small>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-md-3 col-6">
-                            <div class="d-flex align-items-center">
-                                <div class="badge rounded-pill bg-label-info me-3 p-2"><i class="ti ti-users ti-sm"></i>
-                                </div>
-                                <div class="card-info">
-                                    <h5 class="mb-0">8.549k</h5>
-                                    <small>Customers</small>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-md-3 col-6">
-                            <div class="d-flex align-items-center">
-                                <div class="badge rounded-pill bg-label-danger me-3 p-2"><i
-                                        class="ti ti-shopping-cart ti-sm"></i></div>
-                                <div class="card-info">
-                                    <h5 class="mb-0">1.423k</h5>
-                                    <small>Products</small>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-md-3 col-6">
-                            <div class="d-flex align-items-center">
-                                <div class="badge rounded-pill bg-label-success me-3 p-2"><i
-                                        class="ti ti-currency-dollar ti-sm"></i></div>
-                                <div class="card-info">
-                                    <h5 class="mb-0">$9745</h5>
-                                    <small>Revenue</small>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <!-- Orders -->
-        <div class="col-lg-2 col-6 mb-4">
-            <div class="card">
-                <div class="card-body text-center">
-                    <div class="badge rounded-pill p-2 bg-label-danger mb-2"><i class="ti ti-briefcase ti-sm"></i></div>
-                    <h5 class="card-title mb-2">97.8k</h5>
-                    <small>Orders</small>
-                </div>
-            </div>
-        </div>
-
-        <!-- Reviews -->
-        <div class="col-lg-2 col-6 mb-4">
-            <div class="card">
-                <div class="card-body text-center">
-                    <div class="badge rounded-pill p-2 bg-label-success mb-2"><i class="ti ti-message-dots ti-sm"></i>
-                    </div>
-                    <h5 class="card-title mb-2">3.4k</h5>
-                    <small>Review</small>
-                </div>
-            </div>
-        </div>
-
-        <!-- Projects table -->
         <div class="col-12 order-1 order-lg-2 mb-4 mb-lg-0">
             <div class="card">
-                <div class="card-datatable table-responsive">
-                    <table class="datatables-projects table border-top">
-                        <thead>
-                        <tr>
-                            <th></th>
-                            <th></th>
-                            <th>Name</th>
-                            <th>Leader</th>
-                            <th>Team</th>
-                            <th class="w-px-200">Status</th>
-                            <th>Action</th>
-                        </tr>
-                        </thead>
+                <div class="card-datatable table-responsive pt-0">
+                    <table class="datatables-basic table" id="table-report-abnormal">
                     </table>
                 </div>
             </div>

@@ -66,5 +66,6 @@ Route::middleware(['auth:sanctum'])->group(function () {
         ->group(function () {
             Route::post('/accident', [ReportController::class, 'postReportAccident'])->name('reportAccident');
             Route::post('/', [ReportController::class, 'postReport'])->name('postReport');
+            Route::post('/set-area-done', [ReportController::class, 'setAreaDone'])->name('setAreaDone');
         });
 });

@@ -9,6 +9,7 @@ use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\Log;
 
 /**
  * @property Authenticatable|null $user
@@ -28,7 +29,7 @@ class PatrolController extends BaseApiController
     public function patrolActivity(Request $request): JsonResponse
     {
         $patrolScheduleShiftId = $request->post('patrol_schedule_shift_id');
-        $inShift = $request->post('in_shift');
+        $inShift = $request->post('is_shift');
         $patrolDate = $request->post('patrol_date');
         $patrolStartTime = $request->post('patrol_start_time');
         $patrolEndTime = $request->post('patrol_end_time');
@@ -40,8 +41,9 @@ class PatrolController extends BaseApiController
         $activity->patrol_schedule_shift_id = $patrolScheduleShiftId;
         $activity->patrol_date = Carbon::createFromFormat('Y-m-d', $patrolDate);
         $activity->patrol_start_time = Carbon::createFromFormat('Y-m-d H:i:s', $patrolStartTime);
-        if ($inShift) {
-            $activity->in_shift = $inShift;
+        if ($inShift == 'true') {
+            $activity->in_shift = true;
+
         }
         if ($patrolEndTime)
             $activity->patrol_end_time = Carbon::createFromFormat('Y-m-d H:i:s', $patrolEndTime);

@@ -124,88 +124,27 @@ class ReportController extends BaseApiController
 
         return response()->json($report);
     }
+
+    public function setAreaDone(Request $request): JsonResponse
+    {
+        $dataReport = Arr::except($request->post(), ['detail_temuan']);
+        $dataReport = array_filter($dataReport, fn($value) => !is_null($value) && $value !== 'null');
+
+        $dataReport['id_company'] = $this->user->id_company;
+
+        $report = ReportPatrol::updateOrCreate(
+            [
+                'sync_token' => $dataReport['sync_token']
+            ],
+            $dataReport
+        );
+
+
+        $report = $report->refresh()->toArray();
+
+
+        return response()->json($report);
+    }
+
 }
 
-
-//{
-//  "detail_temuan": {
-//    "2": {
-//      "quick_action_note": "null",
-//      "quick_action": "0",
-//      "is_accident_report": "0",
-//      "report_ga": "0",
-//      "id_report_patrol": "18",
-//      "patrol_note": "null",
-//      "parent_level": "15",
-//      "is_normal": "1",
-//      "sync_token": "3238057b-1f8f-424a-bfe9-a16cfa650899-1679859063465",
-//      "status": "1",
-//      "conditions": "0",
-//      "created_at": "2023-03-27 02:31:03"
-//    },
-//    "3": {
-//      "status": "1",
-//      "sync_token": "1063e6ac-f8ee-4672-9b87-b6170573426d-1679859143871",
-//      "report_ga": "0",
-//      "id_report_patrol": "19",
-//      "quick_action": "0",
-//      "is_accident_report": "0",
-//      "is_normal": "1",
-//      "patrol_note": "null",
-//      "quick_action_note": "null",
-//      "created_at": "2023-03-27 02:32:23",
-//      "conditions": "0",
-//      "parent_level": "15"
-//    },
-//    "0": {
-//      "status": "1",
-//      "quick_action": "0",
-//      "id_report_patrol": "16",
-//      "is_normal": "1",
-//      "quick_action_note": "null",
-//      "sync_token": "4bb6abb0-52ad-4ee6-9d86-05f4f1e54772-1679858822630",
-//      "is_accident_report": "0",
-//      "parent_level": "15",
-//      "report_ga": "0",
-//      "conditions": "0",
-//      "created_at": "2023-03-27 02:27:02",
-//      "patrol_note": "null"
-//    },
-//    "1": {
-//      "parent_level": "15",
-//      "quick_action_note": "null",
-//      "patrol_note": "null",
-//      "report_ga": "0",
-//      "id_report_patrol": "17",
-//      "sync_token": "9a9366c1-494b-48d5-865b-e3dedc0412f1-1679858937000",
-//      "is_normal": "1",
-//      "quick_action": "0",
-//      "created_at": "2023-03-27 02:28:56",
-//      "conditions": "0",
-//      "is_accident_report": "0",
-//      "status": "1"
-//    },
-//    "4": {
-//      "report_ga": "0",
-//      "quick_action": "0",
-//      "status": "1",
-//      "is_normal": "1",
-//      "id_report_patrol": "20",
-//      "quick_action_note": "null",
-//      "sync_token": "42536581-21c5-458a-9d94-c120c556594e-1679859173036",
-//      "is_accident_report": "0",
-//      "parent_level": "15",
-//      "conditions": "0",
-//      "created_at": "2023-03-27 02:32:53",
-//      "patrol_note": "null"
-//    }
-//  },
-//  "sync_token": "28b7e625-e1e5-4c76-85a4-2422d617f140-1679858820031",
-//  "area_id": "15",
-//  "checkin_time": "2023-03-27 02:27:00",
-//  "status": "1",
-//  "created_at": "2023-03-27 02:27:00",
-//  "patrol_schedule_shift_id": "1",
-//  "id_patrol_activity": "null",
-//  "checkout_time": "null"
-//}
