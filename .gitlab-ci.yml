@@ -62,13 +62,13 @@ dev:
   tags:
     - deployment
   script:
-    - chmod og= $SSH_PRIVATE_KEY
+    - chmod og= $ID_RSA
     - apk update && apk add openssh-client
-    - ssh-keygen -y -f $SSH_PRIVATE_KEY
-    - ssh -i $SSH_PRIVATE_KEY -o StrictHostKeyChecking=no $SERVER_USER@$SERVER_IP "sudo docker login -u gitlab-ci-token -p $CI_JOB_TOKEN $CI_REGISTRY"
-    - ssh -i $SSH_PRIVATE_KEY -o StrictHostKeyChecking=no $SERVER_USER@$SERVER_IP "sudo docker pull $TAG_COMMIT"
-    - ssh -i $SSH_PRIVATE_KEY -o StrictHostKeyChecking=no $SERVER_USER@$SERVER_IP "sudo docker container rm -f asms || true"
-    - ssh -i $SSH_PRIVATE_KEY -o StrictHostKeyChecking=no $SERVER_USER@$SERVER_IP "sudo docker run -d -p 8080:80 --name asms $TAG_COMMIT"
+    - ssh-keygen -y -f $ID_RSA
+    - ssh -i $ID_RSA -o StrictHostKeyChecking=no $SERVER_USER@$SERVER_IP "sudo docker login -u gitlab-ci-token -p $CI_JOB_TOKEN $CI_REGISTRY"
+    - ssh -i $ID_RSA -o StrictHostKeyChecking=no $SERVER_USER@$SERVER_IP "sudo docker pull $TAG_COMMIT"
+    - ssh -i $ID_RSA -o StrictHostKeyChecking=no $SERVER_USER@$SERVER_IP "sudo docker container rm -f asms || true"
+    - ssh -i $ID_RSA -o StrictHostKeyChecking=no $SERVER_USER@$SERVER_IP "sudo docker run -d -p 8080:80 --name asms $TAG_COMMIT"
   only:
     - dev
 
