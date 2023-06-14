@@ -63,6 +63,7 @@ dev:
     - deployment
   script:
     - chmod og= $SSH_PRIVATE_KEY
+    - ssh-keygen -y -f $SSH_PRIVATE_KEY
     - apk update && apk add openssh-client
     - ssh -i $SSH_PRIVATE_KEY -o StrictHostKeyChecking=no $SERVER_USER@$SERVER_IP "sudo docker login -u gitlab-ci-token -p $CI_JOB_TOKEN $CI_REGISTRY"
     - ssh -i $SSH_PRIVATE_KEY -o StrictHostKeyChecking=no $SERVER_USER@$SERVER_IP "sudo docker pull $TAG_COMMIT"
@@ -78,6 +79,7 @@ production:
     - deployment
   script:
     - chmod og= $SSH_PRIVATE_KEY
+    - ssh-keygen -y -f $SSH_PRIVATE_KEY
     - apk update && apk add openssh-client
     - ssh -i $SSH_PRIVATE_KEY -o StrictHostKeyChecking=no $SERVER_USER_PROD@$SERVER_IP_PROD "sudo docker login -u gitlab-ci-token -p $CI_JOB_TOKEN $CI_REGISTRY"
     - ssh -i $SSH_PRIVATE_KEY -o StrictHostKeyChecking=no $SERVER_USER_PROD@$SERVER_IP_PROD "sudo docker pull $TAG_COMMIT"
