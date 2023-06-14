@@ -2,6 +2,7 @@ image: lorisleiva/laravel-docker:latest
 
 stages:
   - build
+  - publish
   - deploy
 
 .init_ssh: &init_ssh |
@@ -41,7 +42,7 @@ variables:
 
 publish:
   image: docker:latest
-  stage: deploy
+  stage: publish
   services:
     - name: docker:dind
       entrypoint: ["env", "-u", "DOCKER_HOST"]
@@ -61,12 +62,12 @@ dev:
   tags:
     - deployment
   script:
-    - chmod og= $ID_RSA
+    - chmod og= $SSH_PRIVATE_KEY
     - apk update && apk add openssh-client
-    - ssh -i $ID_RSA -o StrictHostKeyChecking=no $SERVER_USER@$SERVER_IP "sudo docker login -u gitlab-ci-token -p $CI_JOB_TOKEN $CI_REGISTRY"
-    - ssh -i $ID_RSA -o StrictHostKeyChecking=no $SERVER_USER@$SERVER_IP "sudo docker pull $TAG_COMMIT"
-    - ssh -i $ID_RSA -o StrictHostKeyChecking=no $SERVER_USER@$SERVER_IP "sudo docker container rm -f asms || true"
-    - ssh -i $ID_RSA -o StrictHostKeyChecking=no $SERVER_USER@$SERVER_IP "sudo docker run -d -p 8080:80 --name asms $TAG_COMMIT"
+    - ssh -i $SSH_PRIVATE_KEY -o StrictHostKeyChecking=no $SERVER_USER@$SERVER_IP "sudo docker login -u gitlab-ci-token -p $CI_JOB_TOKEN $CI_REGISTRY"
+    - ssh -i $SSH_PRIVATE_KEY -o StrictHostKeyChecking=no $SERVER_USER@$SERVER_IP "sudo docker pull $TAG_COMMIT"
+    - ssh -i $SSH_PRIVATE_KEY -o StrictHostKeyChecking=no $SERVER_USER@$SERVER_IP "sudo docker container rm -f asms || true"
+    - ssh -i $SSH_PRIVATE_KEY -o StrictHostKeyChecking=no $SERVER_USER@$SERVER_IP "sudo docker run -d -p 8080:80 --name asms $TAG_COMMIT"
   only:
     - dev
 
@@ -76,12 +77,12 @@ production:
   tags:
     - deployment
   script:
-    - chmod og= $ID_RSA
+    - chmod og= $SSH_PRIVATE_KEY
     - apk update && apk add openssh-client
-    - ssh -i $ID_RSA -o StrictHostKeyChecking=no $SERVER_USER_PROD@$SERVER_IP_PROD "sudo docker login -u gitlab-ci-token -p $CI_JOB_TOKEN $CI_REGISTRY"
-    - ssh -i $ID_RSA -o StrictHostKeyChecking=no $SERVER_USER_PROD@$SERVER_IP_PROD "sudo docker pull $TAG_COMMIT"
-    - ssh -i $ID_RSA -o StrictHostKeyChecking=no $SERVER_USER_PROD@$SERVER_IP_PROD "sudo docker container rm -f asms-prod || true"
-    - ssh -i $ID_RSA -o StrictHostKeyChecking=no $SERVER_USER_PROD@$SERVER_IP_PROD "sudo docker run -d -p 8081:80 --name asms-prod $TAG_COMMIT"
+    - ssh -i $SSH_PRIVATE_KEY -o StrictHostKeyChecking=no $SERVER_USER_PROD@$SERVER_IP_PROD "sudo docker login -u gitlab-ci-token -p $CI_JOB_TOKEN $CI_REGISTRY"
+    - ssh -i $SSH_PRIVATE_KEY -o StrictHostKeyChecking=no $SERVER_USER_PROD@$SERVER_IP_PROD "sudo docker pull $TAG_COMMIT"
+    - ssh -i $SSH_PRIVATE_KEY -o StrictHostKeyChecking=no $SERVER_USER_PROD@$SERVER_IP_PROD "sudo docker container rm -f asms-prod || true"
+    - ssh -i $SSH_PRIVATE_KEY -o StrictHostKeyChecking=no $SERVER_USER_PROD@$SERVER_IP_PROD "sudo docker run -d -p 8081:80 --name asms-prod $TAG_COMMIT"
   when: manual
   only:
     - main
