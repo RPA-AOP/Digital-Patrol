@@ -84,4 +84,4 @@ production:
     - ssh -i $ID_RSA -o StrictHostKeyChecking=no $SERVER_USER_PROD@$SERVER_IP_PROD "sudo docker run -d -p 8081:80 --name asms-prod $TAG_COMMIT"
   when: manual
   only:
-    - master
+    - main
