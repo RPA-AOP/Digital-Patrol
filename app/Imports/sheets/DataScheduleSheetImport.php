@@ -6,7 +6,9 @@ use App\Models\PatrolScheduleDetailConfig;
 use App\Models\PatrolScheduleShift;
 use App\Models\Users;
 use Carbon\Carbon;
+use Illuminate\Foundation\Auth\User;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Hash;
 use Maatwebsite\Excel\Concerns\ToArray;
 use Maatwebsite\Excel\Concerns\WithCalculatedFormulas;
 use Maatwebsite\Excel\Concerns\WithHeadingRow;
@@ -50,6 +52,20 @@ class DataScheduleSheetImport implements ToArray, WithCalculatedFormulas, WithHe
                 $user = Users::where('npk', $k)
                     ->where('id_company', $this->idCompany)
                     ->where('id_user_group', 4)->first();
+
+                if (!$user){
+                    $user = new Users();
+                    $user->username = $k;
+                    $user->password = Hash::make($k);
+                    $user->id_company = $this->idCompany;
+                    $user->name = $k;
+                    $user->npk = $k;
+                    $user->id_user_group = 4;
+                    $user->status = 1;
+                    $user->created_by = 1;
+                    $user->save();
+                    $user = $user->refresh();
+                }
 
                 $shift = PatrolScheduleShift::where('shift_name', $v)
                     ->orWhere('shift_code', $v)->first();

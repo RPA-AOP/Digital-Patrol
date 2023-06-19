@@ -31,8 +31,16 @@ class UserController extends Controller
         if ($permission->has_view) {
             $data = ['permission' => $permission];
             if ($permission->has_create) {
-                $data['userGroup'] = UserGroup::with('privilages', 'privilages.menu')->whereStatus(1)->get();
-                $data['company'] = MasterCompany::whereStatus(1)->select(['id_company', 'company_name'])->get();
+                $userGroup = UserGroup::with('privilages', 'privilages.menu')->whereStatus(1);
+                $company = MasterCompany::whereStatus(1)->select(['id_company', 'company_name']);
+                if (\Auth::user()->id_user_group == UserGroup::ADMIN_COMPANY) {
+                    $company->where('id_company', \Auth::user()->id_company);
+                    $userGroup->whereIn('id_user_group', [3, 4]);
+                }
+
+                $data['userGroup'] = $userGroup->get();
+                $data['company'] = $company->get();
+
             }
             return view('modules.users.index', $data);
         } else {
@@ -50,8 +58,11 @@ class UserController extends Controller
             ]);
         }
 
-        $data = Users::with('userGroup', 'company', 'patrolArea')->get();
-        return DataTables::of($data)->addIndexColumn()->make(true);
+        $data = Users::with('userGroup', 'company', 'patrolArea');
+        if (\Auth::user()->id_user_group == UserGroup::ADMIN_COMPANY) {
+            $data->where('id_company', \Auth::user()->id_company);
+        }
+        return DataTables::of($data->get())->addIndexColumn()->make(true);
     }
 
     /**

@@ -35,16 +35,14 @@ class DataScheduleShiftSheetImport implements ToArray, WithCalculatedFormulas, W
             ->whereArea($this->area)
             ->delete();
         foreach ($array as $item) {
-            PatrolScheduleShift::updateOrCreate(
+            PatrolScheduleShift::updateOrInsert(
                 [
                     'shift_code' => $item['shift_code'],
                     'id_company' => $this->idCompany,
                     'area' => $this->area,
                 ], [
-                'id_company' => $this->idCompany,
                 'area' => $this->area,
                 'shift_name' => $item['shift_name'],
-                'shift_code' => $item['shift_code'],
                 'start_hour' => Date::excelToDateTimeObject($item['start_hour'])
                     ->format('H:i'),
                 'end_hour' => Date::excelToDateTimeObject($item['end_hour'])

@@ -53,7 +53,13 @@
                 {
                     data: 'company.company_name',
                     name: 'company.company_name',
-                    title: 'PERUSAHAAN'
+                    title: 'PERUSAHAAN',
+                    render: function (item, data, row, meta) {
+                        if (item){
+                            return item
+                        }
+                        return '-'
+                    }
                 },
                 {
                     data: 'title',
@@ -72,11 +78,12 @@
                     sortable: false,
                     searchable: false,
                     render: function (item, data, row) {
-                        @if($permission->has_create)
-                            return ('<div class="d-flex align-items-center">' +
-                            '<a href="{{ url('report-patrol/detail/') }}/' + row.id_patrol_activity + '" class="text-body"><i class="ti ti-eye ti-sm me-2"></i></a>' +
-                            '</div>')
-                        @endif
+                        return '-'
+                        {{--                        @if($permission->has_create)--}}
+                        {{--                            return ('<div class="d-flex align-items-center">' +--}}
+                        {{--                            '<a href="{{ url('report-patrol/detail/') }}/' + row.id_patrol_activity + '" class="text-body"><i class="ti ti-eye ti-sm me-2"></i></a>' +--}}
+                        {{--                            '</div>')--}}
+                        {{--                        @endif--}}
                     }
                 },
 

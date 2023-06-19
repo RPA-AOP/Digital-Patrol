@@ -326,6 +326,7 @@
                                             </select>
                                         </div>
                                     </div>
+                                    @if($itemLevel)
                                     <div class="col-12">
                                         <div class="mb-3">
                                             <label class="form-label" for="level_id">Level</label>
@@ -339,6 +340,7 @@
                                             </select>
                                         </div>
                                     </div>
+                                    @endif
                                     <div class="col-12">
                                         <div class="mb-3">
                                             <label class="form-label" for="code">Code</label>

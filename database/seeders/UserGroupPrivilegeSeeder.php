@@ -31,17 +31,17 @@ class UserGroupPrivilegeSeeder extends Seeder
                 $data->has_download = 1;
                 $data->has_delete = 1;
 
-                if (in_array($group->id, [ 4, 5, 6, 7])) {
+                if (in_array($group->id, [4, 5, 6, 7])) {
                     if (in_array($menu->id, [1, 2, 3])) {
                         $data->has_create = 0;
                         $data->save();
                     }
-                }elseif ($group->id==3){
-                    if (in_array($menu->id, [1, 2, 3])) {
+                } elseif ($group->id == 3) {
+                    if (in_array($menu->id, [1, 2, 3, 4, 5, 6, 7, 8, 9,12])) {
                         $data->has_create = 1;
                         $data->save();
                     }
-                }elseif ($group->id==1){
+                } elseif ($group->id == 1) {
                     $data->save();
                 }
             }

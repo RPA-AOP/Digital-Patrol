@@ -1,6 +1,6 @@
 @extends('layouts/layoutMaster')
 
-@section('title', 'Analytics')
+@section('title', 'Dashboard')
 
 @section('vendor-style')
     <link rel="stylesheet" href="{{asset('assets/vendor/libs/apex-charts/apex-charts.css')}}"/>
@@ -245,7 +245,7 @@
             supportTracker.render();
         }
     </script>
-    <script src="{{asset('assets/js/dashboards-analytics.js')}}"></script>
+    {{--    <script src="{{asset('assets/js/dashboards-analytics.js')}}"></script>--}}
     <script src="{{asset('assets/js/cards-statistics.js')}}"></script>
 
     <script>
@@ -259,10 +259,120 @@
                 data: param,
                 dataType: "JSON",
                 success: function (resp) {
-                    if (resp.data) {
+                    if (resp) {
                         callback(resp)
                     }
                 }
+            });
+        }
+
+    </script>
+
+    <script>
+        const weeklyEarningReportsEl = document.querySelector('#weeklyEarningReports'),
+            weeklyEarningReportsConfig = {
+                chart: {
+                    height: 182,
+                    parentHeightOffset: 0,
+                    type: 'bar',
+                    stacked: true,
+                    toolbar: {
+                        show: false
+                    }
+                },
+                plotOptions: {
+                    bar: {
+                        barHeight: '60%',
+                        columnWidth: '50%',
+                        startingShape: 'rounded',
+                        endingShape: 'rounded',
+                        borderRadius: 2,
+                        distributed: false,
+                        dataLabels: {
+                            position: 'top'
+                        }
+                    }
+                },
+                grid: {
+                    show: false,
+                    padding: {
+                        top: 0,
+                        bottom: 0,
+                        left: -10,
+                        right: -10
+                    }
+                },
+                colors: [config.colors.danger, config.colors.primary,],
+                dataLabels: {
+                    enabledOnSeries: [1],
+                    textAnchor: "top",
+                    formatter: function (_val, opt) {
+                        let series = opt.w.config.series
+                        let idx = opt.dataPointIndex
+                        return series.reduce((total, self) => total + self.data[idx], 0)
+                    },
+                    style: {
+                        colors: ['#333']
+                    },
+                    offsetY: -30,
+                    offsetX: -7
+                },
+                series: [],
+                legend: {
+                    show: true
+                },
+                xaxis: {
+                    categories: [],
+                    axisBorder: {
+                        show: false
+                    },
+                    axisTicks: {
+                        show: false
+                    },
+                    labels: {
+                        style: {
+                            colors: labelColor,
+                            fontSize: '13px',
+                            fontFamily: 'Public Sans'
+                        }
+                    }
+                },
+                yaxis: {
+                    labels: {
+                        show: false
+                    }
+                },
+                tooltip: {
+                    enabled: true,
+                    x: {
+                        formatter: function (value, {series, seriesIndex, dataPointIndex, w}) {
+                            return value + ', {{\Carbon\Carbon::now()->format('F Y')}}'
+                        }
+                    }
+                },
+                responsive: [
+                    {
+                        breakpoint: 1025,
+                        options: {
+                            chart: {
+                                height: 199
+                            }
+                        }
+                    }
+                ]
+            };
+        if (typeof weeklyEarningReportsEl !== undefined && weeklyEarningReportsEl !== null) {
+            const weeklyEarningReports = new ApexCharts(weeklyEarningReportsEl, weeklyEarningReportsConfig);
+            weeklyEarningReports.render();
+
+            getData({}, function (resp) {
+                var series = resp.chart.series
+                var label = resp.chart.label
+                console.log(series)
+                weeklyEarningReports.updateOptions({
+                    series: series,
+                    labels: label
+                });
             });
         }
     </script>
@@ -272,7 +382,7 @@
 
     <div class="row">
         <!-- Support Tracker -->
-        <div class="col-md-6 mb-4">
+        <div class="col-md-4 mb-4">
             <div class="card">
                 <div class="card-header d-flex justify-content-between pb-0">
                     <div class="card-title mb-0">
@@ -323,24 +433,18 @@
         <!--/ Support Tracker -->
 
         <!-- Earning Reports -->
-        <div class="col-lg-6 mb-4">
+        <div class="col-lg-8 mb-4">
             <div class="card h-100">
                 <div class="card-header pb-0 d-flex justify-content-between mb-lg-n4">
                     <div class="card-title mb-0">
                         <h5 class="mb-0">Patrol Report</h5>
-                        <small class="text-muted">Last week report</small>
+                        <small class="text-muted">Report
+                            Bulan {{\Carbon\Carbon::now()->locale('id')->format('F')}}</small>
                     </div>
                 </div>
                 <div class="card-body">
                     <div class="row">
-                        <div class="col-12 col-md-4 d-flex flex-column align-self-end">
-                            <div class="d-flex gap-1 align-items-center mb-2 pb-1 flex-wrap">
-                                <h1 class="mb-0">{{$totalPatrolReport['abnormality']}}</h1>
-                                {{--                                <div class="badge rounded bg-label-danger">+4.2%</div>--}}
-                            </div>
-                            <small class="text-muted">You informed of this report compared to last week</small>
-                        </div>
-                        <div class="col-12 col-md-8">
+                        <div class="col-12">
                             <div id="weeklyEarningReports"></div>
                         </div>
                     </div>
@@ -348,22 +452,10 @@
                         <div class="row gap-4 gap-sm-0">
                             <div class="col-12 col-sm-4">
                                 <div class="d-flex gap-2 align-items-center">
-                                    <div class="badge rounded bg-label-primary p-1"><i
-                                            class="ti ti-currency-dollar ti-sm"></i></div>
-                                    <h6 class="mb-0">Objek Normal</h6>
-                                </div>
-                                <h4 class="my-2 pt-1">{{$totalPatrolReport['normalObject']}}</h4>
-                                <div class="progress w-75" style="height:4px">
-                                    <div class="progress-bar" role="progressbar" style="width: 65%" aria-valuenow="65"
-                                         aria-valuemin="0" aria-valuemax="100"></div>
-                                </div>
-                            </div>
-                            <div class="col-12 col-sm-4">
-                                <div class="d-flex gap-2 align-items-center">
                                     <div class="badge rounded bg-label-info p-1">
-                                        <i class="ti ti-chart-pie-2 ti-sm"></i>
+                                        <i class="ti ti-clock ti-sm"></i>
                                     </div>
-                                    <h6 class="mb-0">Tindakan Cepat</h6>
+                                    <h6 class="mb-0">Total Tindakan Cepat</h6>
                                 </div>
                                 <h4 class="my-2 pt-1">{{$totalPatrolReport['quickAction']}}</h4>
                                 <div class="progress w-75" style="height:4px">
@@ -373,9 +465,21 @@
                             </div>
                             <div class="col-12 col-sm-4">
                                 <div class="d-flex gap-2 align-items-center">
+                                    <div class="badge rounded bg-label-warning p-1"><i
+                                            class="ti ti-report ti-sm"></i></div>
+                                    <h6 class="mb-0">Total Laporkan PIC</h6>
+                                </div>
+                                <h4 class="my-2 pt-1">{{$totalPatrolReport['reportPic']}}</h4>
+                                <div class="progress w-75" style="height:4px">
+                                    <div class="progress-bar" role="progressbar" style="width: 65%" aria-valuenow="65"
+                                         aria-valuemin="0" aria-valuemax="100"></div>
+                                </div>
+                            </div>
+                            <div class="col-12 col-sm-4">
+                                <div class="d-flex gap-2 align-items-center">
                                     <div class="badge rounded bg-label-danger p-1"><i
-                                            class="ti ti-brand-paypal ti-sm"></i></div>
-                                    <h6 class="mb-0">Objek Telah di Tangani</h6>
+                                            class="ti ti-circle-check ti-sm"></i></div>
+                                    <h6 class="mb-0">Total Objek Telah di Tangani</h6>
                                 </div>
                                 <h4 class="my-2 pt-1">{{$totalPatrolReport['solvedAbnormal']}}</h4>
                                 <div class="progress w-75" style="height:4px">
@@ -389,7 +493,8 @@
             </div>
         </div>
         <!--/ Earning Reports -->
-
+    </div>
+    <div class="row">
         <!-- Orders last week -->
         <div class="col-xl-3 col-md-4 col-6 mb-4">
             <div class="card">

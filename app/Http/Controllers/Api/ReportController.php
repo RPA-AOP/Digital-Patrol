@@ -12,6 +12,8 @@ use Illuminate\Contracts\Auth\Authenticatable;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Arr;
+use Illuminate\Support\Facades\Storage;
+use Symfony\Component\HttpFoundation\StreamedResponse;
 
 
 /**
@@ -23,7 +25,7 @@ class ReportController extends BaseApiController
     {
         $data = ReportAccident::create([
             'created_by' => $this->user->id_user,
-            'company' => $this->user->id_company,
+            'id_company' => $this->user->id_company,
             'title' => $request->title,
             'description' => $request->description,
         ]);
@@ -117,6 +119,14 @@ class ReportController extends BaseApiController
                     $file = $request->file("detail_temuan")[$detailReport->sync_token]['image_3'];
                     $detail['image_3'] = $this->uploadAttachment($file, $detailReport->id_report_patrol_detail, true);
                 }
+
+                $existingImage = ReportPatrolFiles::where('id_report_patrol_detail', $detailReport->id_report_patrol_detail)->get();
+                foreach ($existingImage as $k => $item) {
+                    $detail['image_' . $k + 1] = $item->thumb;
+                }
+                if ($detailReport->patrol_note = 'null') {
+                    $detailReport->patrol_note = null;
+                }
                 $report['detail_temuan'][] = $detail;
 
             }
@@ -146,5 +156,13 @@ class ReportController extends BaseApiController
         return response()->json($report);
     }
 
+    public function preview(Request $request): StreamedResponse
+    {
+        $filePath = $request->get('path');
+        if (Storage::exists($filePath)) {
+            return Storage::response($filePath);
+        }
+        return abort(404, "not found");
+    }
 }
 

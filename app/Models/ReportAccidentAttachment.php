@@ -12,6 +12,27 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Support\Carbon;
 
 
+/**
+ * App\Models\ReportAccidentAttachment
+ *
+ * @property int $report_accident_attachment_id
+ * @property string $path
+ * @property string $extension
+ * @property int|null $report_accident_id
+ * @property Carbon|null $created_at
+ * @property Carbon|null $updated_at
+ * @property-read \App\Models\ReportAccident|null $reportAccident
+ * @method static Builder|ReportAccidentAttachment newModelQuery()
+ * @method static Builder|ReportAccidentAttachment newQuery()
+ * @method static Builder|ReportAccidentAttachment query()
+ * @method static Builder|ReportAccidentAttachment whereCreatedAt($value)
+ * @method static Builder|ReportAccidentAttachment whereExtension($value)
+ * @method static Builder|ReportAccidentAttachment wherePath($value)
+ * @method static Builder|ReportAccidentAttachment whereReportAccidentAttachmentId($value)
+ * @method static Builder|ReportAccidentAttachment whereReportAccidentId($value)
+ * @method static Builder|ReportAccidentAttachment whereUpdatedAt($value)
+ * @mixin Eloquent
+ */
 class ReportAccidentAttachment extends Model
 {
     use HasFactory;
