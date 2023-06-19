@@ -2,14 +2,12 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\DetailPatrolConfig;
-use App\Models\ReportPatrolDetail;
+use App\Helpers\DashboardHelper;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
-use Illuminate\Support\Carbon;
 
 class HomeController extends Controller
 {
@@ -23,32 +21,12 @@ class HomeController extends Controller
 
     public function dashboard(): Factory|View|Application
     {
-        $dateStart = Carbon::today()->format('Y-m-d');
-        $dateEnd = Carbon::today()->format('Y-m-d');
-        if (date('Hi') < 600) {
-            $dateStart = Carbon::today()->add("day", -1)->format('Y-m-d');;
-        }
 
-        $todayAbnormalObject = ReportPatrolDetail::whereIsNormal(false)
-            ->whereBetween('created_at', [$dateStart, $dateEnd])
-            ->count();
-
-        $todayNormalObject = ReportPatrolDetail::whereIsNormal(true)
-            ->whereBetween('created_at', [$dateStart, $dateEnd])
-            ->count();
-
-        $todayQuickAction = ReportPatrolDetail::whereQuickAction(true)
-            ->whereBetween('created_at', [$dateStart, $dateEnd])
-            ->count();
-
-        $todayReportPIC = ReportPatrolDetail::whereReportGa(true)
-            ->whereBetween('created_at', [$dateStart, $dateEnd])
-            ->count();
-
-        $totalObject = DetailPatrolConfig::whereLastLevel(true)
-            ->whereStatus(true)
-            ->count();
-
+        $todayAbnormalObject = DashboardHelper::getCountAbnormal(1);
+        $todayNormalObject = DashboardHelper::getCountNormal(1);
+        $todayQuickAction = DashboardHelper::getCountQuickAction(1);
+        $todayReportPIC = DashboardHelper::getCountReportPic(1);
+        $totalObject = DashboardHelper::getCountObject();
         $percentageToday = round((($todayAbnormalObject + $todayNormalObject) / $totalObject) * 100);
 
         $data = [
@@ -60,10 +38,11 @@ class HomeController extends Controller
                 'percentage' => $percentageToday,
             ],
             'totalPatrolReport' => [
-                'abnormality' => 0,
-                'quickAction' => 0,
-                'normalObject' => 0,
-                'solvedAbnormal' => 0,
+                'abnormality' => DashboardHelper::getCountAbnormal(30),
+                'quickAction' => DashboardHelper::getCountQuickAction(30),
+                'normalObject' => DashboardHelper::getCountNormal(30),
+                'reportPic' => DashboardHelper::getCountReportPic(30),
+                'solvedAbnormal' => DashboardHelper::getCountQuickAction(30),
                 'totalObject' => $totalObject
             ],
         ];
@@ -73,32 +52,11 @@ class HomeController extends Controller
     public function chart(\Request $request): JsonResponse
     {
 
-        $dateStart = Carbon::today()->format('Y-m-d');
-        $dateEnd = Carbon::today()->format('Y-m-d');
-        if (date('Hi') < 600) {
-            $dateStart = Carbon::today()->add("day", -1)->format('Y-m-d');;
-        }
-
-        $todayAbnormalObject = ReportPatrolDetail::whereIsNormal(false)
-            ->whereBetween('created_at', [$dateStart, $dateEnd])
-            ->count();
-
-        $todayNormalObject = ReportPatrolDetail::whereIsNormal(true)
-            ->whereBetween('created_at', [$dateStart, $dateEnd])
-            ->count();
-
-        $todayQuickAction = ReportPatrolDetail::whereQuickAction(true)
-            ->whereBetween('created_at', [$dateStart, $dateEnd])
-            ->count();
-
-        $todayReportPIC = ReportPatrolDetail::whereReportGa(true)
-            ->whereBetween('created_at', [$dateStart, $dateEnd])
-            ->count();
-
-        $totalObject = DetailPatrolConfig::whereLastLevel(true)
-            ->whereStatus(true)
-            ->count();
-
+        $todayAbnormalObject = DashboardHelper::getCountAbnormal(1);
+        $todayNormalObject = DashboardHelper::getCountNormal(1);
+        $todayQuickAction = DashboardHelper::getCountQuickAction(1);
+        $todayReportPIC = DashboardHelper::getCountReportPic(1);
+        $totalObject = DashboardHelper::getCountObject();
         $percentageToday = round((($todayAbnormalObject + $todayNormalObject) / $totalObject) * 100);
 
         $data = [
@@ -110,14 +68,15 @@ class HomeController extends Controller
                 'percentage' => $percentageToday,
             ],
             'totalPatrolReport' => [
-                'abnormality' => 0,
-                'quickAction' => 0,
-                'normalObject' => 0,
-                'solvedAbnormal' => 0,
+                'abnormality' => DashboardHelper::getCountAbnormal(30),
+                'quickAction' => DashboardHelper::getCountQuickAction(30),
+                'normalObject' => DashboardHelper::getCountNormal(30),
+                'reportPic' => DashboardHelper::getCountReportPic(30),
+                'solvedAbnormal' => DashboardHelper::getCountQuickAction(30),
                 'totalObject' => $totalObject
             ],
+            'chart' => DashboardHelper::getPatrolReportPerDate()
         ];
-
         return response()->json($data);
     }
 }

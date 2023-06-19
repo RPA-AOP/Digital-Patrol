@@ -36,31 +36,47 @@ use Illuminate\Support\Carbon;
  * @method static Builder|ReportPatrolFiles whereThumb($value)
  * @method static Builder|ReportPatrolFiles whereType($value)
  * @method static Builder|ReportPatrolFiles whereUpdatedAt($value)
+ * @property-read Collection<int, \App\Models\ReportPatrolDetail> $reportPatrolDetail
+ * @method static Builder|ReportPatrolFiles whereDateBetween($fieldName, $fromDate, $toDate)
  * @mixin Eloquent
  */
 class ReportPatrolFiles extends Model
 {
-  use HasFactory;
+    use HasFactory;
 
-  protected $table = 'report_patroli_files';
-  protected $primaryKey = 'id_report_patrol_files';
-  protected $fillable = [
-    'id_company',
-    'id_report_patrol_detail',
-    'thumb',
-    'type',
-    'path',
-    'created_at',
-    'updated_at',
-  ];
+    /**
+     * Scope a query to only include the last n days records
+     *
+     * @param Builder $query
+     * @param $fieldName
+     * @param $fromDate
+     * @param $toDate
+     * @return Builder
+     */
+    public function scopeWhereDateBetween(Builder $query, $fieldName, $fromDate, $toDate): Builder
+    {
+        return $query->whereDate($fieldName, '>=', $fromDate)->whereDate($fieldName, '<=', $toDate);
+    }
 
-  public function reportPatrolDetail(): HasMany
-  {
-    return $this->hasMany(ReportPatrolDetail::class, 'id_report_patrol_detail', 'id_report_patrol_detail');
-  }
+    protected $table = 'report_patroli_files';
+    protected $primaryKey = 'id_report_patrol_files';
+    protected $fillable = [
+        'id_company',
+        'id_report_patrol_detail',
+        'thumb',
+        'type',
+        'path',
+        'created_at',
+        'updated_at',
+    ];
 
-  public function company(): BelongsTo
-  {
-    return $this->belongsTo(MasterCompany::class, 'id_company', 'id_company');
-  }
+    public function reportPatrolDetail(): HasMany
+    {
+        return $this->hasMany(ReportPatrolDetail::class, 'id_report_patrol_detail', 'id_report_patrol_detail');
+    }
+
+    public function company(): BelongsTo
+    {
+        return $this->belongsTo(MasterCompany::class, 'id_company', 'id_company');
+    }
 }

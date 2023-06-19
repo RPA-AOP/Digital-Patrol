@@ -35,10 +35,13 @@ use Illuminate\Support\Carbon;
  * @method static Builder|UserGroup whereUpdatedAt($value)
  * @method static Builder|UserGroup whereUpdatedBy($value)
  * @property-read Collection<int, \App\Models\UserGroupPrivilege> $privilages
+ * @property-read Collection<int, \App\Models\UserGroupPrivilege> $privilages
  * @mixin Eloquent
  */
 class UserGroup extends Model
 {
+
+    const ADMIN_COMPANY = 3;
     protected $table = 'user_groups';
     protected $primaryKey = 'id_user_group';
     protected $fillable = [

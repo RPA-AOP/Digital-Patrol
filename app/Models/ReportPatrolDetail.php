@@ -50,11 +50,30 @@ use Illuminate\Support\Carbon;
  * @method static Builder|ReportPatrolDetail whereReportGa($value)
  * @method static Builder|ReportPatrolDetail whereSyncToken($value)
  * @method static Builder|ReportPatrolDetail whereUpdatedAt($value)
+ * @property-read Collection<int, \App\Models\ReportPatrolFiles> $files
+ * @property-read int|null $files_count
+ * @property-read Collection<int, \App\Models\ReportPatrolFiles> $files
+ * @property-read \App\Models\ReportPatrol|null $reportPatrol
+ * @method static Builder|ReportPatrolDetail whereDateBetween($fieldName, $fromDate, $toDate)
  * @mixin Eloquent
  */
 class ReportPatrolDetail extends Model
 {
     use HasFactory;
+
+    /**
+     * Scope a query to only include the last n days records
+     *
+     * @param Builder $query
+     * @param $fieldName
+     * @param $fromDate
+     * @param $toDate
+     * @return Builder
+     */
+    public function scopeWhereDateBetween(Builder $query, $fieldName, $fromDate, $toDate): Builder
+    {
+        return $query->whereDate($fieldName,'>=',$fromDate)->whereDate($fieldName,'<=',$toDate);
+    }
 
     protected $casts = [
         'is_normal' => 'boolean',
@@ -68,7 +87,7 @@ class ReportPatrolDetail extends Model
         'parent_level',
         'patrol_object_id',
         'is_normal',
-        'patrol_note',
+        'description',
         'is_accident_report',
         'report_ga',
         'quick_action',

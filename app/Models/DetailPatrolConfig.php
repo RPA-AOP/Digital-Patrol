@@ -54,6 +54,11 @@ use Illuminate\Support\Carbon;
  * @method static Builder|DetailPatrolConfig whereStatus($value)
  * @method static Builder|DetailPatrolConfig whereUpdatedAt($value)
  * @method static Builder|DetailPatrolConfig whereUpdatedBy($value)
+ * @property-read Collection<int, DetailPatrolConfig> $child
+ * @property-read Collection<int, \App\Models\MasterCategoryAbnormalEvent> $event
+ * @property-read int|null $event_count
+ * @property-read Collection<int, DetailPatrolConfig> $child
+ * @property-read Collection<int, \App\Models\MasterCategoryAbnormalEvent> $event
  * @mixin Eloquent
  */
 class DetailPatrolConfig extends Model

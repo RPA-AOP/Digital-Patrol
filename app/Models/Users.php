@@ -65,6 +65,12 @@ use Laravel\Sanctum\PersonalAccessToken;
  * @method static Builder|Users whereUpdatedAt($value)
  * @method static Builder|Users whereUpdatedBy($value)
  * @method static Builder|Users whereUsername($value)
+ * @property-read DatabaseNotificationCollection<int, DatabaseNotification> $notifications
+ * @property-read Collection<int, \App\Models\UserGroupPrivilege> $privileges
+ * @property-read Collection<int, PersonalAccessToken> $tokens
+ * @property-read DatabaseNotificationCollection<int, DatabaseNotification> $notifications
+ * @property-read Collection<int, \App\Models\UserGroupPrivilege> $privileges
+ * @property-read Collection<int, PersonalAccessToken> $tokens
  * @mixin Eloquent
  */
 class Users extends Authenticatable

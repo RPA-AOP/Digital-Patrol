@@ -13,6 +13,7 @@ use App\Models\PatrolConfig;
 use App\Models\PatrolScheduleConfig;
 use App\Models\PatrolScheduleDetailConfig;
 use App\Models\PatrolScheduleShift;
+use App\Models\UserGroup;
 use App\Models\Users;
 use Carbon\Carbon;
 use DB;
@@ -29,14 +30,14 @@ use Maatwebsite\Excel\Facades\Excel;
 class ScheduleConfigController extends Controller
 {
 
-    public function index(): View|Factory|Application
+    public function index(): View|Factory|Application|RedirectResponse
     {
         $permission = Permission::get();
         if ($permission->has_view) {
             $data = ['permission' => $permission];
-            return view('modules.schedule.index', $data);
+            return \Auth::user()->id_user_group == UserGroup::ADMIN_COMPANY ? redirect()->route('scheduleconfig.manage', ['id' => \Auth::user()->id_company]) : view('modules.schedule.index', $data);
         } else {
-            return abort(403, 'Anda tidak memiliki akses pada menu ini');
+            abort(403, 'Anda tidak memiliki akses pada menu ini');
         }
     }
 
