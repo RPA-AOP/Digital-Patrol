@@ -55,9 +55,9 @@
 
                     <!-- Content -->
                     @if ($isFlex)
-                        <div class="{{$container}} d-flex align-items-stretch flex-grow-1 p-0">
+                        <div class="{{$container}} d-flex align-items-stretch flex-grow-1 p-0 ">
                             @else
-                                <div class="{{$container}} flex-grow-1 container-p-y">
+                                <div class="{{$container}} flex-grow-1 container-p-y m-0">
                                     @endif
                                     <!-- ALERT-->
                                     @include('layouts.sections.alert')

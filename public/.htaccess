@@ -15,8 +15,26 @@
         Header always set X-Content-Type-Options "nosniff"
         Header always set X-Frame-Options "SAMEORIGIN"
         Header always set Referrer-Policy "strict-origin"
-        Header set Content-Security-Policy "default-src 'self'; script-src 'self' *.digipatrol.id https://fonts.gstatic.com https://cdnjs.cloudflare.com; img-src 'self' ;connect-src 'self' https://digipatrol.go.id https://fonts.gstatic.com https://cdnjs.cloudflare.com; style-src 'self' https://fonts.gstatic.com https://fonts.googleapis.com https://cdnjs.cloudflare.com; font-src 'self' https://fonts.gstatic.com https://www.w3.org https://cdnjs.cloudflare.com; frame-src 'self' https://fonts.gstatic.com; object-src 'self'; form-action 'self'; frame-ancestors 'self';"
-        Header set X-Content-Security-Policy "default-src 'self'; script-src 'self' *.digipatrol.id https://fonts.gstatic.com https://cdnjs.cloudflare.com; img-src 'self' connect-src 'self' https://fonts.gstatic.com https://cdnjs.cloudflare.com; style-src 'self' https://fonts.gstatic.com https://fonts.googleapis.com https://cdnjs.cloudflare.com; font-src 'self' https://fonts.gstatic.com https://www.w3.org https://cdnjs.cloudflare.com; frame-src 'self' https://fonts.gstatic.com ; object-src 'self'; form-action 'self';frame-ancestors 'self';"
+#        Header set Content-Security-Policy "default-src 'self';\
+#           script-src 'self' *.digipatrol.id https://fonts.gstatic.com https://cdnjs.cloudflare.com 'sha256-SRDKGepmDLkrKnPoctDDyE3OFQDm18alhouwc54ZdUc=' 'sha256-yfyMd1qQFUzFfRgOC8NToZhdI9FBtdNR7Zl3CzHuCM4=' 'sha256-FtieNJaho4DVSH9X1jmm88m8rOYU9CcQj/OaGMcLHVo=' 'sha256-JdwrB9uzehO1fnNHONMpj2ts7e2mJj04894BxkkBdCo=';\
+#           unsafe-inline 'self' *.digipatrol.id https://fonts.gstatic.com https://cdnjs.cloudflare.com 'sha256-RidhZOAcgsR2QhhQgGzUqFBYwULc4j8DlDB7y61FgmU='; \
+#           img-src 'self' ;connect-src 'self' https://digipatrol.go.id https://fonts.gstatic.com https://cdnjs.cloudflare.com data:; \
+#           style-src 'self' https://fonts.gstatic.com https://fonts.googleapis.com https://cdnjs.cloudflare.com data: 'sha256-47DEQpj8HBSa+/TImW+5JCeuQeRkm5NMpJWZG3hSuFU=' 'sha256-NnGire7M4f/O547E1lqzq9XG5kXQwSrRDEiCRDzfaaI=' 'sha256-Ywwk+C1nwQBf5mPUSRyxmlIIXRiupfv3oOtcMnf4YaE=' 'sha256-RidhZOAcgsR2QhhQgGzUqFBYwULc4j8DlDB7y61FgmU='; \
+#           font-src 'self' https://fonts.gstatic.com https://www.w3.org https://cdnjs.cloudflare.com ; \
+#           frame-src 'self' https://fonts.gstatic.com;\
+#           object-src 'self'; \
+#           form-action 'self'; \
+#           frame-ancestors 'self';"
+#        Header set X-Content-Security-Policy "default-src 'self';\
+#           script-src 'self' *.digipatrol.id https://fonts.gstatic.com https://cdnjs.cloudflare.com 'sha256-SRDKGepmDLkrKnPoctDDyE3OFQDm18alhouwc54ZdUc=' 'sha256-yfyMd1qQFUzFfRgOC8NToZhdI9FBtdNR7Zl3CzHuCM4=' 'sha256-FtieNJaho4DVSH9X1jmm88m8rOYU9CcQj/OaGMcLHVo=' 'sha256-JdwrB9uzehO1fnNHONMpj2ts7e2mJj04894BxkkBdCo=';\
+#            unsafe-inline 'self' *.digipatrol.id https://fonts.gstatic.com https://cdnjs.cloudflare.com 'sha256-RidhZOAcgsR2QhhQgGzUqFBYwULc4j8DlDB7y61FgmU='; \
+#            img-src 'self' ;connect-src 'self' https://digipatrol.go.id https://fonts.gstatic.com https://cdnjs.cloudflare.com data:; \
+#           style-src 'self' https://fonts.gstatic.com https://fonts.googleapis.com https://cdnjs.cloudflare.com data: 'sha256-47DEQpj8HBSa+/TImW+5JCeuQeRkm5NMpJWZG3hSuFU=' 'sha256-NnGire7M4f/O547E1lqzq9XG5kXQwSrRDEiCRDzfaaI=' 'sha256-Ywwk+C1nwQBf5mPUSRyxmlIIXRiupfv3oOtcMnf4YaE=' 'sha256-RidhZOAcgsR2QhhQgGzUqFBYwULc4j8DlDB7y61FgmU='; \
+#            font-src 'self' https://fonts.gstatic.com https://www.w3.org https://cdnjs.cloudflare.com; \
+#            frame-src 'self' https://fonts.gstatic.com;\
+#            object-src 'self'; \
+#            form-action 'self'; \
+#            frame-ancestors 'self';"
         Header set Strict-Transport-Security "max-age=31536000; includeSubDomains; preload"
 
         Header set X-XSS-Protection "1; mode=block"

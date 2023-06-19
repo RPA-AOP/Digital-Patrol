@@ -54,11 +54,34 @@ use Illuminate\Support\Carbon;
  * @method static Builder|ReportPatrol whereSyncToken($value)
  * @method static Builder|ReportPatrol whereUpdatedAt($value)
  * @property-read Collection<int, ReportPatrolDetail> $reportPatrolDetail
+ * @property int $report_accident_id
+ * @property string $title
+ * @property string $description
+ * @property int|null $created_by
+ * @method static Builder|ReportAccident whereCreatedBy($value)
+ * @method static Builder|ReportAccident whereDescription($value)
+ * @method static Builder|ReportAccident whereReportAccidentId($value)
+ * @method static Builder|ReportAccident whereTitle($value)
+ * @method static Builder|ReportAccident whereDateBetween($fieldName, $fromDate, $toDate)
  * @mixin Eloquent
  */
 class ReportAccident extends Model
 {
     use HasFactory;
+
+    /**
+     * Scope a query to only include the last n days records
+     *
+     * @param Builder $query
+     * @param $fieldName
+     * @param $fromDate
+     * @param $toDate
+     * @return Builder
+     */
+    public function scopeWhereDateBetween(Builder $query, $fieldName, $fromDate, $toDate): Builder
+    {
+        return $query->whereDate($fieldName,'>=',$fromDate)->whereDate($fieldName,'<=',$toDate);
+    }
 
     protected $casts = ['status' => 'boolean'];
     protected $table = 'report_accident';

@@ -34,6 +34,10 @@ use Illuminate\Support\Carbon;
  * @method static Builder|MasterCategory whereUpdatedBy($value)
  * @method static Builder|MasterCategory whereCategoryCode($value)
  * @method static Builder|MasterCategory whereCategoryName($value)
+ * @property int $id_category_event
+ * @property string|null $category_event
+ * @method static Builder|MasterCategoryAbnormalEvent whereCategoryEvent($value)
+ * @method static Builder|MasterCategoryAbnormalEvent whereIdCategoryEvent($value)
  * @mixin Eloquent
  */
 class MasterCategoryAbnormalEvent extends Model

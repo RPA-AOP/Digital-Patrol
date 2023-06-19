@@ -45,6 +45,8 @@ use Illuminate\Support\Carbon;
  * @method static Builder|Menus whereUpdatedBy($value)
  * @method static Builder|Menus whereUrl($value)
  * @property-read Collection<int, Menus> $submenu
+ * @property-read Collection<int, Menus> $submenu
+ * @property-read Collection<int, Menus> $submenu
  * @mixin Eloquent
  */
 class Menus extends Model

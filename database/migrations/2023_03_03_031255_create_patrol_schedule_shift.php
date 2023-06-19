@@ -15,7 +15,7 @@ return new class extends Migration {
         Schema::create('patrol_schedule_shift', function (Blueprint $table) {
             $table->id('patrol_schedule_shift_id');
             $table->string('shift_name');
-            $table->string('shift_code')->unique();
+            $table->string('shift_code');
             $table->time('start_hour')->nullable();
             $table->time('end_hour')->nullable();
             $table->foreignId('id_company')->nullable()

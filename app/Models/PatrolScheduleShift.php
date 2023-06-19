@@ -41,6 +41,8 @@ use Illuminate\Support\Carbon;
  * @method static Builder|PatrolScheduleShift whereStartHour($value)
  * @method static Builder|PatrolScheduleShift whereStatus($value)
  * @method static Builder|PatrolScheduleShift whereUpdatedAt($value)
+ * @property-read Collection<int, \App\Models\DetailPatrolConfig> $patrolDetail
+ * @property-read Collection<int, \App\Models\DetailPatrolConfig> $patrolDetail
  * @mixin Eloquent
  */
 class PatrolScheduleShift extends Model

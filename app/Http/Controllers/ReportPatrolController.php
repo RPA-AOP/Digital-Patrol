@@ -3,22 +3,15 @@
 namespace App\Http\Controllers;
 
 use App\Helpers\Permission;
-use App\Helpers\UploadFile;
-use App\Imports\ImportPatrolConfig;
 use App\Models\DetailPatrolConfig;
-use App\Models\MasterCategory;
-use App\Models\MasterCompany;
 use App\Models\PatrolActivity;
-use App\Models\PatrolConfig;
 use App\Models\ReportPatrol;
 use App\Models\ReportPatrolDetail;
-use Complex\Exception;
+use App\Models\UserGroup;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
-use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
-use Maatwebsite\Excel\Facades\Excel;
 use Storage;
 use Symfony\Component\HttpFoundation\StreamedResponse;
 use Yajra\DataTables\DataTables;
@@ -39,15 +32,26 @@ class ReportPatrolController extends Controller
 
     public function list(Request $request)
     {
-        $activity = PatrolActivity::with('user', 'patrolShift', 'company', 'reportPatrol')->get();
-        return DataTables::of($activity)->addIndexColumn()->make(true);
+        $activity = PatrolActivity::with('user', 'patrolShift', 'company', 'reportPatrol');
+        if (\Auth::user()->id_user_group == UserGroup::ADMIN_COMPANY) {
+            $activity->where('id_company', \Auth::user()->id_company);
+        }
+        return DataTables::of($activity->get())->addIndexColumn()->make(true);
     }
 
     public function detail($id): Factory|View|Application
     {
-        $activityPatrol = PatrolActivity::where('id_patrol_activity', $id)->first();
+        $activityPatrol = PatrolActivity::where('id_patrol_activity', $id);
+        if (\Auth::user()->id_user_group == UserGroup::ADMIN_COMPANY) {
+            $activityPatrol->where('id_company', \Auth::user()->id_company);
+        }
+        $activityPatrol = $activityPatrol->first();
         $reportPatrol = ReportPatrol::with('user', 'patrolShift', 'reportPatrolDetail')
-            ->where('id_patrol_activity', $id)->get();
+            ->where('id_patrol_activity', $id);
+        if (\Auth::user()->id_user_group == UserGroup::ADMIN_COMPANY) {
+            $reportPatrol->where('id_company', \Auth::user()->id_company);
+        }
+        $reportPatrol = $reportPatrol->get();
         $abnormalObject = ReportPatrolDetail::whereIsNormal(false)
             ->whereIn('id_report_patrol', $reportPatrol->pluck('id_report_patrol'))
             ->count();

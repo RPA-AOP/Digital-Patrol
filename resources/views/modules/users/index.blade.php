@@ -15,145 +15,150 @@
 
 @section('content')
     <div class="row g-4">
-        @if($userGroup)
-            @foreach($userGroup as $group)
-                <div class="col-xl-4 col-lg-6 col-md-6">
-                    <div class="card">
-                        <div class="card-body">
-                            <div class="d-flex justify-content-between">
-                                <h6 class="fw-normal mb-2">Total 4 users</h6>
-                            </div>
-                            <div class="d-flex justify-content-between align-items-end mt-1">
-                                <div class="role-heading">
-                                    <h4 class="mb-1">{{ucwords(strtolower($group->name))}}</h4>
-                                    <a href="javascript:" data-bs-toggle="modal"
-                                       data-bs-target="#addRoleModal_{{$group->id_user_group}}"
-                                       class="role-edit-modal"><span>Edit Role</span></a>
+        @if(\Auth::user()->id_user_group != \App\Models\UserGroup::ADMIN_COMPANY )
+            @if($userGroup)
+                @foreach($userGroup as $group)
+                    <div class="col-xl-4 col-lg-6 col-md-6">
+                        <div class="card">
+                            <div class="card-body">
+                                <div class="d-flex justify-content-between">
+                                    <h6 class="fw-normal mb-2">Total 4 users</h6>
                                 </div>
-                                <a href="javascript:void(0);" class="text-muted"><i class="ti ti-copy ti-md"></i></a>
+                                <div class="d-flex justify-content-between align-items-end mt-1">
+                                    <div class="role-heading">
+                                        <h4 class="mb-1">{{ucwords(strtolower($group->name))}}</h4>
+                                        <a href="javascript:" data-bs-toggle="modal"
+                                           data-bs-target="#addRoleModal_{{$group->id_user_group}}"
+                                           class="role-edit-modal"><span>Edit Role</span></a>
+                                    </div>
+                                    <a href="javascript:void(0);" class="text-muted"><i
+                                            class="ti ti-copy ti-md"></i></a>
+                                </div>
                             </div>
                         </div>
                     </div>
-                </div>
-                @if($permission->has_edit)
-                    <!-- START MODAL EDIT {{$group->name}}-->
-                    <div class="modal fade" id="addRoleModal_{{$group->id_user_group}}" tabindex="-1"
-                         aria-hidden="true">
-                        <div class="modal-dialog modal-lg modal-dialog-centered modal-add-new-role">
-                            <div class="modal-content p-3 p-md-5">
-                                <button type="button" class="btn-close btn-pinned" data-bs-dismiss="modal"
-                                        aria-label="Close"></button>
-                                <div class="modal-body">
-                                    <div class="text-center mb-4">
-                                        <h3 class="role-title mb-2">Edit Role {{$group->name}}</h3>
-                                        <p class="text-muted">Set role permissions</p>
-                                    </div>
-                                    <!-- Add role form -->
-                                    <form id="addRoleForm_{{$group->id_user_group}}"
-                                          method="POST"
-                                          action="{{route('management-user.updateUserGroup', ['id'=> $group->id_user_group])}}"
-                                          class="row g-3">
-                                        @csrf
-                                        <div class="col-12">
-                                            <h5>Role Permissions</h5>
-                                            <!-- Permission table -->
-                                            <div class="table-responsive">
-                                                <table class="table table-flush-spacing">
-                                                    <tbody>
-                                                    <tr>
-                                                        <td class="text-nowrap fw-semibold">Administrator
-                                                            <i
-                                                                class="ti ti-info-circle" data-bs-toggle="tooltip"
-                                                                data-bs-placement="top"
-                                                                title="Allows a full access to the system"></i></td>
-                                                        <td>
-                                                            <div class="form-check">
-                                                                <input class="form-check-input select-all"
-                                                                       type="checkbox"
-                                                                       data-class="select_{{$group->id_user_group}}"/>
-                                                                <label class="form-check-label" for="selectAll">
-                                                                    Select All
-                                                                </label>
-                                                            </div>
-                                                        </td>
-                                                    </tr>
-                                                    @foreach($group->privilages as $privilege)
+                    @if($permission->has_edit)
+                        <!-- START MODAL EDIT {{$group->name}}-->
+                        <div class="modal fade" id="addRoleModal_{{$group->id_user_group}}" tabindex="-1"
+                             aria-hidden="true">
+                            <div class="modal-dialog modal-lg modal-dialog-centered modal-add-new-role">
+                                <div class="modal-content p-3 p-md-5">
+                                    <button type="button" class="btn-close btn-pinned" data-bs-dismiss="modal"
+                                            aria-label="Close"></button>
+                                    <div class="modal-body">
+                                        <div class="text-center mb-4">
+                                            <h3 class="role-title mb-2">Edit Role {{$group->name}}</h3>
+                                            <p class="text-muted">Set role permissions</p>
+                                        </div>
+                                        <!-- Add role form -->
+                                        <form id="addRoleForm_{{$group->id_user_group}}"
+                                              method="POST"
+                                              action="{{route('management-user.updateUserGroup', ['id'=> $group->id_user_group])}}"
+                                              class="row g-3">
+                                            @csrf
+                                            <div class="col-12">
+                                                <h5>Role Permissions</h5>
+                                                <!-- Permission table -->
+                                                <div class="table-responsive">
+                                                    <table class="table table-flush-spacing">
+                                                        <tbody>
                                                         <tr>
-                                                            <td class="text-nowrap fw-semibold">{{$privilege->menu->name}}</td>
+                                                            <td class="text-nowrap fw-semibold">Administrator
+                                                                <i
+                                                                    class="ti ti-info-circle" data-bs-toggle="tooltip"
+                                                                    data-bs-placement="top"
+                                                                    title="Allows a full access to the system"></i></td>
                                                             <td>
-                                                                <div class="d-flex">
-                                                                    <input type="hidden"
-                                                                           value="{{$privilege->id_user_group_privilege}}"
-                                                                           name="privilege[{{$privilege->id_user_group_privilege}}][id_user_group_privilege]">
-                                                                    <div class="form-check me-3 me-lg-5">
-                                                                        <input
-                                                                            class="form-check-input select_{{$group->id_user_group}}"
-                                                                            type="checkbox"
-                                                                            value="1"
-                                                                            name="privilege[{{$privilege->id_user_group_privilege}}][has_view]"
-                                                                            @if($privilege->has_view) checked @endif
-                                                                            id="has_view_{{$privilege->id_user_group_privilege}}"
-                                                                        />
-                                                                        <label class="form-check-label"
-                                                                               for="has_view_{{$privilege->id_user_group_privilege}}">
-                                                                            Read
-                                                                        </label>
-                                                                    </div>
-                                                                    <div class="form-check me-3 me-lg-5">
-                                                                        <input
-                                                                            class="form-check-input select_{{$group->id_user_group}}"
-                                                                            type="checkbox"
-                                                                            value="1"
-                                                                            name="privilege[{{$privilege->id_user_group_privilege}}][has_edit]"
-                                                                            @if($privilege->has_edit) checked @endif
-                                                                            id="has_edit_{{$privilege->id_user_group_privilege}}"
-                                                                        />
-                                                                        <label class="form-check-label"
-                                                                               for="has_edit_{{$privilege->id_user_group_privilege}}">
-                                                                            Write
-                                                                        </label>
-                                                                    </div>
-                                                                    <div class="form-check">
-                                                                        <input
-                                                                            class="form-check-input select_{{$group->id_user_group}}"
-                                                                            type="checkbox"
-                                                                            value="1"
-                                                                            name="privilege[{{$privilege->id_user_group_privilege}}][has_create]"
-                                                                            @if($privilege->has_create) checked
-                                                                            @endif
-                                                                            id="has_create_{{$privilege->id_user_group_privilege}}"
-                                                                        />
-                                                                        <label class="form-check-label"
-                                                                               for="has_create_{{$privilege->id_user_group_privilege}}">
-                                                                            Create
-                                                                        </label>
-                                                                    </div>
+                                                                <div class="form-check">
+                                                                    <input class="form-check-input select-all"
+                                                                           type="checkbox"
+                                                                           data-class="select_{{$group->id_user_group}}"/>
+                                                                    <label class="form-check-label" for="selectAll">
+                                                                        Select All
+                                                                    </label>
                                                                 </div>
                                                             </td>
                                                         </tr>
-                                                    @endforeach
+                                                        @foreach($group->privilages as $privilege)
+                                                            <tr>
+                                                                <td class="text-nowrap fw-semibold">{{$privilege->menu->name}}</td>
+                                                                <td>
+                                                                    <div class="d-flex">
+                                                                        <input type="hidden"
+                                                                               value="{{$privilege->id_user_group_privilege}}"
+                                                                               name="privilege[{{$privilege->id_user_group_privilege}}][id_user_group_privilege]">
+                                                                        <div class="form-check me-3 me-lg-5">
+                                                                            <input
+                                                                                class="form-check-input select_{{$group->id_user_group}}"
+                                                                                type="checkbox"
+                                                                                value="1"
+                                                                                name="privilege[{{$privilege->id_user_group_privilege}}][has_view]"
+                                                                                @if($privilege->has_view) checked @endif
+                                                                                id="has_view_{{$privilege->id_user_group_privilege}}"
+                                                                            />
+                                                                            <label class="form-check-label"
+                                                                                   for="has_view_{{$privilege->id_user_group_privilege}}">
+                                                                                Read
+                                                                            </label>
+                                                                        </div>
+                                                                        <div class="form-check me-3 me-lg-5">
+                                                                            <input
+                                                                                class="form-check-input select_{{$group->id_user_group}}"
+                                                                                type="checkbox"
+                                                                                value="1"
+                                                                                name="privilege[{{$privilege->id_user_group_privilege}}][has_edit]"
+                                                                                @if($privilege->has_edit) checked @endif
+                                                                                id="has_edit_{{$privilege->id_user_group_privilege}}"
+                                                                            />
+                                                                            <label class="form-check-label"
+                                                                                   for="has_edit_{{$privilege->id_user_group_privilege}}">
+                                                                                Write
+                                                                            </label>
+                                                                        </div>
+                                                                        <div class="form-check">
+                                                                            <input
+                                                                                class="form-check-input select_{{$group->id_user_group}}"
+                                                                                type="checkbox"
+                                                                                value="1"
+                                                                                name="privilege[{{$privilege->id_user_group_privilege}}][has_create]"
+                                                                                @if($privilege->has_create) checked
+                                                                                @endif
+                                                                                id="has_create_{{$privilege->id_user_group_privilege}}"
+                                                                            />
+                                                                            <label class="form-check-label"
+                                                                                   for="has_create_{{$privilege->id_user_group_privilege}}">
+                                                                                Create
+                                                                            </label>
+                                                                        </div>
+                                                                    </div>
+                                                                </td>
+                                                            </tr>
+                                                        @endforeach
 
-                                                    </tbody>
-                                                </table>
+                                                        </tbody>
+                                                    </table>
+                                                </div>
+                                                <!-- Permission table -->
                                             </div>
-                                            <!-- Permission table -->
-                                        </div>
-                                        <div class="col-12 text-center mt-4">
-                                            <button type="submit" class="btn btn-primary me-sm-3 me-1">Submit</button>
-                                            <button type="reset" class="btn btn-label-secondary" data-bs-dismiss="modal"
-                                                    aria-label="Close">Cancel
-                                            </button>
-                                        </div>
-                                    </form>
-                                    <!--/ Add role form -->
+                                            <div class="col-12 text-center mt-4">
+                                                <button type="submit" class="btn btn-primary me-sm-3 me-1">Submit
+                                                </button>
+                                                <button type="reset" class="btn btn-label-secondary"
+                                                        data-bs-dismiss="modal"
+                                                        aria-label="Close">Cancel
+                                                </button>
+                                            </div>
+                                        </form>
+                                        <!--/ Add role form -->
+                                    </div>
                                 </div>
                             </div>
                         </div>
-                    </div>
-                    <!-- END MODAL EDIT {{$group->name}} -->
-                @endif
+                        <!-- END MODAL EDIT {{$group->name}} -->
+                    @endif
 
-            @endforeach
+                @endforeach
+            @endif
         @endif
         @if($permission->has_create)
             <div class="col-xl-4 col-lg-6 col-md-6">
@@ -478,7 +483,7 @@
         })
 
         const selectAll = $('.select-all');
-        $.each(selectAll, function (e,l) {
+        $.each(selectAll, function (e, l) {
             const childSelectClass = $(l).data('class');
             $(l).on('click', e => {
                 if (e.currentTarget.checked) {

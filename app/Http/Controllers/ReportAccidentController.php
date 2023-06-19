@@ -3,23 +3,14 @@
 namespace App\Http\Controllers;
 
 use App\Helpers\Permission;
-use App\Helpers\UploadFile;
-use App\Imports\ImportPatrolConfig;
-use App\Models\DetailPatrolConfig;
-use App\Models\MasterCategory;
-use App\Models\MasterCompany;
 use App\Models\PatrolActivity;
-use App\Models\PatrolConfig;
 use App\Models\ReportAccident;
 use App\Models\ReportPatrol;
-use App\Models\ReportPatrolDetail;
-use Complex\Exception;
+use App\Models\UserGroup;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
-use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
-use Maatwebsite\Excel\Facades\Excel;
 use Yajra\DataTables\DataTables;
 
 class ReportAccidentController extends Controller
@@ -38,16 +29,27 @@ class ReportAccidentController extends Controller
 
     public function list(Request $request)
     {
-        $activity = ReportAccident::with('user', 'company',)->get();
-        return DataTables::of($activity)->addIndexColumn()->make(true);
+        $activity = ReportAccident::with('user', 'company', 'user.company');
+        if (\Auth::user()->id_user_group == UserGroup::ADMIN_COMPANY) {
+            $activity->where('id_company', \Auth::user()->id_company);
+        }
+        return DataTables::of($activity->get())->addIndexColumn()->make(true);
 
     }
 
     public function detail($id): Factory|View|Application
     {
-        $activityPatrol = PatrolActivity::where('id_patrol_activity', $id)->first();
+        $activityPatrol = PatrolActivity::where('id_patrol_activity', $id);
+        if (\Auth::user()->id_user_group == UserGroup::ADMIN_COMPANY) {
+            $activityPatrol->where('id_company', \Auth::user()->id_company);
+        }
+        $activityPatrol = $activityPatrol->first();
         $reportPatrol = ReportPatrol::with('user', 'patrolShift', 'reportPatrolDetail')
-            ->where('id_patrol_activity', $id)->get();
+            ->where('id_patrol_activity', $id);
+        if (\Auth::user()->id_user_group == UserGroup::ADMIN_COMPANY) {
+            $reportPatrol->where('id_company', \Auth::user()->id_company);
+        }
+        $reportPatrol = $reportPatrol->get();
         return view('modules.report.accidentDetails', compact('reportPatrol', 'activityPatrol'));
 
     }
