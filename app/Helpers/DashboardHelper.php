@@ -105,17 +105,15 @@ class DashboardHelper
                 \DB::raw('count(1) filter ( where report_patrol_detail.report_ga = true ) as report_pic'),
                 \DB::raw('count(1) as total')
             ])
-            ->groupBy('patrol_activity.patrol_date')
-            ->get()
-            ->toArray();
+            ->groupBy('patrol_activity.patrol_date');
 
+        if (\Auth::user()->id_user_group == UserGroup::ADMIN_COMPANY) {
+            $data->where('patrol_activity.id_company', \Auth::user()->id_company);
+        }
+        $data = $data->get()->toArray();
         $dataReport = [];
         $result = [
             'series' => [
-//                [
-//                    'name' => 'Total Objek Patroli',
-//                    'data' => []
-//                ],
                 [
                     'name' => 'Total Objek Abnormal',
                     'data' => []
@@ -138,8 +136,6 @@ class DashboardHelper
             $date =  Carbon::createFromFormat('Y-m-d',$date);
             $result['label'][] = $date->format('j');
         }
-
-
         return $result;
     }
 }

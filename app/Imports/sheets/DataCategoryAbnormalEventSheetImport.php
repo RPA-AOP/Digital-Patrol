@@ -31,15 +31,18 @@ class DataCategoryAbnormalEventSheetImport implements ToArray, WithCalculatedFor
             $category = MasterCategory::whereIdCompany($this->idCompany)
                 ->where('category_code', $item['kode'])
                 ->first();
-            $event = MasterCategoryAbnormalEvent::updateOrCreate(
-                [
-                    'id_company' => $this->idCompany,
-                    'id_category' => $category->id_category,
-                    'category_event' => $item['event'],
-                ],
-                [
-                    'status' => true
-                ]);
+            if ($category) {
+                $event = MasterCategoryAbnormalEvent::updateOrCreate(
+                    [
+                        'id_company' => $this->idCompany,
+                        'id_category' => $category->id_category,
+                        'category_event' => $item['event'],
+                    ],
+                    [
+                        'status' => true
+                    ]);
+            }
+
         }
     }
 
