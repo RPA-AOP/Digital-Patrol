@@ -11,11 +11,11 @@ stages:
   chmod 700 ~/.ssh
   [[ -f /.dockerenv ]] && echo -e "Host *\n\tStrictHostKeyChecking no\n\n" > ~/.ssh/config
 
-  
+
 .change_file_permissions: &change_file_permissions |
-  find . -type f -not -path "./vendor/*" -exec chmod 664 {} \;    
+  find . -type f -not -path "./vendor/*" -exec chmod 664 {} \;
   find . -type d -not -path "./vendor/*" -exec chmod 775 {} \;
-    
+
 composer:
   stage: build
   cache:
@@ -31,6 +31,21 @@ composer:
     paths:
       - vendor/
       - .env
+npm:
+  stage: build
+  cache:
+    key: ${CI_COMMIT_REF_SLUG}-npm
+    paths:
+      - node_modules/
+  script:
+    - npm install
+    - npm run production
+  artifacts:
+    expire_in: 1 month
+    paths:
+      - node_modules/
+      - public/css/
+      - public/js/
 
 variables:
   TAG_LATEST: $CI_REGISTRY_IMAGE/$CI_COMMIT_REF_NAME:latest
