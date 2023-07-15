@@ -114,6 +114,10 @@ class ScheduleConfigController extends Controller
 
     public function import(Request $request): RedirectResponse
     {
+        $request->validate([
+            'import-data_patroli' => 'required|mimes:xlsx,xls',
+        ]);
+
         $idCompany = $request->get('id_company');
         $area = $request->get('area');
         $patrolScheduleConfig = PatrolScheduleConfig::where('id_company', $idCompany)->first();
@@ -133,7 +137,7 @@ class ScheduleConfigController extends Controller
                     $month = $request->get('month');
                     $year = $request->get('year');
 
-                    Excel::import(new ImportPatrolScheduleConfig($idCompany, $patrolScheduleConfig->patrol_schedule_id, $month, $year, $area), $files->store('temp'));
+                    Excel::import(new ImportPatrolScheduleConfig($idCompany, $patrolScheduleConfig->patrol_schedule_id, $month, $year, $area), $filePath);
                     return redirect()->route('scheduleconfig.manage', $idCompany)->with('success', 'Import Success.');
                 } else {
                     return redirect()->back(501)->with('error', 'upload failed, ');
