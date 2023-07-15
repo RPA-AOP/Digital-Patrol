@@ -1,6 +1,6 @@
 @push('dynamic_form_css')
     <!--CSS DYNAMIC FORM -->
-    <style>
+    <script nonce="{{ csp_nonce() }}">
         .cke_chrome {
             border-radius: 0px !important;
             border: 1px solid #d8d6de !important;
@@ -106,7 +106,7 @@
 </div>
 @push('dynamic_form_js')
     <!-- JS DYNAMIC FORM -->
-    <script>
+    <script nonce="{{ csp_nonce() }}">
         function insertTableComponent(e) {
             let table = `<table class="komponen" width="100%" style="width: 100%!important;">
                             <thead>

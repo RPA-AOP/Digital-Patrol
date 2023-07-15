@@ -172,26 +172,26 @@
             <div class="text-center mt-4">
               <div class="dropdown">
                 <button class="btn btn-sm btn-outline-primary dropdown-toggle" type="button" id="budgetId" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                  <script>
+                  <script nonce="{{ csp_nonce() }}">
                     document.write(new Date().getFullYear())
 
                   </script>
                 </button>
                 <div class="dropdown-menu dropdown-menu-end" aria-labelledby="budgetId">
                   <a class="dropdown-item prev-year1" href="javascript:void(0);">
-                    <script>
+                    <script nonce="{{ csp_nonce() }}">
                       document.write(new Date().getFullYear() - 1)
 
                     </script>
                   </a>
                   <a class="dropdown-item prev-year2" href="javascript:void(0);">
-                    <script>
+                    <script nonce="{{ csp_nonce() }}">
                       document.write(new Date().getFullYear() - 2)
 
                     </script>
                   </a>
                   <a class="dropdown-item prev-year3" href="javascript:void(0);">
-                    <script>
+                    <script nonce="{{ csp_nonce() }}">
                       document.write(new Date().getFullYear() - 3)
 
                     </script>

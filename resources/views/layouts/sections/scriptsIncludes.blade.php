@@ -11,7 +11,7 @@
   <script src="{{ asset('assets/js/config.js') }}"></script>
 
 @if ($configData['hasCustomizer'])
-  <script>
+  <script nonce="{{ csp_nonce() }}">
     window.templateCustomizer = new TemplateCustomizer({
       cssPath: '',
       themesPath: '',

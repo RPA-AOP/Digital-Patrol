@@ -63,6 +63,6 @@
 </div>
 
 @push('dynamic_form_js')
-    <script>
+    <script nonce="{{ csp_nonce() }}">
     </script>
 @endsection

@@ -2,7 +2,7 @@
 @push('subtitle', '- Management User Group')
 @section('vendor-style')
     <link rel="stylesheet" type="text/css" href="{{ asset('assets/vendor/css/extensions/sweetalert2.min.css') }}">
-    <style>
+    <script nonce="{{ csp_nonce() }}">
         .page-wrapper .page-body-wrapper .page-body {
             min-height: calc(100vh - 150px);
         }
@@ -318,7 +318,7 @@
 @endsection
 
 @section('page-script')
-    <script>
+    <script nonce="{{ csp_nonce() }}">
         let dataTabel = $('#main_table').DataTable({
             responsive: true,
             language: {

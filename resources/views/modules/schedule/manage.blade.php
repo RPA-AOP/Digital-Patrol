@@ -236,7 +236,7 @@
 
 @section('page-script')
     {{--  <script src="{{asset('assets/js/app-calendar-events.js')}}"></script>--}}
-    <script>
+    <script nonce="{{ csp_nonce() }}">
         var idCompany = {{$company->id_company}};
         var calendarsColor = @json($calendarsColorJs);
         const selectPicker = $('.selectpicker').selectpicker();
@@ -251,6 +251,6 @@
 
     </script>
     <script src="{{asset('assets/js/pages/manage-schedules.js')}}"></script>
-    <script>
+    <script nonce="{{ csp_nonce() }}">
     </script>
 @endsection

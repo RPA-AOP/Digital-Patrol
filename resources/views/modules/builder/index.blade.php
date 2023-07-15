@@ -41,7 +41,7 @@
   <script src="{{asset('assets/vendor/libs/select2/select2.js')}}"></script>
 
 
-  <script>
+  <script nonce="{{ csp_nonce() }}">
     $('#table-company').DataTable({
       ajax: "{{route('master.company.list')}}",
       responsive: false,

@@ -387,7 +387,7 @@
   <!-- /Custom Option Checkbox Image -->
 </div>
 
-<script>
+<script nonce="{{ csp_nonce() }}">
   // Check selected custom option
   window.Helpers.initCustomOptionCheck();
 

@@ -328,7 +328,7 @@
 @section('page-script')
     <script src="{{asset('assets/js/pages/app-access-roles.js')}}"></script>
 
-    <script>
+    <script nonce="{{ csp_nonce() }}">
         var newUserForm = $('.add-new-user'),
             statusObj = {
                 1: {

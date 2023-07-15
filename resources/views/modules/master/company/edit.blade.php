@@ -16,7 +16,7 @@
 
 @endsection
 @section('vendor-style')
-    <style>
+    <style nonce="{{ csp_nonce() }}">
         .group_0 td {
             padding-left: 1rem !important;
             background-color: #7b71df;
@@ -137,7 +137,7 @@
 
 @section('page-script')
 
-    <script>
+    <script nonce="{{ csp_nonce() }}">
         $(document).ready(function () {
             function onLocationError(e) {
                 alert(e.message);

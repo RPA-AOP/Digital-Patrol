@@ -235,7 +235,7 @@
             <a href="javascript:void(0)" class="btn btn-icon btn-sm btn-github"><i class='ti ti-brand-github'></i></a>
           </div>
           <p class="pt-4">
-            <script>
+            <script nonce="{{ csp_nonce() }}">
               document.write(new Date().getFullYear())
 
             </script> © {{ config('variables.creatorName') }}

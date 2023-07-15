@@ -9,17 +9,17 @@
         Header always set X-Content-Type-Options "nosniff"
         Header always set X-Frame-Options "SAMEORIGIN"
         Header always set Referrer-Policy "strict-origin"
-        Header always set Content-Security-Policy "\
-                    default-src 'self';\
-                    script-src 'self' *.digipatrol.id https://fonts.gstatic.com https://cdnjs.cloudflare.com  'unsafe-inline' 'unsafe-eval';\
-                    img-src 'self' *.digipatrol.id 'unsafe-inline' data: https:;\
-                    connect-src 'self' https://digipatrol.id https://fonts.gstatic.com https://cdnjs.cloudflare.com data: https:;\
-                    style-src 'self' https://fonts.gstatic.com https://fonts.googleapis.com https://cdnjs.cloudflare.com  'unsafe-inline' 'unsafe-eval';\
-                    font-src 'self' https://fonts.gstatic.com https://www.w3.org https://cdnjs.cloudflare.com 'unsafe-inline' data: https:;\
-                    frame-src 'self' https://fonts.gstatic.com;\
-                    object-src 'self'; \
-                    form-action 'self'; \
-                    frame-ancestors 'self';"
+#        Header always set Content-Security-Policy "\
+#                    default-src 'self';\
+#                    script-src 'self' *.digipatrol.id https://fonts.gstatic.com https://cdnjs.cloudflare.com  'unsafe-inline' 'unsafe-eval';\
+#                    img-src 'self' *.digipatrol.id 'unsafe-inline' data: https:;\
+#                    connect-src 'self' https://digipatrol.id https://fonts.gstatic.com https://cdnjs.cloudflare.com data: https:;\
+#                    style-src 'self' https://fonts.gstatic.com https://fonts.googleapis.com https://cdnjs.cloudflare.com  'unsafe-inline' 'unsafe-eval';\
+#                    font-src 'self' https://fonts.gstatic.com https://www.w3.org https://cdnjs.cloudflare.com 'unsafe-inline' data: https:;\
+#                    frame-src 'self' https://fonts.gstatic.com;\
+#                    object-src 'self'; \
+#                    form-action 'self'; \
+#                    frame-ancestors 'self';"
 #Header always set Content-Security-Policy "\
 #                    default-src 'self';\
 #                    script-src 'self' *.digipatrol.id https://fonts.gstatic.com https://cdnjs.cloudflare.com 'sha256-SRDKGepmDLkrKnPoctDDyE3OFQDm18alhouwc54ZdUc=' 'sha256-yfyMd1qQFUzFfRgOC8NToZhdI9FBtdNR7Zl3CzHuCM4=' 'sha256-FtieNJaho4DVSH9X1jmm88m8rOYU9CcQj/OaGMcLHVo=' 'sha256-JdwrB9uzehO1fnNHONMpj2ts7e2mJj04894BxkkBdCo=' 'sha256-xdfgHrd+/BByNnjzkn4WT9tksQNWd5dMqGUa8Vv+vSU=' 'sha256-+JHPKZQPYwI8SOLMMHv3jpDjKYDR7TfBkhL5UbfTPFY=' 'sha256-pUsCSl3OGF37Dvvg8jJ2Xq8hEyC33gI/IS/w4u2UcEE=' 'sha256-T2z1etoO0/FKd8HAQgOXE5ZpYqir4r6ThWKdM5tA3Lo=' 'sha256-n5nIO38Tvi4gLl6KBbO248ZNRYIZcMZP3Z4zvsgJ4Qw=' 'sha256-46VptMtPjtqsk7cndnHOR5CqaT8RCZ55+Dye5MGKGD0=';\

@@ -32,7 +32,7 @@
     <script src="{{asset('assets/vendor/libs/cleavejs/cleave.js')}}"></script>
     <script src="{{asset('assets/vendor/libs/cleavejs/cleave-phone.js')}}"></script>
     <script src="{{asset('assets/vendor/libs/select2/select2.js')}}"></script>
-    <script>
+    <script nonce="{{ csp_nonce() }}">
         $('#table-report-patrol').DataTable({
             ajax: "{{route('report.patrol.list')}}",
             responsive: false,

@@ -389,7 +389,7 @@
         </div>
     </div>
 
-    <script>
+    <script nonce="{{ csp_nonce() }}">
         // Check selected custom option
         window.Helpers.initCustomOptionCheck();
 

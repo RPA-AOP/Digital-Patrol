@@ -431,7 +431,7 @@
 
 @section('page-script')
     @if($dataConfig)
-        <script>
+        <script nonce="{{ csp_nonce() }}">
 
             $(document).ready(function () {
                 const configContainer = document.getElementById('nestablePatrolConfigCard');

@@ -207,7 +207,7 @@
                                                                                 @endforeach
                                                                                 @push('js')
 
-                                                                                    <script>
+                                                                                    <script nonce="{{ csp_nonce() }}">
                                                                                         $(document).ready(function () {
                                                                                             $('.thumb_{{$detail->id_report_patrol_detail}}').magnificPopup({
                                                                                                 delegate: 'a',
@@ -298,7 +298,7 @@
 @section('page-script')
 
     <!-- BEGIN: Page Vendor JS-->
-    {{--    <script>--}}
+    {{--    <script nonce="{{ csp_nonce() }}">--}}
     {{--        $(document).ready(function () {--}}
     {{--            $('.parent-container').magnificPopup({--}}
     {{--                delegate: 'a',--}}
