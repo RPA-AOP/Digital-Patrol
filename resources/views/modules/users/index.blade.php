@@ -468,7 +468,7 @@
 
         $('#user-group').on('select2:select', function (e) {
             var data = e.params.data;
-            if (jQuery.inArray(data.id, ['3', '4']) !== -1) {
+            if (jQuery.inArray(data.id, ['3', '4', '5']) !== -1) {
                 $("#container-company").show()
             } else {
                 $("#container-company").hide()

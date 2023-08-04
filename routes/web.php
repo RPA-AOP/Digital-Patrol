@@ -79,6 +79,7 @@ Route::group(['middleware' => ['auth',]], function () {
             Route::delete('/delete', [UserController::class, 'destroy'])->name('delete');
             Route::post('/store', [UserController::class, 'store'])->name('store');
             Route::get('/detail/{id}', [UserController::class, 'show'])->name('show');
+            Route::get('/detail-user-patrol/{id}', [UserController::class, 'userListPatrol'])->name('user-list-patrol');
             Route::get('/edit/{id}', [UserController::class, 'edit'])->name('edit');
             Route::post('/edit/{id}', [UserController::class, 'update'])->name('update');
             Route::post('/update-user-group/{id}', [UserController::class, 'updateUserGroup'])->name('updateUserGroup');
@@ -126,6 +127,7 @@ Route::group(['middleware' => ['auth',]], function () {
             Route::get('/', [ReportAbnormalityController::class, 'index'])->name('index');
             Route::get('/list', [ReportAbnormalityController::class, 'list'])->name('list');
             Route::get('/detail/{id}', [ReportAbnormalityController::class, 'detail'])->name('detail');
+            Route::post('/action/', [ReportAbnormalityController::class, 'action'])->name('action');
         });
 
 // TEMPLATE ROUTE

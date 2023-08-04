@@ -60,6 +60,7 @@ use Illuminate\Support\Carbon;
  * @method static Builder|ReportPatrol whereAreaId($value)
  * @property-read Collection<int, \App\Models\ReportPatrolDetail> $reportPatrolDetail
  * @method static Builder|ReportPatrol whereDateBetween($fieldName, $fromDate, $toDate)
+ * @property-read Collection<int, \App\Models\ReportPatrolDetail> $reportPatrolDetail
  * @mixin Eloquent
  */
 class ReportPatrol extends Model
@@ -105,9 +106,9 @@ class ReportPatrol extends Model
         return $this->belongsTo(PatrolScheduleShift::class, 'patrol_schedule_shift_id', 'patrol_schedule_shift_id');
     }
 
-    public function user(): BelongsTo
+    public function activity(): BelongsTo
     {
-        return $this->belongsTo(Users::class, 'id_user', 'id_user');
+        return $this->belongsTo(PatrolActivity::class, 'id_patrol_activity', 'id_patrol_activity');
     }
 
     public function company(): BelongsTo

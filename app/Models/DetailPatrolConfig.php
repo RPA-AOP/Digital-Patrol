@@ -59,6 +59,8 @@ use Illuminate\Support\Carbon;
  * @property-read int|null $event_count
  * @property-read Collection<int, DetailPatrolConfig> $child
  * @property-read Collection<int, \App\Models\MasterCategoryAbnormalEvent> $event
+ * @property-read Collection<int, DetailPatrolConfig> $child
+ * @property-read Collection<int, \App\Models\MasterCategoryAbnormalEvent> $event
  * @mixin Eloquent
  */
 class DetailPatrolConfig extends Model

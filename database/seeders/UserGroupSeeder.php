@@ -30,6 +30,10 @@ class UserGroupSeeder extends Seeder
                 'id_user_group' => 4,
                 'name' => 'SECURITY'
             ],
+            [
+                'id_user_group' => 5,
+                'name' => 'PIC/GA'
+            ],
         ];
 
         // GET ID JABATAN AND ID UNIT KERJA BASE ON NAME

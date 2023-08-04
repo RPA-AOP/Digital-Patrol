@@ -2,22 +2,30 @@
 
 namespace App\Policies;
 
-use Illuminate\Auth\Access\HandlesAuthorization;
 use Spatie\Csp\Directive;
-use Spatie\Csp\Policies\Basic;
+use Spatie\Csp\Keyword;
+use Spatie\Csp\Policies\Policy;
 
-class DigipatrolPolicy extends Basic
+class DigipatrolPolicy extends Policy
 
 {
-    use HandlesAuthorization;
 
-    /**
-     * Create a new policy instance.
-     *
-     * @return void
-     */
-    public function __construct()
+    public function configure(): void
     {
-        $this->addDirective(Directive::FONT, 'https://fonts.gstatic.com https://cdnjs.cloudflare.com');
+        $this
+            ->addDirective(Directive::BASE, Keyword::SELF)
+            ->addDirective(Directive::CONNECT, Keyword::SELF)
+            ->addDirective(Directive::DEFAULT, Keyword::SELF)
+            ->addDirective(Directive::FORM_ACTION, Keyword::SELF)
+            ->addDirective(Directive::IMG, Keyword::SELF)
+            ->addDirective(Directive::MEDIA, Keyword::SELF)
+            ->addDirective(Directive::OBJECT, Keyword::NONE)
+            ->addDirective(Directive::SCRIPT, Keyword::SELF)
+            ->addDirective(Directive::STYLE, [Keyword::SELF, 'unsafe-inline', 'http://fonts.googleapis.com'])
+            ->addDirective(Directive::FONT, 'self data: https://fonts.gstatic.com https://cdnjs.cloudflare.com')
+            ->addDirective(Directive::IMG, 'self data:')
+            ->addDirective(Directive::FRAME, Keyword::SELF)
+            ->addDirective(Directive::FRAME_ANCESTORS, Keyword::SELF)
+            ->addNonceForDirective(Directive::SCRIPT);
     }
 }

@@ -47,6 +47,7 @@ use Illuminate\Support\Carbon;
  * @property-read Collection<int, Menus> $submenu
  * @property-read Collection<int, Menus> $submenu
  * @property-read Collection<int, Menus> $submenu
+ * @property-read Collection<int, Menus> $submenu
  * @mixin Eloquent
  */
 class Menus extends Model

@@ -9,6 +9,7 @@
         Header always set X-Content-Type-Options "nosniff"
         Header always set X-Frame-Options "SAMEORIGIN"
         Header always set Referrer-Policy "strict-origin"
+        Header always set  Access-Control-Allow-Origin https://digipatrol.id
 #        Header always set Content-Security-Policy "\
 #                    default-src 'self';\
 #                    script-src 'self' *.digipatrol.id https://fonts.gstatic.com https://cdnjs.cloudflare.com  'unsafe-inline' 'unsafe-eval';\

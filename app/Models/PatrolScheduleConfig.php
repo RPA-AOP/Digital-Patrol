@@ -32,6 +32,7 @@ use Illuminate\Support\Carbon;
  * @method static Builder|PatrolScheduleConfig whereUpdatedAt($value)
  * @property-read Collection<int, \App\Models\DetailPatrolConfig> $patrolDetail
  * @property-read Collection<int, \App\Models\DetailPatrolConfig> $patrolDetail
+ * @property-read Collection<int, \App\Models\DetailPatrolConfig> $patrolDetail
  * @mixin Eloquent
  */
 class PatrolScheduleConfig extends Model

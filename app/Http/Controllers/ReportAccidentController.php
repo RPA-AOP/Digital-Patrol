@@ -29,7 +29,7 @@ class ReportAccidentController extends Controller
 
     public function list(Request $request)
     {
-        $activity = ReportAccident::with('user', 'company', 'user.company');
+        $activity = ReportAccident::with('user', 'company', 'user.company', 'attachment');
         if (\Auth::user()->id_user_group == UserGroup::ADMIN_COMPANY) {
             $activity->where('id_company', \Auth::user()->id_company);
         }
