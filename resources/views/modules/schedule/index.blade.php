@@ -10,7 +10,7 @@
 @endsection
 
 @section('vendor-style')
-  <style>
+  <script nonce="{{ csp_nonce() }}">
 
   </style>
 @endsection
@@ -50,7 +50,7 @@
 
 @section('page-script')
 
-  <script>
+  <script nonce="{{ csp_nonce() }}">
     $('#table-company').DataTable({
       ajax: "{{route('master.company.list')}}",
       responsive: false,

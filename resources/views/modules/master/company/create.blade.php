@@ -16,7 +16,7 @@
 @endsection
 
 @section('vendor-style')
-    <style>
+    <style nonce="{{ csp_nonce() }}">
         .child-table {
             background-color: #f3f2f7 !important;
         }

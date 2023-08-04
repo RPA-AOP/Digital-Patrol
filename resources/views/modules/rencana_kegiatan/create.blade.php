@@ -23,7 +23,7 @@
 @endsection
 @section('vendor-style')
 
-    <style>
+    <style nonce="{{ csp_nonce() }}">
         .group_0 td {
             padding-left: 1rem !important;
             background-color: #7b71df;
@@ -669,7 +669,7 @@
 @section('page-script')
     <!-- BEGIN: Page JS-->
 
-    <script>
+    <script nonce="{{ csp_nonce() }}">
         var $selectField = $(".select2-field");
 
         $selectField.each(function () {

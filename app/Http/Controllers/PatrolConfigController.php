@@ -80,6 +80,10 @@ class PatrolConfigController extends Controller
 
     public function import(Request $request)
     {
+        $request->validate([
+            'import-data_patroli' => 'required|mimes:xlsx,xls',
+        ]);
+
         $idCompany = $request->get('idCompany');
         $patrolConfig = PatrolConfig::where('id_company', $idCompany)->first();
         $files = $request->file('import-data_patroli');
@@ -94,7 +98,7 @@ class PatrolConfigController extends Controller
             }
             $filePath = UploadFile::uploadSingle($files);
             if ($filePath) {
-                Excel::import(new ImportPatrolConfig($idCompany, $patrolConfig->id_patrol_config), $files->store('temp'));
+                Excel::import(new ImportPatrolConfig($idCompany, $patrolConfig->id_patrol_config), $filePath);
                 return redirect()->route('patrolconfig.manage', $idCompany)->with('success', 'Import Success.');
             } else {
                 return redirect()->back(501)->with('error', 'upload failed, ');

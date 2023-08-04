@@ -106,7 +106,7 @@
 <!-- BEGIN: Page JS-->
 <!-- END: Page JS-->
 
-<script>
+<script nonce="{{ csp_nonce() }}">
     $(window).on('load', function() {
         if (feather) {
             feather.replace({

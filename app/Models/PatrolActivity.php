@@ -46,6 +46,7 @@ use Illuminate\Support\Carbon;
  * @method static Builder|PatrolActivity whereUpdatedAt($value)
  * @property-read Collection<int, \App\Models\ReportPatrol> $reportPatrol
  * @property-read Collection<int, \App\Models\ReportPatrol> $reportPatrol
+ * @property-read Collection<int, \App\Models\ReportPatrol> $reportPatrol
  * @mixin Eloquent
  */
 class PatrolActivity extends Model

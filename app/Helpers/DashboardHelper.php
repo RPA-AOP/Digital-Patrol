@@ -7,7 +7,7 @@ use App\Models\PatrolActivity;
 use App\Models\ReportPatrolDetail;
 use App\Models\UserGroup;
 use Carbon\CarbonPeriod;
-use Illuminate\Http\JsonResponse;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Carbon;
 
 
@@ -33,6 +33,45 @@ class DashboardHelper
         if (\Auth::user()->id_user_group == UserGroup::ADMIN_COMPANY) {
             $abnormalObject->where('id_company', \Auth::user()->id_company);
         }
+        return $abnormalObject->count();
+    }
+
+    static function getCountAbnormalByUser($idUser): int
+    {
+        $userActivity = PatrolActivity::whereIdUser($idUser)->select('id_patrol_activity')->pluck('id_patrol_activity')->toArray();
+        $abnormalObject = ReportPatrolDetail::whereIsNormal(false)
+            ->whereHas('reportPatrol', function (Builder $query) use ($userActivity) {
+                $query->whereIn('id_patrol_activity', $userActivity);
+            })->get();
+        return $abnormalObject->count();
+    }
+
+    static function getAveragePercentageByUser($idUser, $idCompany): float
+    {
+        $userActivity = PatrolActivity::whereIdUser($idUser)
+            ->select('id_patrol_activity')
+            ->pluck('id_patrol_activity')
+            ->toArray();
+        if (count($userActivity) <= 0) {
+            return 0;
+        }
+        $totalUserPatrolObject = ReportPatrolDetail::whereHas('reportPatrol',
+            function (Builder $query) use ($userActivity) {
+                $query->whereIn('id_patrol_activity', $userActivity);
+            })
+            ->count();
+
+        $targetObject = DetailPatrolConfig::whereIdCompany($idCompany)
+            ->whereLastLevel(true)
+            ->whereStatus(true)
+            ->count();
+        $totalObjectTarget = $targetObject * count($userActivity);
+        return round((($totalUserPatrolObject / $totalObjectTarget) * 100), 2);
+    }
+
+    static function getCountPatrolByUser($idUser): int
+    {
+        $abnormalObject = PatrolActivity::whereIdUser($idUser);
         return $abnormalObject->count();
     }
 
@@ -105,17 +144,15 @@ class DashboardHelper
                 \DB::raw('count(1) filter ( where report_patrol_detail.report_ga = true ) as report_pic'),
                 \DB::raw('count(1) as total')
             ])
-            ->groupBy('patrol_activity.patrol_date')
-            ->get()
-            ->toArray();
+            ->groupBy('patrol_activity.patrol_date');
 
+        if (\Auth::user()->id_user_group == UserGroup::ADMIN_COMPANY) {
+            $data->where('patrol_activity.id_company', \Auth::user()->id_company);
+        }
+        $data = $data->get()->toArray();
         $dataReport = [];
         $result = [
             'series' => [
-//                [
-//                    'name' => 'Total Objek Patroli',
-//                    'data' => []
-//                ],
                 [
                     'name' => 'Total Objek Abnormal',
                     'data' => []
@@ -135,11 +172,9 @@ class DashboardHelper
 //            $result['series'][0]['data'][$key] = \Arr::exists($dataReport, $date) ? $dataReport[$date]['total'] : 0;
             $result['series'][0]['data'][$key] = \Arr::exists($dataReport, $date) ? $dataReport[$date]['abnormal'] : 0;
             $result['series'][1]['data'][$key] = \Arr::exists($dataReport, $date) ? $dataReport[$date]['normal'] : 0;
-            $date =  Carbon::createFromFormat('Y-m-d',$date);
+            $date = Carbon::createFromFormat('Y-m-d', $date);
             $result['label'][] = $date->format('j');
         }
-
-
         return $result;
     }
 }

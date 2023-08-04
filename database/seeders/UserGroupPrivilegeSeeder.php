@@ -16,6 +16,7 @@ class UserGroupPrivilegeSeeder extends Seeder
      */
     public function run()
     {
+        UserGroupPrivilege::truncate();
         $groups = UserGroup::select('id_user_group as id')->get();
         $menus = Menus::where('is_hidden', 0)->orderBy('sort', 'ASC')
             ->select('id_menu as id')->get();

@@ -42,7 +42,7 @@
 
 
   <!-- END: Page Vendor JS-->
-  <script>
+  <script nonce="{{ csp_nonce() }}">
     $('#table-company').DataTable({
       ajax: "{{route('master.company.list')}}",
       responsive: false,

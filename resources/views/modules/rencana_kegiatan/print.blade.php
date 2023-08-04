@@ -9,7 +9,7 @@
     <link rel="stylesheet" type="text/css" href="{{ asset('assets/css/pages/app-file-manager.css') }}">
 @endsection
 @section('vendor-style')
-    <style>
+    <script nonce="{{ csp_nonce() }}">
         .group_0 td {
             padding-left: 1rem !important;
             background-color: #7b71df;
@@ -264,7 +264,7 @@
 @endsection
 
 @section('page-script')
-    <script>
+    <script nonce="{{ csp_nonce() }}">
         let groupColumnIndex = [0, 1];
         var childTable = $('#table-detail-rencana-kegiatan').DataTable({
             data: {!! $rencanaKegiatan->detailRencanaKegiatan !!},

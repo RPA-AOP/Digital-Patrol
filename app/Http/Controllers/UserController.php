@@ -2,9 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Helpers\DashboardHelper;
 use App\Helpers\Permission;
 use App\Models\DetailPatrolConfig;
 use App\Models\MasterCompany;
+use App\Models\PatrolActivity;
 use App\Models\UserGroup;
 use App\Models\UserGroupPrivilege;
 use App\Models\Users;
@@ -109,16 +111,37 @@ class UserController extends Controller
      * @param int $id
      * @return Application|Factory|View
      */
-    public function show($id)
+    public function show($id): Factory|View|Application
     {
+        $permission = Permission::get();
         $user = Users::query()->where('id_user', $id)->with('privileges')->first();
-        return view('modules.users.profile', compact('user',));
+        $summary = [
+            'total_patroli'=> DashboardHelper::getCountPatrolByUser($user->id_user),
+            'percentage_patroli'=> DashboardHelper::getAveragePercentageByUser($user->id_user, $user->id_company),
+            'total_abnormality'=> DashboardHelper::getCountAbnormalByUser($user->id_user),
+        ];
+        return view('modules.users.profile', compact('user', 'permission', 'summary'));
     }
 
-    public function profile()
+    public function profile(): Factory|\Illuminate\Contracts\View\View|Application
     {
+        $permission = Permission::get();
         $user = Auth::user();
-        return view('modules.users.profile', compact('user'));
+        $summary = [
+            'total_patroli'=> DashboardHelper::getCountAbnormalByUser($user->id_user),
+            'percentage_patroli'=> DashboardHelper::getAveragePercentageByUser($user->id_user, $user->id_company),
+            'total_abnormality'=> DashboardHelper::getCountAbnormalByUser($user->id_user),
+        ];
+        return view('modules.users.profile', compact('user', 'permission', 'summary'));
+    }
+
+    public function userListPatrol($id)
+    {
+        $activity = PatrolActivity::with('user', 'patrolShift', 'company', 'reportPatrol')
+            ->where('id_user', $id);
+
+        return DataTables::of($activity->get())->addIndexColumn()->make(true);
+
     }
 
     /**

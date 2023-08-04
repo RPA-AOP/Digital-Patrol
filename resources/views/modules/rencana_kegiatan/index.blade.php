@@ -17,7 +17,7 @@
 @endsection
 
 @section('vendor-style')
-    <style>
+    <script nonce="{{ csp_nonce() }}">
         .child-table {
             background-color: #f3f2f7 !important;
         }
@@ -108,7 +108,7 @@
 @section('page-script')
 
     {{--JS SECTION--}}
-    <script>
+    <script nonce="{{ csp_nonce() }}">
 
         var statusObj = {
             1: {title: 'Pending', class: 'badge-light-warning'},

@@ -23,7 +23,7 @@
 
 @section('page-script')
     <!-- START SELECT2 {{strtoupper($label)}}-->
-    <script>
+    <script nonce="{{ csp_nonce() }}">
         function formatState(state) {
             if (!state.newTag) {
                 return state.text;

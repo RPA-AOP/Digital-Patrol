@@ -60,12 +60,16 @@ class Kernel extends HttpKernel
             VerifyCsrfToken::class,
             SubstituteBindings::class,
             LocaleMiddleware::class,
+            \Spatie\Csp\AddCspHeaders::class,
+
         ],
 
         'api' => [
             // \Laravel\Sanctum\Http\Middleware\EnsureFrontendRequestsAreStateful::class,
             'throttle:api',
             SubstituteBindings::class,
+            \Spatie\Csp\AddCspHeaders::class,
+
         ],
     ];
 

@@ -63,6 +63,8 @@ use Illuminate\Support\Carbon;
  * @method static Builder|ReportAccident whereReportAccidentId($value)
  * @method static Builder|ReportAccident whereTitle($value)
  * @method static Builder|ReportAccident whereDateBetween($fieldName, $fromDate, $toDate)
+ * @property-read Collection<int, \App\Models\ReportAccidentAttachment> $attachment
+ * @property-read int|null $attachment_count
  * @mixin Eloquent
  */
 class ReportAccident extends Model
@@ -102,5 +104,9 @@ class ReportAccident extends Model
     public function company(): BelongsTo
     {
         return $this->belongsTo(MasterCompany::class, 'id_company', 'id_company');
+    }
+    public function attachment(): HasMany
+    {
+        return $this->hasMany(ReportAccidentAttachment::class, 'report_accident_id', 'report_accident_id');
     }
 }

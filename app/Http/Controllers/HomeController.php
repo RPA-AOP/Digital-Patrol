@@ -19,6 +19,7 @@ class HomeController extends Controller
         return view('auth.login');
     }
 
+
     public function dashboard(): Factory|View|Application
     {
 
@@ -27,7 +28,10 @@ class HomeController extends Controller
         $todayQuickAction = DashboardHelper::getCountQuickAction(1);
         $todayReportPIC = DashboardHelper::getCountReportPic(1);
         $totalObject = DashboardHelper::getCountObject();
-        $percentageToday = round((($todayAbnormalObject + $todayNormalObject) / $totalObject) * 100);
+        $percentageToday = 0;
+        if ($totalObject!=0){
+            $percentageToday = round((($todayAbnormalObject + $todayNormalObject) / $totalObject) * 100);
+        }
 
         $data = [
             'today' => [
@@ -57,7 +61,10 @@ class HomeController extends Controller
         $todayQuickAction = DashboardHelper::getCountQuickAction(1);
         $todayReportPIC = DashboardHelper::getCountReportPic(1);
         $totalObject = DashboardHelper::getCountObject();
-        $percentageToday = round((($todayAbnormalObject + $todayNormalObject) / $totalObject) * 100);
+        $percentageToday = 0;
+        if ($totalObject!=0){
+            $percentageToday = round((($todayAbnormalObject + $todayNormalObject) / $totalObject) * 100);
+        }
 
         $data = [
             'today' => [

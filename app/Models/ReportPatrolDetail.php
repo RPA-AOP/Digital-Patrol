@@ -50,11 +50,22 @@ use Illuminate\Support\Carbon;
  * @method static Builder|ReportPatrolDetail whereReportGa($value)
  * @method static Builder|ReportPatrolDetail whereSyncToken($value)
  * @method static Builder|ReportPatrolDetail whereUpdatedAt($value)
- * @property-read Collection<int, \App\Models\ReportPatrolFiles> $files
+ * @property-read Collection<int, ReportPatrolFiles> $files
  * @property-read int|null $files_count
- * @property-read Collection<int, \App\Models\ReportPatrolFiles> $files
- * @property-read \App\Models\ReportPatrol|null $reportPatrol
  * @method static Builder|ReportPatrolDetail whereDateBetween($fieldName, $fromDate, $toDate)
+ * @property bool $action_status
+ * @property string|null $action_note
+ * @property string|null $action_proof
+ * @property string|null $action_at
+ * @property string $action_reported_at
+ * @property int|null $action_user
+ * @property-read Users|null $actionUser
+ * @method static Builder|ReportPatrolDetail whereActionAt($value)
+ * @method static Builder|ReportPatrolDetail whereActionNote($value)
+ * @method static Builder|ReportPatrolDetail whereActionProof($value)
+ * @method static Builder|ReportPatrolDetail whereActionReportedAt($value)
+ * @method static Builder|ReportPatrolDetail whereActionStatus($value)
+ * @method static Builder|ReportPatrolDetail whereActionUser($value)
  * @mixin Eloquent
  */
 class ReportPatrolDetail extends Model
@@ -72,7 +83,7 @@ class ReportPatrolDetail extends Model
      */
     public function scopeWhereDateBetween(Builder $query, $fieldName, $fromDate, $toDate): Builder
     {
-        return $query->whereDate($fieldName,'>=',$fromDate)->whereDate($fieldName,'<=',$toDate);
+        return $query->whereDate($fieldName, '>=', $fromDate)->whereDate($fieldName, '<=', $toDate);
     }
 
     protected $casts = [
@@ -95,6 +106,10 @@ class ReportPatrolDetail extends Model
         'sync_token',
         'created_at',
         'updated_at',
+        'action_status',
+        'action_note',
+        'action_proof',
+        'action_user'
     ];
 
     public function reportPatrol(): BelongsTo
@@ -121,4 +136,11 @@ class ReportPatrolDetail extends Model
     {
         return $this->belongsTo(DetailPatrolConfig::class, 'parent_level', 'id_detail_patrol_config');
     }
+
+    public function action_user(): BelongsTo
+    {
+        return $this->belongsTo(Users::class, 'action_user', 'id_user');
+    }
+
+
 }

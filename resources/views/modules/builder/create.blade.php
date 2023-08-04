@@ -24,7 +24,7 @@
           href="{{asset('assets/vendor/css/nestable/jquery.nestable.css')}}">
 @endsection
 @section('vendor-style')
-    <style>
+    <style nonce="{{ csp_nonce() }}">
         .dd-handle {
             border-color: rgba(225, 225, 225, 0.7);
             color: #575757;
@@ -211,7 +211,7 @@
 @section('page-script')
     <!-- BEGIN: Page JS-->
 
-    <script>
+    <script nonce="{{ csp_nonce() }}">
 
         $(document).ready(function () {
             var updateOutput = function (e) {

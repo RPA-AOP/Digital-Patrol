@@ -328,7 +328,7 @@
 @section('page-script')
     <script src="{{asset('assets/js/pages/app-access-roles.js')}}"></script>
 
-    <script>
+    <script nonce="{{ csp_nonce() }}">
         var newUserForm = $('.add-new-user'),
             statusObj = {
                 1: {
@@ -468,7 +468,7 @@
 
         $('#user-group').on('select2:select', function (e) {
             var data = e.params.data;
-            if (jQuery.inArray(data.id, ['3', '4']) !== -1) {
+            if (jQuery.inArray(data.id, ['3', '4', '5']) !== -1) {
                 $("#container-company").show()
             } else {
                 $("#container-company").hide()

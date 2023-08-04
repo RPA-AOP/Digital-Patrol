@@ -17,6 +17,7 @@
         {{ config('variables.templateSuffix') ? config('variables.templateSuffix') : 'TemplateSuffix' }}</title>
     <meta name="description"
           content="{{ config('variables.templateDescription') ? config('variables.templateDescription') : '' }}"/>
+    @cspMetaTag(App\Policies\DigipatrolPolicy::class)
     <meta name="keywords"
           content="{{ config('variables.templateKeyword') ? config('variables.templateKeyword') : '' }}">
     <!-- laravel CRUD token -->

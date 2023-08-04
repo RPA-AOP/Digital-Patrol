@@ -1,7 +1,7 @@
 @extends('layouts.dashboard')
 @push('title', '- User Profil')
 @section('vendor-style')
-<style>
+<style nonce="{{ csp_nonce() }}">
     .page-wrapper .page-body-wrapper .page-body {
         min-height: calc(100vh - 150px);
     }
@@ -186,7 +186,7 @@
 @endsection
 
 @section('page-script')
-<script>
+<script nonce="{{ csp_nonce() }}">
     $(document).ready(function() {
         $("input #form-password").validate({
             highlight: function(input) {

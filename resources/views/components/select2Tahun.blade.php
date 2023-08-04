@@ -14,7 +14,7 @@
 
 @section('page-script')
     <!-- START SELECT2 {{strtoupper($label)}}-->
-    <script>
+    <script nonce="{{ csp_nonce() }}">
         var nowYear = new Date().getFullYear();
         var lastYear = nowYear - 10;
         var data = [];
