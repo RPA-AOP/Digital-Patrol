@@ -1,7 +1,7 @@
 @extends('layouts.dashboard')
 @push('title', '- User Profil')
 @section('vendor-style')
-<script nonce="{{ csp_nonce() }}">
+<style nonce="{{ csp_nonce() }}">
     .page-wrapper .page-body-wrapper .page-body {
         min-height: calc(100vh - 150px);
     }
