@@ -99,10 +99,9 @@
                             </div>
                             <div class="col-md-4">
                                 <label class="form-label" for="status">Status</label>
-                                <select class="form-control" id="status">
-                                    <option>Active</option>
-                                    <option>Blocked</option>
-                                    <option>Deactivated</option>
+                                <select class="form-control" id="status" name="status">
+                                    <option @selected($user->status==1) value="1">Active</option>
+                                    <option @selected($user->status==0) value="0">In Active</option>
                                 </select>
                             </div>
 
@@ -196,4 +195,5 @@
 
 @section('page-script')
     <script src="{{asset('assets/js/scripts/pages/app-user-edit.js')}}"></script>
+
 @endsection
