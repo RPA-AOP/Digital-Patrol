@@ -46,7 +46,7 @@ class ReportPatrolController extends Controller
             $activityPatrol->where('id_company', \Auth::user()->id_company);
         }
         $activityPatrol = $activityPatrol->first();
-        $reportPatrol = ReportPatrol::with('user', 'patrolShift', 'reportPatrolDetail')
+        $reportPatrol = ReportPatrol::with( 'patrolShift', 'reportPatrolDetail')
             ->where('id_patrol_activity', $id);
         if (\Auth::user()->id_user_group == UserGroup::ADMIN_COMPANY) {
             $reportPatrol->where('id_company', \Auth::user()->id_company);

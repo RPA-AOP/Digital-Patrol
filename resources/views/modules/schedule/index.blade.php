@@ -10,7 +10,7 @@
 @endsection
 
 @section('vendor-style')
-  <script nonce="{{ csp_nonce() }}">
+    <script nonce="{{ csp_nonce() }}"></script>
 
   </style>
 @endsection
