@@ -76,12 +76,12 @@ Route::group(['middleware' => ['auth',]], function () {
         ->name('management-user.')->group(function () {
             Route::get('/', [UserController::class, 'index'])->name('index');
             Route::get('/list', [UserController::class, 'list'])->name('list');
-            Route::delete('/delete', [UserController::class, 'destroy'])->name('delete');
             Route::post('/store', [UserController::class, 'store'])->name('store');
             Route::get('/detail/{id}', [UserController::class, 'show'])->name('show');
             Route::get('/detail-user-patrol/{id}', [UserController::class, 'userListPatrol'])->name('user-list-patrol');
             Route::get('/edit/{id}', [UserController::class, 'edit'])->name('edit');
             Route::post('/edit/{id}', [UserController::class, 'update'])->name('update');
+            Route::delete('/delete/{id}', [UserController::class, 'destroy'])->name('delete');
             Route::post('/update-user-group/{id}', [UserController::class, 'updateUserGroup'])->name('updateUserGroup');
         });
 

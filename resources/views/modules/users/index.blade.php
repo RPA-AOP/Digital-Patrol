@@ -494,5 +494,53 @@
             });
         });
 
+        function deleteUser(id_user) {
+            Swal.fire({
+                title: 'Are you sure?',
+                text: "You won't be able to revert this!",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonText: 'Yes, delete it!',
+                customClass: {
+                    confirmButton: 'btn btn-primary me-3',
+                    cancelButton: 'btn btn-label-secondary'
+                },
+                buttonsStyling: false
+            }).then(function (result) {
+                if (result.value) {
+                    // delete the data
+                    $.ajax({
+                        type: 'DELETE',
+                        url: "".concat(baseUrl, "management-user/delete/").concat(id_user),
+                        success: function success() {
+                            Swal.fire({
+                                icon: 'success',
+                                title: 'Deleted!',
+                                text: 'The user has been deleted!',
+                                customClass: {
+                                    confirmButton: 'btn btn-success'
+                                }
+                            }).then(function () {
+                                window.location.href = '{{route('management-user.index')}}'
+                            });
+                        },
+                        error: function error(_error) {
+                            console.log(_error);
+                        }
+                    });
+
+                } else if (result.dismiss === Swal.DismissReason.cancel) {
+                    Swal.fire({
+                        title: 'Cancelled',
+                        text: 'The User is not deleted!',
+                        icon: 'error',
+                        customClass: {
+                            confirmButton: 'btn btn-success'
+                        }
+                    });
+                }
+            });
+        }
+
     </script>
 @endsection

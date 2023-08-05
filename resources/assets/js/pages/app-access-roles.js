@@ -12,7 +12,7 @@ $(function () {
             0: {title: 'Inactive', class: 'bg-label-secondary'}
         };
 
-    var userView = baseUrl + 'app/user/view/account';
+    var userView = baseUrl + 'management-user/detail/';
 
     // Users List datatable
     if (dtUserTable.length) {
@@ -50,7 +50,7 @@ $(function () {
                     responsivePriority: 4,
                     render: function (data, type, full, meta) {
                         var $name = full['name'],
-                            $email = full['email'],
+                            $email = full['email']??'',
                             $image = full['image'];
                         if ($image) {
                             // For Avatar image
@@ -58,7 +58,7 @@ $(function () {
                                 '<img src="' + assetsPath + 'img/avatars/' + $image + '" alt="Avatar" class="rounded-circle">';
                         } else {
                             // For Avatar badge
-                            var stateNum = Math.floor(Math.random() * 6);
+                            var stateNum = full['id_user_group'];
                             var states = ['success', 'danger', 'warning', 'info', 'primary', 'secondary'];
                             var $state = states[stateNum],
                                 $name = full['name'],
@@ -76,7 +76,7 @@ $(function () {
                             '</div>' +
                             '<div class="d-flex flex-column">' +
                             '<a href="' +
-                            userView +
+                            userView +full['id_user']+
                             '" class="text-body text-truncate"><span class="fw-semibold">' +
                             $name +
                             '</span></a>' +
@@ -137,7 +137,7 @@ $(function () {
                         let $area = '-';
                         if (full['patrol_area'])
                             $area = full['patrol_area']['name'];
-                        return '<span class="badge bg-label-primaryca">' + $area + '</span>';
+                        return '<span class="badge bg-label-primary">' + $area + '</span>';
                     }
                 },
                 {
@@ -165,7 +165,7 @@ $(function () {
                         return (
                             '<div class="d-flex align-items-center">' +
                             '<a href="' + baseUrl + 'management-user/edit/' + full['id_user'] + '" class="btn btn-sm btn-icon"><i class="ti ti-edit"></i></a>' +
-                            '<a href="javascript:;" onclick="deleteUser(' + full['id_user'] + ')"class="text-body delete-record"><i class="ti ti-trash ti-sm mx-2"></i></a>' +
+                            '<a href="javascript:;" onclick="deleteUser(' + full['id_user'] + ')" class="text-body delete-record"><i class="ti ti-trash ti-sm mx-2"></i></a>' +
                             '</div>'
                         );
                     }
@@ -271,9 +271,6 @@ $(function () {
         });
     }
     // Delete Record
-    $('.datatables-users tbody').on('click', '.delete-record', function () {
-        dtUser.row($(this).parents('tr')).remove().draw();
-    });
 
     // Filter form control to default size
     // ? setTimeout used for multilingual table initialization

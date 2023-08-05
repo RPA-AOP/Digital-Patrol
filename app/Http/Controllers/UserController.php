@@ -13,9 +13,9 @@ use App\Models\Users;
 use Hash;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\View\Factory;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
-use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\View\View;
 use Yajra\DataTables\DataTables;
@@ -116,9 +116,9 @@ class UserController extends Controller
         $permission = Permission::get();
         $user = Users::query()->where('id_user', $id)->with('privileges')->first();
         $summary = [
-            'total_patroli'=> DashboardHelper::getCountPatrolByUser($user->id_user),
-            'percentage_patroli'=> DashboardHelper::getAveragePercentageByUser($user->id_user, $user->id_company),
-            'total_abnormality'=> DashboardHelper::getCountAbnormalByUser($user->id_user),
+            'total_patroli' => DashboardHelper::getCountPatrolByUser($user->id_user),
+            'percentage_patroli' => DashboardHelper::getAveragePercentageByUser($user->id_user, $user->id_company),
+            'total_abnormality' => DashboardHelper::getCountAbnormalByUser($user->id_user),
         ];
         return view('modules.users.profile', compact('user', 'permission', 'summary'));
     }
@@ -128,9 +128,9 @@ class UserController extends Controller
         $permission = Permission::get();
         $user = Auth::user();
         $summary = [
-            'total_patroli'=> DashboardHelper::getCountAbnormalByUser($user->id_user),
-            'percentage_patroli'=> DashboardHelper::getAveragePercentageByUser($user->id_user, $user->id_company),
-            'total_abnormality'=> DashboardHelper::getCountAbnormalByUser($user->id_user),
+            'total_patroli' => DashboardHelper::getCountAbnormalByUser($user->id_user),
+            'percentage_patroli' => DashboardHelper::getAveragePercentageByUser($user->id_user, $user->id_company),
+            'total_abnormality' => DashboardHelper::getCountAbnormalByUser($user->id_user),
         ];
         return view('modules.users.profile', compact('user', 'permission', 'summary'));
     }
@@ -153,6 +153,8 @@ class UserController extends Controller
     public function edit(int $id): Factory|View|Application
     {
         $user = Users::query()->where('id_user', $id)->with('privileges.menu', 'userGroup')->first();
+        if (!$user)
+            abort(404, 'User not found');
         $userGroup = UserGroup::query()->where('status', 1)->get();
         $area = DetailPatrolConfig::where('level', '<=', 2)
             ->where('id_company', $user->id_company)
@@ -178,12 +180,13 @@ class UserController extends Controller
         $user->email = $request->email;
         $user->npk = $request->npk;
         $user->area = $request->area;
+        $user->status = $request->status;
 
         if ($user->save()) {
-            return redirect()->route('management-user.show', ['id' => $id])
+            return redirect()->route('management-user.index')
                 ->with('success', 'User Berhasil Di Update');
         }
-        return redirect()->route('management-user.show', ['id' => $id])
+        return redirect()->route('management-user.index')
             ->with('error', 'User Gagal Di Update');
     }
 
@@ -215,10 +218,13 @@ class UserController extends Controller
      * Remove the specified resource from storage.
      *
      * @param int $id
-     * @return Response
+     * @return JsonResponse
      */
-    public function destroy($id)
+    public function destroy($id): JsonResponse
     {
-        //
+        $deleted = Users::find($id)->deleteOrFail();
+        if ($deleted)
+            return \response()->json(['msg' => 'User deleted']);
+        return \response()->json(['msg' => 'User failed to delete'], 502);
     }
 }
