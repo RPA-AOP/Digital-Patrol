@@ -241,8 +241,8 @@
                 ]
             };
         if (typeof supportTrackerEl !== undefined && supportTrackerEl !== null) {
-            const supportTracker = new ApexCharts(supportTrackerEl, supportTrackerOptions);
-            supportTracker.render();
+            window.supportTracker = new ApexCharts(supportTrackerEl, supportTrackerOptions);
+            window.supportTracker.render();
         }
     </script>
     {{--    <script src="{{asset('assets/js/dashboards-analytics.js')}}"></script>--}}
@@ -362,19 +362,35 @@
                 ]
             };
         if (typeof weeklyEarningReportsEl !== undefined && weeklyEarningReportsEl !== null) {
-            const weeklyEarningReports = new ApexCharts(weeklyEarningReportsEl, weeklyEarningReportsConfig);
-            weeklyEarningReports.render();
+            window.weeklyEarningReports = new ApexCharts(weeklyEarningReportsEl, weeklyEarningReportsConfig);
+            window.weeklyEarningReports.render();
 
             getData({}, function (resp) {
                 var series = resp.chart.series
                 var label = resp.chart.label
                 console.log(series)
-                weeklyEarningReports.updateOptions({
+                window.weeklyEarningReports.updateOptions({
                     series: series,
                     labels: label
                 });
             });
         }
+
+        $("#form-filter").on('submit', function (e) {
+            let data = $(this).serializeArray();
+            getData(data, function (resp) {
+                var series = resp.chart.series
+                var label = resp.chart.label
+                console.log(series)
+                window.weeklyEarningReports.updateOptions({
+                    series: series,
+                    labels: label
+                });
+                window.supportTracker.updateOptions({
+                    series: [resp.today.percentage],
+                });
+            });
+        })
     </script>
 @endsection
 
@@ -382,8 +398,9 @@
 
     <div class="row">
         <!-- Support Tracker -->
-        <div class="col-md-4 mb-4">
-            <div class="card">
+
+        <div class="col-md-4 mb-4 ">
+            <div class="card h-100">
                 <div class="card-header d-flex justify-content-between pb-0">
                     <div class="card-title mb-0">
                         <h5 class="mb-0">Laporan Patroli Hari Ini</h5>
@@ -434,18 +451,59 @@
 
         <!-- Earning Reports -->
         <div class="col-lg-8 mb-4">
-            <div class="card h-100">
-                <div class="card-header pb-0 d-flex justify-content-between mb-lg-n4">
-                    <div class="card-title mb-0">
-                        <h5 class="mb-0">Patrol Report</h5>
-                        <small class="text-muted">Report
-                            Bulan {{\Carbon\Carbon::now()->locale('id')->format('F')}}</small>
+            <div class="card mb-2">
+                <div class="card-body d-flex justify-content-between">
+                    <h5 class="mb-0">Patrol Report</h5>
+                    <div class="w-50">
+
+                    <form method="get" action="{{route('dashboard')}}" class="row" onsubmit="return false"
+                          id="form-filter">
+                        <div class="col-5">
+                            @php
+                                $months = [];
+                                for ($m=1; $m<=12; $m++) {
+                                    $months[] = date('F', mktime(0,0,0,$m, 1, date('Y')));
+                                }
+                            @endphp
+                            <select id="monthSelect" class="form-control form-control-sm selectpicker" name="month"
+                                    data-style="btn-default">
+                                @foreach($months as $k => $month)
+                                    <option
+                                        value="{{ $k+1 }}" {{now()->month ==($k+1)?'selected':''}}>{{ $month }}</option>
+                                @endforeach
+                            </select>
+                        </div>
+                        <div class="col-5">
+                            @php
+                                use Carbon\Carbon;use Illuminate\Support\Facades\Auth;
+                                $years = collect(range(now()->year , (now()->year + 5)))->map(function ($item) {
+                                    return (string) $item;
+                                });
+                            @endphp
+                            <select id="yearSelect" class="form-control form-control-sm   selectpicker" name="year"
+                                    data-style="btn-default">
+                                @foreach($years as $year)
+                                    <option
+                                        value="{{ $year }}" {{date('Y')==$year?'selected':''}}>{{ $year }}</option>
+                                @endforeach
+                            </select>
+                        </div>
+                        <div class="col-2">
+                            <button class="btn btn-primary btn-sm waves-effect waves-light" type="submit">Filter
+                            </button>
+                        </div>
+                    </form>
                     </div>
+
+
                 </div>
+            </div>
+            <div class="card">
+
                 <div class="card-body">
                     <div class="row">
                         <div class="col-12">
-                            <div id="weeklyEarningReports"></div>
+                                                        <div id="weeklyEarningReports"></div>
                         </div>
                     </div>
                     <div class="border rounded p-3 mt-2">

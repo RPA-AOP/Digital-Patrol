@@ -61,7 +61,12 @@
                 {
                     data: 'patrol_shift.shift_name',
                     name: 'patrol_shift.shift_name',
-                    title: 'SHIFT'
+                    title: 'SHIFT',
+                    render: function (item) {
+                        if (item)
+                            return item
+                        return '-'
+                    }
                 },
                 {
                     data: 'patrol_start_time',

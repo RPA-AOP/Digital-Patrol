@@ -37,7 +37,8 @@ class DataScheduleSheetImport implements ToArray, WithCalculatedFormulas, WithHe
 
     public function array(array $array)
     {
-        DB::table('patrol_schedule_detail')->where('patrol_schedule_id', $this->idPatrolScheduleConfig)
+        DB::table('patrol_schedule_detail')
+            ->where('patrol_schedule_id', $this->idPatrolScheduleConfig)
             ->whereMonth('patrol_date', $this->month)
             ->delete();
 
@@ -51,7 +52,8 @@ class DataScheduleSheetImport implements ToArray, WithCalculatedFormulas, WithHe
 
                 $user = Users::where('npk', $k)
                     ->where('id_company', $this->idCompany)
-                    ->where('id_user_group', 4)->first();
+                    ->where('id_user_group', 4)
+                    ->first();
 
                 if (!$user){
                     $user = new Users();
@@ -68,7 +70,9 @@ class DataScheduleSheetImport implements ToArray, WithCalculatedFormulas, WithHe
                 }
 
                 $shift = PatrolScheduleShift::where('shift_name', $v)
-                    ->orWhere('shift_code', $v)->first();
+                    ->whereIdCompany($this->idCompany)
+                    ->orWhere('shift_code', $v)
+                    ->first();
                 if (!$shift) {
                     $shift = new PatrolScheduleShift();
                     $shift->id_company = $this->idCompany;

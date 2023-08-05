@@ -109,7 +109,9 @@ class ReportPatrolDetail extends Model
         'action_status',
         'action_note',
         'action_proof',
-        'action_user'
+        'action_user',
+        'created_at',
+        'updated_at'
     ];
 
     public function reportPatrol(): BelongsTo

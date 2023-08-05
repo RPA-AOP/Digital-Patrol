@@ -36,9 +36,7 @@ use Illuminate\Support\Carbon;
  * @method static Builder|ReportPatrolFiles whereThumb($value)
  * @method static Builder|ReportPatrolFiles whereType($value)
  * @method static Builder|ReportPatrolFiles whereUpdatedAt($value)
- * @property-read Collection<int, \App\Models\ReportPatrolDetail> $reportPatrolDetail
  * @method static Builder|ReportPatrolFiles whereDateBetween($fieldName, $fromDate, $toDate)
- * @property-read Collection<int, \App\Models\ReportPatrolDetail> $reportPatrolDetail
  * @mixin Eloquent
  */
 class ReportPatrolFiles extends Model

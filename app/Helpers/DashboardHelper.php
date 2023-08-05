@@ -14,19 +14,25 @@ use Illuminate\Support\Carbon;
 class DashboardHelper
 {
 
-    public static function getDateRange($interval)
+    public static function getDateRange($interval, $month, $year)
     {
-        $dateStart = Carbon::today()->format('Y-m-d h:m:s');
-        $dateEnd = Carbon::today()->format('Y-m-d  h:m:s');
-        if (date('Hi') < 600) {
-            $dateStart = Carbon::today()->add("day", (-1 * $interval))->format('Y-m-d h:m:s');;
+        if ($interval == 1) {
+            $dateStart = Carbon::today()->format('Y-m-d h:m:s');
+            $dateEnd = Carbon::today()->format('Y-m-d h:m:s');
+            if (date('Hi') < 600) {
+                $dateStart = Carbon::today()->add("day", (-1 * $interval))->format('Y-m-d h:m:s');;
+            }
+        } else {
+            $dateStart = Carbon::parse("{$year}-{$month}")->format('Y-m-d h:m:s');
+            $dateEnd = Carbon::parse("{$year}-{$month}")->format('Y-m-d h:m:s');
         }
+
         return [$dateStart, $dateEnd];
     }
 
-    static function getCountAbnormal($interval): int
+    static function getCountAbnormal($interval, $month, $year): int
     {
-        $dateRange = DashboardHelper::getDateRange($interval);
+        $dateRange = DashboardHelper::getDateRange($interval, $month, $year);
         $abnormalObject = ReportPatrolDetail::whereIsNormal(false)
             ->whereDateBetween('created_at', $dateRange[0], $dateRange[1]);
 
@@ -75,9 +81,9 @@ class DashboardHelper
         return $abnormalObject->count();
     }
 
-    static function getCountNormal($interval): int
+    static function getCountNormal($interval, $month, $year): int
     {
-        $dateRange = DashboardHelper::getDateRange($interval);
+        $dateRange = DashboardHelper::getDateRange($interval, $month, $year);
         $normalObject = ReportPatrolDetail::whereIsNormal(true)
             ->whereDateBetween('created_at', $dateRange[0], $dateRange[1]);
         if (\Auth::user()->id_user_group == UserGroup::ADMIN_COMPANY) {
@@ -86,9 +92,9 @@ class DashboardHelper
         return $normalObject->count();
     }
 
-    static function getCountQuickAction($interval): int
+    static function getCountQuickAction($interval, $month, $year): int
     {
-        $dateRange = DashboardHelper::getDateRange($interval);
+        $dateRange = DashboardHelper::getDateRange($interval, $month, $year);
         $quickAction = ReportPatrolDetail::whereQuickAction(true)
             ->whereDateBetween('created_at', $dateRange[0], $dateRange[1]);
         if (\Auth::user()->id_user_group == UserGroup::ADMIN_COMPANY) {
@@ -98,9 +104,9 @@ class DashboardHelper
         return $quickAction->count();
     }
 
-    static function getCountReportPic($interval): int
+    static function getCountReportPic($interval, $month, $year): int
     {
-        $dateRange = DashboardHelper::getDateRange($interval);
+        $dateRange = DashboardHelper::getDateRange($interval, $month, $year);
         $reportPIC = ReportPatrolDetail::whereReportGa(true)
             ->whereDateBetween('created_at', $dateRange[0], $dateRange[1]);
         if (\Auth::user()->id_user_group == UserGroup::ADMIN_COMPANY) {
@@ -120,10 +126,10 @@ class DashboardHelper
         return $totalObject->count();
     }
 
-    static function getWeekDateArray()
+    static function getDateInMonth($month, $year)
     {
-        $startWeek = Carbon::now()->startOfMonth()->format('Y-m-d');
-        $endWeek = Carbon::now()->endOfMonth()->format('Y-m-d');
+        $startWeek = Carbon::parse("{$year}-{$month}")->startOfMonth()->format('Y-m-d');
+        $endWeek = Carbon::parse("{$year}-{$month}")->endOfMonth()->format('Y-m-d');
         $period = CarbonPeriod::create($startWeek, $endWeek)->toArray();
         $result = [];
         foreach ($period as $date) {
@@ -132,7 +138,7 @@ class DashboardHelper
         return $result;
     }
 
-    static function getPatrolReportPerDate(): array
+    static function getPatrolReportPerDate($month, $year): array
     {
         $data = PatrolActivity::join('report_patrol', 'patrol_activity.id_patrol_activity', 'report_patrol.id_patrol_activity')
             ->join('report_patrol_detail', 'report_patrol_detail.id_report_patrol', 'report_patrol.id_report_patrol')
@@ -144,7 +150,10 @@ class DashboardHelper
                 \DB::raw('count(1) filter ( where report_patrol_detail.report_ga = true ) as report_pic'),
                 \DB::raw('count(1) as total')
             ])
+            ->whereMonth('patrol_date', $month)
+            ->whereYear('patrol_date', $year)
             ->groupBy('patrol_activity.patrol_date');
+
 
         if (\Auth::user()->id_user_group == UserGroup::ADMIN_COMPANY) {
             $data->where('patrol_activity.id_company', \Auth::user()->id_company);
@@ -167,14 +176,15 @@ class DashboardHelper
             $dataReport[$datum['patrol_date']] = \Arr::except($datum, ['patrol_date']);
         }
 
-        $datesWeek = self::getWeekDateArray();
-        foreach ($datesWeek as $key => $date) {
+        $dates = self::getDateInMonth($month, $year);
+        foreach ($dates as $key => $date) {
 //            $result['series'][0]['data'][$key] = \Arr::exists($dataReport, $date) ? $dataReport[$date]['total'] : 0;
             $result['series'][0]['data'][$key] = \Arr::exists($dataReport, $date) ? $dataReport[$date]['abnormal'] : 0;
             $result['series'][1]['data'][$key] = \Arr::exists($dataReport, $date) ? $dataReport[$date]['normal'] : 0;
             $date = Carbon::createFromFormat('Y-m-d', $date);
             $result['label'][] = $date->format('j');
         }
+
         return $result;
     }
 }
