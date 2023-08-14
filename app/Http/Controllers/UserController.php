@@ -74,34 +74,39 @@ class UserController extends Controller
      */
     public function store(Request $request)
     {
-        $request->validate([
-            'user-fullname' => 'required|max:255',
-            'user-npk' => 'required',
-            'user-email' => 'required',
-            'user-phone' => 'required',
-            'user-group' => 'required',
-            'user-name' => 'required',
-            'default-password' => 'required|confirmed',
-        ]);
-        $newUser = new Users();
-        $newUser->name = $request->post('user-fullname');
-        $newUser->username = $request->post('user-name');
-        $newUser->npk = $request->post('user-npk');
-        $newUser->phone = $request->post('user-phone');
-        $newUser->id_user_group = $request->post('user-group');
-        $newUser->email = $request->post('user-email');
-        $newUser->password = Hash::make($request->post('default-password'));
-        if ($request->post('user-company') != null) {
-            $newUser->id_company = $request->post('user-company');
+
+        $permission = Permission::get();
+        if ($permission->has_create) {
+            $request->validate([
+                'user-fullname' => 'required|max:255',
+                'user-npk' => 'required',
+                'user-email' => 'email:rfc,dns|required',
+                'user-phone' => 'required|numeric|digits:15',
+                'user-group' => 'required',
+                'user-name' => 'required',
+                'default-password' => 'required|confirmed',
+            ]);
+            $newUser = new Users();
+            $newUser->name = $request->post('user-fullname');
+            $newUser->username = $request->post('user-name');
+            $newUser->npk = $request->post('user-npk');
+            $newUser->phone = $request->post('user-phone');
+            $newUser->id_user_group = $request->post('user-group');
+            $newUser->email = $request->post('user-email');
+            $newUser->password = Hash::make($request->post('default-password'));
+            if ($request->post('user-company') != null) {
+                $newUser->id_company = $request->post('user-company');
+            }
+            if ($request->post('area') != null) {
+                $newUser->area = $request->post('area');
+            }
+            if ($newUser->save()) {
+                $newUser->refresh();
+                return response()->json(['status' => 'New User created', 'user' => $newUser->toArray()], 200);
+            }
+            return response()->json(['status' => 'Add New user failed',], 500);
         }
-        if ($request->post('area') != null) {
-            $newUser->area = $request->post('area');
-        }
-        if ($newUser->save()) {
-            $newUser->refresh();
-            return response()->json(['status' => 'New User created', 'user' => $newUser->toArray()], 200);
-        }
-        return response()->json(['status' => 'Add New user failed',], 500);
+        return response()->json(['status' => 'Add New user permissions denied',], 403);
 
     }
 
@@ -114,34 +119,36 @@ class UserController extends Controller
     public function show($id): Factory|View|Application
     {
         $permission = Permission::get();
-        $user = Users::query()->where('id_user', $id)->with('privileges')->first();
-        $summary = [
-            'total_patroli' => DashboardHelper::getCountPatrolByUser($user->id_user),
-            'percentage_patroli' => DashboardHelper::getAveragePercentageByUser($user->id_user, $user->id_company),
-            'total_abnormality' => DashboardHelper::getCountAbnormalByUser($user->id_user),
-        ];
-        return view('modules.users.profile', compact('user', 'permission', 'summary'));
+        if ($permission->has_view) {
+
+            $user = Users::query()->where('id_user', $id)->with('privileges')->first();
+            $summary = [
+                'total_patroli' => DashboardHelper::getCountPatrolByUser($user->id_user),
+                'percentage_patroli' => DashboardHelper::getAveragePercentageByUser($user->id_user, $user->id_company),
+                'total_abnormality' => DashboardHelper::getCountAbnormalByUser($user->id_user),
+            ];
+            return view('modules.users.profile', compact('user', 'permission', 'summary'));
+        }
+        abort(403);
     }
 
     public function profile(): Factory|\Illuminate\Contracts\View\View|Application
     {
-        $permission = Permission::get();
         $user = Auth::user();
         $summary = [
             'total_patroli' => DashboardHelper::getCountAbnormalByUser($user->id_user),
             'percentage_patroli' => DashboardHelper::getAveragePercentageByUser($user->id_user, $user->id_company),
             'total_abnormality' => DashboardHelper::getCountAbnormalByUser($user->id_user),
         ];
-        return view('modules.users.profile', compact('user', 'permission', 'summary'));
+        return view('modules.users.profile', compact('user', 'summary'));
     }
 
-    public function userListPatrol($id)
+    public function userListPatrol()
     {
         $activity = PatrolActivity::with('user', 'patrolShift', 'company', 'reportPatrol')
-            ->where('id_user', $id);
+            ->where('id_user', Auth::user()->id_user);
 
         return DataTables::of($activity->get())->addIndexColumn()->make(true);
-
     }
 
     /**
@@ -152,16 +159,20 @@ class UserController extends Controller
      */
     public function edit(int $id): Factory|View|Application
     {
-        $user = Users::query()->where('id_user', $id)->with('privileges.menu', 'userGroup')->first();
-        if (!$user)
-            abort(404, 'User not found');
-        $userGroup = UserGroup::query()->where('status', 1)->get();
-        $area = DetailPatrolConfig::where('level', '<=', 2)
-            ->where('id_company', $user->id_company)
-            ->whereStatus(true)
-            ->orderBy('level')
-            ->get();
-        return view('modules.users.edit', compact('user', 'userGroup', 'area'));
+        $permission = Permission::get();
+        if ($permission->has_edit) {
+            $user = Users::query()->where('id_user', $id)->with('privileges.menu', 'userGroup')->first();
+            if (!$user)
+                abort(404, 'User not found');
+            $userGroup = UserGroup::query()->where('status', 1)->get();
+            $area = DetailPatrolConfig::where('level', '<=', 2)
+                ->where('id_company', $user->id_company)
+                ->whereStatus(true)
+                ->orderBy('level')
+                ->get();
+            return view('modules.users.edit', compact('user', 'userGroup', 'area'));
+        }
+        abort(403);
     }
 
     /**
@@ -173,21 +184,35 @@ class UserController extends Controller
      */
     public function update(Request $request, int $id): RedirectResponse
     {
-        $user = Users::find($id);
-        $user->id_user_group = $request->userGroup;
-        $user->name = $request->name;
-        $user->phone = $request->phone;
-        $user->email = $request->email;
-        $user->npk = $request->npk;
-        $user->area = $request->area;
-        $user->status = $request->status;
+        $permission = Permission::get();
+        if ($permission->has_edit) {
+            $request->validate([
+                'name' => 'required|max:255',
+                'npk' => 'required',
+                'email' => 'email:rfc,dns|required',
+                'phone' => 'required|numeric|digits:15',
+                'status' => 'required',
+                'user-name' => 'required',
+                'default-password' => 'required|confirmed',
+            ]);
 
-        if ($user->save()) {
+            $user = Users::find($id);
+            $user->id_user_group = $request->userGroup;
+            $user->name = $request->name;
+            $user->phone = $request->phone;
+            $user->email = $request->email;
+            $user->npk = $request->npk;
+            $user->area = $request->area;
+            $user->status = $request->status;
+
+            if ($user->save()) {
+                return redirect()->route('management-user.index')
+                    ->with('success', 'User Berhasil Di Update');
+            }
             return redirect()->route('management-user.index')
-                ->with('success', 'User Berhasil Di Update');
+                ->with('error', 'User Gagal Di Update');
         }
-        return redirect()->route('management-user.index')
-            ->with('error', 'User Gagal Di Update');
+        abort(403);
     }
 
     public function updateUserGroup(Request $request, $id): RedirectResponse

@@ -41,7 +41,7 @@ class ScheduleConfigController extends Controller
         }
     }
 
-    public function list(Request $request)
+    public function list(Request $request): JsonResponse
     {
         $data = PatrolScheduleDetailConfig::
         join('patrol_schedule_shift as pss', 'pss.patrol_schedule_shift_id', 'patrol_schedule_detail.patrol_schedule_shift_id')
@@ -62,6 +62,7 @@ class ScheduleConfigController extends Controller
             ->get();
         $events = [];
         foreach ($data as $d) {
+//            dd($d);
             $start = Carbon::parse($d->patrol_date . ' ' . $d->start_hour);
             $end = Carbon::parse($d->patrol_date . ' ' . $d->end_hour);
             if ($start->gte($end))

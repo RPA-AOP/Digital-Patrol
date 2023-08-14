@@ -42,6 +42,7 @@ class UserGroup extends Model
     const ADMINISTRATOR = 1;
     const ADMIN_HOLDING = 2;
     const ADMIN_COMPANY = 3;
+    const SECURITY = 4;
     const PIC_GA = 5;
 
     protected $table = 'user_groups';

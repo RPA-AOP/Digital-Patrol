@@ -48,7 +48,6 @@ class AuthController extends Controller
     public function logout(): Redirector|Application|RedirectResponse
     {
         Session::flush();
-        setcookie('sso_dcktrp', '', time() - 3600, '/', 'jakarta.go.id');
         return redirect('/');
     }
 }

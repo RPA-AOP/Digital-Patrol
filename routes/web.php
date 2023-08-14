@@ -28,7 +28,7 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', [AuthController::class, 'login'])->name('login');
 Route::post('/login', [AuthController::class, 'doLogin'])->name('doLogin');
 
-Route::group(['middleware' => ['auth',]], function () {
+Route::group(['middleware' => ['auth', 'check-permission']], function () {
 
     Route::get('/logout', [AuthController::class, 'logout'])->name('logout');
     Route::controller(Select2Controller::class)->prefix('select2')->name('select2.')->group(function () {
@@ -37,11 +37,14 @@ Route::group(['middleware' => ['auth',]], function () {
         Route::post('add', [Select2Controller::class, 'store'])->name('add');
     });
     Route::get('/dashboard', [HomeController::class, 'dashboard'])->name('dashboard');
+    Route::get('/profile', [UserController::class, 'profile'])->name('profile');
+    Route::get('/profile/list', [UserController::class, 'userListPatrol'])->name('list-patrol-user');
 
     Route::controller(HomeController::class)->prefix('dashboard')
         ->name('dashboard.')->group(function () {
-//            Route::get('/', [HomeController::class, 'index'])->name('index');
+            Route::get('/list', [HomeController::class, 'list'])->name('list');
             Route::get('/data-chart', [HomeController::class, 'chart'])->name('chart');
+            Route::get('/data-abnormal-timeseries', [HomeController::class, 'getAbnormalTimeseries'])->name('abnormal-timeseries');
         });
 
 
@@ -86,7 +89,6 @@ Route::group(['middleware' => ['auth',]], function () {
         });
 
 
-    Route::get('/profile', [UserController::class, 'profile'])->name('show');
 
 
     Route::controller(QrcodeController::class)->prefix('qr-code')->name('qr-code.')->group(function () {

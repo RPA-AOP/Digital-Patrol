@@ -33,7 +33,7 @@
 
     <script nonce="{{ csp_nonce() }}">
         $('#table-report-abnormal').DataTable({
-            ajax: "{{route('report.abnormal.list')}}",
+            ajax: "{{route('dashboard.list')}}",
             responsive: false,
             columns: [
                 {
@@ -377,6 +377,7 @@
         }
 
         $("#form-filter").on('submit', function (e) {
+            e.preventDefault()
             let data = $(this).serializeArray();
             getData(data, function (resp) {
                 var series = resp.chart.series
@@ -392,234 +393,327 @@
             });
         })
     </script>
+
+    <script nonce="{{csp_nonce()}}">
+        var data = generateDayWiseTimeSeries(new Date("22 Apr 2017").getTime(), 115, {
+            min: 30,
+            max: 90
+        });
+        var options1 = {
+            chart: {
+                id: "chart2",
+                type: "area",
+                height: 230,
+                foreColor: "#000",
+                toolbar: {
+                    autoSelected: "pan",
+                    show: false
+                }
+            },
+            colors: ["#ea5455"],
+            stroke: {
+                width: 3
+            },
+            grid: {
+                borderColor: "#555",
+                clipMarkers: false,
+                yaxis: {
+                    lines: {
+                        show: false
+                    }
+                }
+            },
+            dataLabels: {
+                enabled: false
+            },
+            fill: {
+                gradient: {
+                    enabled: true,
+                    opacityFrom: 0.55,
+                    opacityTo: 0
+                }
+            },
+            markers: {
+                size: 5,
+                colors: ["#fff"],
+                strokeColor: "#ea5455",
+                strokeWidth: 3
+            },
+            series: [
+                {
+                    data: data
+                }
+            ],
+            tooltip: {
+                theme: "dark"
+            },
+            xaxis: {
+                type: "datetime"
+            },
+            yaxis: {
+                min: 0,
+                tickAmount: 4
+            }
+        };
+
+        var chart1 = new ApexCharts(document.querySelector("#chart-area"), options1);
+
+        chart1.render();
+
+        var options2 = {
+            chart: {
+                id: "chart1",
+                height: 130,
+                type: "bar",
+                foreColor: "#000",
+                brush: {
+                    target: "chart2",
+                    enabled: true
+                },
+                selection: {
+                    enabled: true,
+                    fill: {
+                        color: "#fff",
+                        opacity: 0.4
+                    },
+                    xaxis: {
+                        min: new Date("27 Jul 2017 10:00:00").getTime(),
+                        max: new Date("14 Aug 2017 10:00:00").getTime()
+                    }
+                }
+            },
+            colors: ["#0d47a1"],
+            series: [
+                {
+                    data: data
+                }
+            ],
+            stroke: {
+                width: 0
+            },
+            grid: {
+                borderColor: "#444"
+            },
+            markers: {
+                size: 0
+            },
+            xaxis: {
+                type: "datetime",
+                tooltip: {
+                    enabled: false
+                }
+            },
+            yaxis: {
+                tickAmount: 2
+            }
+        };
+
+        var chart2 = new ApexCharts(document.querySelector("#chart-bar"), options2);
+
+        chart2.render();
+
+        function generateDayWiseTimeSeries(baseval, count, yrange) {
+            var i = 0;
+            var series = [];
+            while (i < count) {
+                var x = baseval;
+                var y =
+                    Math.floor(Math.random() * (yrange.max - yrange.min + 1)) + yrange.min;
+
+                series.push([x, y]);
+                baseval += 86400000;
+                i++;
+            }
+            console.log(series)
+            return series;
+        }
+
+    </script>
 @endsection
 
 @section('content')
 
+    @if (!in_array(\Illuminate\Support\Facades\Auth::user()->id_user_group, [\App\Models\UserGroup::SECURITY, \App\Models\UserGroup::PIC_GA]))
+        <div class="row">
+            <!-- Support Tracker -->
+
+            <div class="col-md-4 mb-4 ">
+                <div class="card h-100">
+                    <div class="card-header d-flex justify-content-between pb-0">
+                        <div class="card-title mb-0">
+                            <h5 class="mb-0">Laporan Patroli Hari Ini</h5>
+                            {{--            <small class="text-muted">Last 7 Days</small>--}}
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-12 col-sm-4 col-md-12 col-lg-4">
+                                <div class="mt-lg-4 mt-lg-2 mb-lg-4 mb-2 pt-1">
+                                    <h1 class="mb-0">{{$today['objectAbnormal']}}</h1>
+                                    <p class="mb-0">Total Objek Abnormal</p>
+                                </div>
+                                <ul class="p-0 m-0">
+                                    <li class="d-flex gap-3 align-items-center mb-lg-3 pt-2 pb-1">
+                                        <div class="badge rounded bg-label-primary p-1"><i
+                                                class="ti ti-circle-check ti-sm"></i></div>
+                                        <div>
+                                            <h6 class="mb-0 text-nowrap">Objek Normal</h6>
+                                            <small class="text-muted">{{$today['objectNormal']}}</small>
+                                        </div>
+                                    </li>
+                                    <li class="d-flex gap-3 align-items-center mb-lg-3 pb-1">
+                                        <div class="badge rounded bg-label-info p-1"><i class="ti ti-clock ti-sm"></i>
+                                        </div>
+                                        <div>
+                                            <h6 class="mb-0 text-nowrap">Tindakan Cepat</h6>
+                                            <small class="text-muted">{{$today['quickAction']}}</small>
+                                        </div>
+                                    </li>
+                                    <li class="d-flex gap-3 align-items-center pb-1">
+                                        <div class="badge rounded bg-label-warning p-1"><i
+                                                class="ti ti-report ti-sm"></i>
+                                        </div>
+                                        <div>
+                                            <h6 class="mb-0 text-nowrap">Laporkan PIC/GA</h6>
+                                            <small class="text-muted">{{$today['reportPic']}}</small>
+                                        </div>
+                                    </li>
+                                </ul>
+                            </div>
+                            <div class="col-12 col-sm-8 col-md-12 col-lg-8">
+                                <div id="supportTracker"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!--/ Support Tracker -->
+
+            <!-- Earning Reports -->
+            <div class="col-lg-8 mb-4">
+                <div class="card mb-2">
+                    <div class="card-body d-flex justify-content-between">
+                        <h5 class="mb-0">Patrol Report</h5>
+                        <div class="w-50">
+
+                            <form method="get" class="row"
+                                  id="form-filter">
+                                <div class="col-5">
+                                    @php
+                                        $months = [];
+                                        for ($m=1; $m<=12; $m++) {
+                                            $months[] = date('F', mktime(0,0,0,$m, 1, date('Y')));
+                                        }
+                                    @endphp
+                                    <select id="monthSelect" class="form-control form-control-sm selectpicker"
+                                            name="month"
+                                            data-style="btn-default">
+                                        @foreach($months as $k => $month)
+                                            <option
+                                                value="{{ $k+1 }}" {{now()->month ==($k+1)?'selected':''}}>{{ $month }}</option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                                <div class="col-5">
+                                    @php
+                                        $years = collect(range(now()->year , (now()->year + 5)))->map(function ($item) {
+                                             return (string) $item;
+                                         });
+                                    @endphp
+                                    <select id="yearSelect" class="form-control form-control-sm   selectpicker"
+                                            name="year"
+                                            data-style="btn-default">
+                                        @foreach($years as $year)
+                                            <option
+                                                value="{{ $year }}" {{date('Y')==$year?'selected':''}}>{{ $year }}</option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                                <div class="col-2">
+                                    <button class="btn btn-primary btn-sm waves-effect waves-light" type="submit">Filter
+                                    </button>
+                                </div>
+                            </form>
+                        </div>
+
+
+                    </div>
+                </div>
+                <div class="card">
+
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-12">
+                                <div id="weeklyEarningReports"></div>
+                            </div>
+                        </div>
+                        <div class="border rounded p-3 mt-2">
+                            <div class="row gap-4 gap-sm-0">
+                                <div class="col-12 col-sm-4">
+                                    <div class="d-flex gap-2 align-items-center">
+                                        <div class="badge rounded bg-label-info p-1">
+                                            <i class="ti ti-clock ti-sm"></i>
+                                        </div>
+                                        <h6 class="mb-0">Total Tindakan Cepat</h6>
+                                    </div>
+                                    <h4 class="my-2 pt-1">{{$totalPatrolReport['quickAction']}}</h4>
+                                    <div class="progress w-75" style="height:4px">
+                                        <div class="progress-bar bg-info" role="progressbar" style="width: 50%"
+                                             aria-valuenow="50" aria-valuemin="0" aria-valuemax="100"></div>
+                                    </div>
+                                </div>
+                                <div class="col-12 col-sm-4">
+                                    <div class="d-flex gap-2 align-items-center">
+                                        <div class="badge rounded bg-label-warning p-1"><i
+                                                class="ti ti-report ti-sm"></i></div>
+                                        <h6 class="mb-0">Total Laporkan PIC</h6>
+                                    </div>
+                                    <h4 class="my-2 pt-1">{{$totalPatrolReport['reportPic']}}</h4>
+                                    <div class="progress w-75" style="height:4px">
+                                        <div class="progress-bar" role="progressbar" style="width: 65%"
+                                             aria-valuenow="65"
+                                             aria-valuemin="0" aria-valuemax="100"></div>
+                                    </div>
+                                </div>
+                                <div class="col-12 col-sm-4">
+                                    <div class="d-flex gap-2 align-items-center">
+                                        <div class="badge rounded bg-label-danger p-1"><i
+                                                class="ti ti-circle-check ti-sm"></i></div>
+                                        <h6 class="mb-0">Total Objek Telah di Tangani</h6>
+                                    </div>
+                                    <h4 class="my-2 pt-1">{{$totalPatrolReport['solvedAbnormal']}}</h4>
+                                    <div class="progress w-75" style="height:4px">
+                                        <div class="progress-bar bg-danger" role="progressbar" style="width: 65%"
+                                             aria-valuenow="65" aria-valuemin="0" aria-valuemax="100"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!--/ Earning Reports -->
+
+            <div class="col-12 mb-4">
+                <div class="card h-100">
+                    <div class="card-header d-flex justify-content-between pb-0">
+                        <div class="card-title mb-0">
+                            <h5 class="mb-0">Laporan Abnormality</h5>
+                            {{--            <small class="text-muted">Last 7 Days</small>--}}
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <div id="chart-area">
+                        </div>
+                        <div id="chart-bar">
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    @endif
     <div class="row">
-        <!-- Support Tracker -->
-
-        <div class="col-md-4 mb-4 ">
-            <div class="card h-100">
-                <div class="card-header d-flex justify-content-between pb-0">
-                    <div class="card-title mb-0">
-                        <h5 class="mb-0">Laporan Patroli Hari Ini</h5>
-                        {{--            <small class="text-muted">Last 7 Days</small>--}}
-                    </div>
-                </div>
-                <div class="card-body">
-                    <div class="row">
-                        <div class="col-12 col-sm-4 col-md-12 col-lg-4">
-                            <div class="mt-lg-4 mt-lg-2 mb-lg-4 mb-2 pt-1">
-                                <h1 class="mb-0">{{$today['objectAbnormal']}}</h1>
-                                <p class="mb-0">Total Objek Abnormal</p>
-                            </div>
-                            <ul class="p-0 m-0">
-                                <li class="d-flex gap-3 align-items-center mb-lg-3 pt-2 pb-1">
-                                    <div class="badge rounded bg-label-primary p-1"><i
-                                            class="ti ti-circle-check ti-sm"></i></div>
-                                    <div>
-                                        <h6 class="mb-0 text-nowrap">Objek Normal</h6>
-                                        <small class="text-muted">{{$today['objectNormal']}}</small>
-                                    </div>
-                                </li>
-                                <li class="d-flex gap-3 align-items-center mb-lg-3 pb-1">
-                                    <div class="badge rounded bg-label-info p-1"><i class="ti ti-clock ti-sm"></i></div>
-                                    <div>
-                                        <h6 class="mb-0 text-nowrap">Tindakan Cepat</h6>
-                                        <small class="text-muted">{{$today['quickAction']}}</small>
-                                    </div>
-                                </li>
-                                <li class="d-flex gap-3 align-items-center pb-1">
-                                    <div class="badge rounded bg-label-warning p-1"><i class="ti ti-report ti-sm"></i>
-                                    </div>
-                                    <div>
-                                        <h6 class="mb-0 text-nowrap">Laporkan PIC/GA</h6>
-                                        <small class="text-muted">{{$today['reportPic']}}</small>
-                                    </div>
-                                </li>
-                            </ul>
-                        </div>
-                        <div class="col-12 col-sm-8 col-md-12 col-lg-8">
-                            <div id="supportTracker"></div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <!--/ Support Tracker -->
-
-        <!-- Earning Reports -->
-        <div class="col-lg-8 mb-4">
-            <div class="card mb-2">
-                <div class="card-body d-flex justify-content-between">
-                    <h5 class="mb-0">Patrol Report</h5>
-                    <div class="w-50">
-
-                    <form method="get" action="{{route('dashboard')}}" class="row" onsubmit="return false"
-                          id="form-filter">
-                        <div class="col-5">
-                            @php
-                                $months = [];
-                                for ($m=1; $m<=12; $m++) {
-                                    $months[] = date('F', mktime(0,0,0,$m, 1, date('Y')));
-                                }
-                            @endphp
-                            <select id="monthSelect" class="form-control form-control-sm selectpicker" name="month"
-                                    data-style="btn-default">
-                                @foreach($months as $k => $month)
-                                    <option
-                                        value="{{ $k+1 }}" {{now()->month ==($k+1)?'selected':''}}>{{ $month }}</option>
-                                @endforeach
-                            </select>
-                        </div>
-                        <div class="col-5">
-                            @php
-                                use Carbon\Carbon;use Illuminate\Support\Facades\Auth;
-                                $years = collect(range(now()->year , (now()->year + 5)))->map(function ($item) {
-                                    return (string) $item;
-                                });
-                            @endphp
-                            <select id="yearSelect" class="form-control form-control-sm   selectpicker" name="year"
-                                    data-style="btn-default">
-                                @foreach($years as $year)
-                                    <option
-                                        value="{{ $year }}" {{date('Y')==$year?'selected':''}}>{{ $year }}</option>
-                                @endforeach
-                            </select>
-                        </div>
-                        <div class="col-2">
-                            <button class="btn btn-primary btn-sm waves-effect waves-light" type="submit">Filter
-                            </button>
-                        </div>
-                    </form>
-                    </div>
-
-
-                </div>
-            </div>
-            <div class="card">
-
-                <div class="card-body">
-                    <div class="row">
-                        <div class="col-12">
-                                                        <div id="weeklyEarningReports"></div>
-                        </div>
-                    </div>
-                    <div class="border rounded p-3 mt-2">
-                        <div class="row gap-4 gap-sm-0">
-                            <div class="col-12 col-sm-4">
-                                <div class="d-flex gap-2 align-items-center">
-                                    <div class="badge rounded bg-label-info p-1">
-                                        <i class="ti ti-clock ti-sm"></i>
-                                    </div>
-                                    <h6 class="mb-0">Total Tindakan Cepat</h6>
-                                </div>
-                                <h4 class="my-2 pt-1">{{$totalPatrolReport['quickAction']}}</h4>
-                                <div class="progress w-75" style="height:4px">
-                                    <div class="progress-bar bg-info" role="progressbar" style="width: 50%"
-                                         aria-valuenow="50" aria-valuemin="0" aria-valuemax="100"></div>
-                                </div>
-                            </div>
-                            <div class="col-12 col-sm-4">
-                                <div class="d-flex gap-2 align-items-center">
-                                    <div class="badge rounded bg-label-warning p-1"><i
-                                            class="ti ti-report ti-sm"></i></div>
-                                    <h6 class="mb-0">Total Laporkan PIC</h6>
-                                </div>
-                                <h4 class="my-2 pt-1">{{$totalPatrolReport['reportPic']}}</h4>
-                                <div class="progress w-75" style="height:4px">
-                                    <div class="progress-bar" role="progressbar" style="width: 65%" aria-valuenow="65"
-                                         aria-valuemin="0" aria-valuemax="100"></div>
-                                </div>
-                            </div>
-                            <div class="col-12 col-sm-4">
-                                <div class="d-flex gap-2 align-items-center">
-                                    <div class="badge rounded bg-label-danger p-1"><i
-                                            class="ti ti-circle-check ti-sm"></i></div>
-                                    <h6 class="mb-0">Total Objek Telah di Tangani</h6>
-                                </div>
-                                <h4 class="my-2 pt-1">{{$totalPatrolReport['solvedAbnormal']}}</h4>
-                                <div class="progress w-75" style="height:4px">
-                                    <div class="progress-bar bg-danger" role="progressbar" style="width: 65%"
-                                         aria-valuenow="65" aria-valuemin="0" aria-valuemax="100"></div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <!--/ Earning Reports -->
-    </div>
-    <div class="row">
-        <!-- Orders last week -->
-        <div class="col-xl-3 col-md-4 col-6 mb-4">
-            <div class="card">
-                <div class="card-header pb-3">
-                    <h5 class="card-title mb-0">Abnormality</h5>
-                    <small class="text-muted">Last week</small>
-                </div>
-                <div class="card-body">
-                    <div id="ordersLastWeek"></div>
-                    <div class="d-flex justify-content-between align-items-center gap-3">
-                        <h4 class="mb-0">124k</h4>
-                        <small class="text-success">+12.6%</small>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <!-- Sales last year -->
-        <div class="col-xl-3 col-md-4 col-6 mb-4">
-            <div class="card">
-                <div class="card-header pb-0">
-                    <h5 class="card-title mb-0">Avg. Completion Patrol</h5>
-                    <small class="text-muted">Last Year</small>
-                </div>
-                <div id="salesLastYear"></div>
-                <div class="card-body pt-0">
-                    <div class="d-flex justify-content-between align-items-center mt-3 gap-3">
-                        <h4 class="mb-0">175k</h4>
-                        <small class="text-danger">-16.2%</small>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <!-- Profit last month -->
-        <div class="col-xl-3 col-md-4 col-6 mb-4">
-            <div class="card">
-                <div class="card-header pb-0">
-                    <h5 class="card-title mb-0">Quick Actions</h5>
-                    <small class="text-muted">Last Month</small>
-                </div>
-                <div class="card-body">
-                    <div id="profitLastMonth"></div>
-                    <div class="d-flex justify-content-between align-items-center mt-3 gap-3">
-                        <h4 class="mb-0">624k</h4>
-                        <small class="text-success">+8.24%</small>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <!-- Sessions Last month -->
-        <div class="col-xl-3 col-md-4 col-6 mb-4">
-            <div class="card">
-                <div class="card-header pb-0">
-                    <h5 class="card-title mb-0">Normal Object</h5>
-                    <small class="text-muted">Last Month</small>
-                </div>
-                <div class="card-body">
-                    <div id="sessionsLastMonth"></div>
-                    <div class="d-flex justify-content-between align-items-center mt-3 gap-3">
-                        <h4 class="mb-0">45.1k</h4>
-                        <small class="text-success">+12.6%</small>
-                    </div>
-                </div>
-            </div>
-        </div>
 
         <div class="col-12 order-1 order-lg-2 mb-4 mb-lg-0">
             <div class="card">
