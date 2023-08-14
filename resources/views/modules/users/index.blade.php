@@ -213,7 +213,7 @@
                                                 </div>
                                                 <div class="mb-3">
                                                     <label for="mobile">Phone Number</label>
-                                                    <input id="mobile" type="text" class="form-control"
+                                                    <input id="mobile" type="number" class="form-control"
                                                            placeholder="Phone Number"
                                                            name="user-phone"/>
                                                 </div>
@@ -319,6 +319,7 @@
     <script src="{{asset('assets/vendor/libs/formvalidation/dist/js/FormValidation.min.js')}}"></script>
     <script src="{{asset('assets/vendor/libs/formvalidation/dist/js/plugins/Bootstrap5.min.js')}}"></script>
     <script src="{{asset('assets/vendor/libs/formvalidation/dist/js/plugins/AutoFocus.min.js')}}"></script>
+    <script src="{{asset('assets/vendor/libs/formvalidation/dist/js/plugins/PasswordStrength.js')}}"></script>
     <script src="{{asset('assets/vendor/libs/cleavejs/cleave.js')}}"></script>
     <script src="{{asset('assets/vendor/libs/cleavejs/cleave-phone.js')}}"></script>
 
@@ -359,8 +360,13 @@
                         validators: {
                             notEmpty: {
                                 message: 'Please enter fullname '
+                            },
+                            regexp: {
+                                regexp: /^[a-zA-Z0-9 ]+$/,
+                                message: 'The name can only consist of alphabetical, number and space'
                             }
-                        }
+                        },
+
                     },
                     'user-email': {
                         validators: {
@@ -373,18 +379,32 @@
                         }
                     },
                     'user-phone': {
+
                         validators: {
                             notEmpty: {
                                 message: 'Please enter phone number '
+                            },
+                            stringLength: {
+                                min:10,
+                                max:15,
+                                message: 'The name must be more than 10 and less than 15 characters long'
+                            },
+                            regexp: {
+                                regexp: /^[0-9 ]+$/,
+                                message: 'The name can only consist of number'
                             }
                         }
                     },
-                    'basic-default-password': {
+                    'default-password': {
                         validators: {
                             notEmpty: {
                                 message: 'Please enter your password'
-                            }
-                        }
+                            },
+                            stringLength: {
+                                min:6,
+                                message: 'The name must be more than 6 and less than 30 characters long'
+                            },
+                        },
                     },
                     'default-password-confirmation': {
                         validators: {
@@ -409,6 +429,11 @@
                             // field is the field name & ele is the field element
                             return '.mb-3';
                         }
+                    }),
+                    passwordStrength: new FormValidation.plugins.PasswordStrength({
+                        field: 'default-password',
+                        message: 'The password is weak',
+                        minimalScore: 6,
                     }),
                     submitButton: new FormValidation.plugins.SubmitButton(),
                     // Submit the form when all fields are valid

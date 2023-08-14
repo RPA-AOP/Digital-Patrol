@@ -15,6 +15,11 @@ use Illuminate\Support\Facades\Session;
 
 class AuthController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('doNotCacheResponse');
+    }
+
     public function login()
     {
         if (Auth::check()) {
@@ -48,7 +53,6 @@ class AuthController extends Controller
     public function logout(): Redirector|Application|RedirectResponse
     {
         Session::flush();
-        setcookie('sso_dcktrp', '', time() - 3600, '/', 'jakarta.go.id');
         return redirect('/');
     }
 }

@@ -92,7 +92,6 @@ class dummyPatrolSeeders extends Command
 
                         foreach ($checkpoints as $checkpoint) {
                             $startPatrolAt = $startAt->add('minute', rand(1,5));
-                            $reportAt = $startPatrolAt->add('minutes', rand(5,10));
                             $syncToken=UuidV4::uuid4();
 
                             $reportPatrol = ReportPatrol::create([
@@ -105,7 +104,7 @@ class dummyPatrolSeeders extends Command
                                 'sync_token'=>$syncToken
                             ]);
                             foreach ($checkpoint->child as $child) {
-                                $reportAt = $startPatrolAt->add('minutes', rand(5,10));
+                                $reportAt = $startPatrolAt->add('second', rand(2,59));
                                 $reportDetail = ReportPatrolDetail::create([
                                    'id_company'=>$idCompany,
                                    'id_report_patrol'=> $reportPatrol->id_report_patrol,
@@ -120,7 +119,7 @@ class dummyPatrolSeeders extends Command
                                 ]);
                             }
                             $endPatrolAt = $reportAt->add('minute', rand(1,5));
-                            $reportPatrol->checkout_time = $reportAt->add('minute', rand(1,5));
+                            $reportPatrol->checkout_time = $reportAt->add('second', rand(10,25));
                             $reportPatrol->save();
                         }
                         $patrolActivity->patrol_end_time = $endPatrolAt->add('minute', rand(1,5));

@@ -17,7 +17,6 @@
         {{ config('variables.templateSuffix') ? config('variables.templateSuffix') : 'TemplateSuffix' }}</title>
     <meta name="description"
           content="{{ config('variables.templateDescription') ? config('variables.templateDescription') : '' }}"/>
-    @cspMetaTag(App\Policies\DigipatrolPolicy::class)
     <meta name="keywords"
           content="{{ config('variables.templateKeyword') ? config('variables.templateKeyword') : '' }}">
     <!-- laravel CRUD token -->
@@ -29,7 +28,6 @@
     <link rel="apple-touch-icon" sizes="180x180" href="{{ asset('assets/img/favicon/apple-touch-icon.png') }}">
     <link rel="icon" type="image/png" sizes="32x32" href="{{ asset('assets/img/favicon/favicon-32x32.png') }}">
     <link rel="icon" type="image/png" sizes="16x16" href="{{ asset('assets/img/favicon/favicon-16x16.png') }}">
-    <link rel="manifest" href="{{ asset('assets/img/favicon/site.webmanifest')}}">
 
     <!-- Include Styles -->
     @include('layouts/sections/styles')

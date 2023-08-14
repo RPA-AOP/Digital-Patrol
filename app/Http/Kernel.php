@@ -3,6 +3,7 @@
 namespace App\Http;
 
 use App\Http\Middleware\Authenticate;
+use App\Http\Middleware\CheckPermission;
 use App\Http\Middleware\EncryptCookies;
 use App\Http\Middleware\LocaleMiddleware;
 use App\Http\Middleware\PreventRequestsDuringMaintenance;
@@ -61,15 +62,16 @@ class Kernel extends HttpKernel
             SubstituteBindings::class,
             LocaleMiddleware::class,
             \Spatie\Csp\AddCspHeaders::class,
+            \Spatie\ResponseCache\Middlewares\CacheResponse::class,
 
         ],
 
         'api' => [
             // \Laravel\Sanctum\Http\Middleware\EnsureFrontendRequestsAreStateful::class,
-            'throttle:api',
+            'throttle:1000,1',
             SubstituteBindings::class,
             \Spatie\Csp\AddCspHeaders::class,
-
+            \Spatie\ResponseCache\Middlewares\CacheResponse::class,
         ],
     ];
 
@@ -90,5 +92,10 @@ class Kernel extends HttpKernel
         'signed' => ValidateSignature::class,
         'throttle' => ThrottleRequests::class,
         'verified' => EnsureEmailIsVerified::class,
+        'check-permission' => CheckPermission::class,
+        'doNotCacheResponse' => \Spatie\ResponseCache\Middlewares\DoNotCacheResponse::class,
+        'cacheResponse' => \Spatie\ResponseCache\Middlewares\CacheResponse::class,
+
+
     ];
 }

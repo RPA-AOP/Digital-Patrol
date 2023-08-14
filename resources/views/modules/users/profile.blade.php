@@ -23,7 +23,7 @@
     {{--      <script src="{{asset('assets/js/pages/profile.js')}}"></script>--}}
     <script>
         $('#table-user-report-patrol').DataTable({
-            ajax: "{{route('management-user.user-list-patrol', ['id'=>$user->id_user])}}",
+            ajax: "{{route('list-patrol-user', ['id'=>$user->id_user])}}",
             responsive: false,
             columns: [
                 {
@@ -78,11 +78,11 @@
                     sortable: false,
                     searchable: false,
                     render: function (item, data, row) {
-                        @if($permission->has_create)
+{{--                        @if($permission->has_view)--}}
                             return ('<div class="d-flex align-items-center">' +
                             '<a href="{{ url('report-patrol/detail/') }}/' + row.id_patrol_activity + '" class="text-body"><i class="ti ti-edit ti-sm me-2"></i></a>' +
                             '</div>')
-                        @endif
+{{--                        @endif--}}
                     }
                 },
 
@@ -137,11 +137,6 @@
 @endsection
 
 @section('content')
-    <h4 class="fw-bold py-3 mb-4">
-        <span class="text-muted fw-light">User Profile /</span> Profile
-    </h4>
-
-
     <!-- Header -->
     <div class="row">
         <div class="col-12">

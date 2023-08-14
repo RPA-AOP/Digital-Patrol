@@ -21,6 +21,7 @@
     "simplesoftwareio/simple-qrcode": "^4.2",
     "spatie/laravel-csp": "^2.8",
     "spatie/laravel-menu": "*",
+    "spatie/laravel-responsecache": "^7.4",
     "yajra/laravel-datatables-oracle": "~9.0"
   },
   "require-dev": {

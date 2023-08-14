@@ -27,9 +27,10 @@ class Permission
 
         $menu = Menus::where('url', $current_url)->first();
         if (!$menu) {
-            return $default_priv;
+            abort(403);
         }
-        $user = Users::query()->select('id_user_group')->where('id_user', Session::get('id_user'))->first();
+        $user = Users::query()->select('id_user_group')
+            ->where('id_user', Session::get('id_user'))->first();
 
         $priv = UserGroupPrivilege::where('id_user_group', $user->id_user_group)
             ->where('id_menu', $menu->id_menu)
@@ -38,7 +39,8 @@ class Permission
         if ($priv) {
             return $priv;
         } else {
-            return $default_priv;
+            abort(403);
+
         }
     }
 }
