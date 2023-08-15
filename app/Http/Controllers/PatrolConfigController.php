@@ -80,7 +80,7 @@ class PatrolConfigController extends Controller
     public function import(Request $request)
     {
         $request->validate([
-            'import-data_patroli' => 'required|mimes:xlsx,xls',
+            'import-data-patroli' => 'required|mimes:xlsx,xls',
         ]);
 
         $idCompany = $request->get('idCompany');
@@ -126,7 +126,6 @@ class PatrolConfigController extends Controller
         $detailConfig->identification_key = $request->identification_key;
         if ($request->post('level_id')) {
             $detailConfig->level = $request->level_id;
-
         }
         if ($request->post('category_id'))
             $detailConfig->category_id = $request->category_id;
@@ -135,7 +134,6 @@ class PatrolConfigController extends Controller
             return response()->json(['status' => 'updated', 'data' => $detailConfig->toArray()], 200);
         }
         return response()->json(['status' => 'update failed',], 500);
-
     }
 
     function updateList($data, $idPatrolConfig, $parent_id = 0): bool
@@ -162,9 +160,7 @@ class PatrolConfigController extends Controller
         if (!$patrolConfig) {
             return response()->json(['status' => 'Update failed, Patrol config not found',], 500);
         }
-
         $data = json_decode($request->post('data'), true);
-
         if ($this->updateList($data[0]['children'], $id, $data[0]['id']))
             return response()->json(['status' => 'updated'], 200);
         return response()->json(['status' => 'update failed',], 500);

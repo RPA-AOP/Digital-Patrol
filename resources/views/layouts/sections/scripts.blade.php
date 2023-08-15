@@ -32,9 +32,7 @@
   }
 </script>
 <!-- END: Theme JS-->
-<!-- Pricing Modal JS-->
-@stack('pricing-script')
-<!-- END: Pricing Modal JS-->
+
 <!-- BEGIN: Page JS-->
 @yield('page-script')
 <!-- END: Page JS-->

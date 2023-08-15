@@ -2,9 +2,10 @@
 @section('title', 'Edit Users')
 
 @section('vendor-style')
-    <link rel="stylesheet" type="text/css" href="{{asset('assets/css/pages/app-user.css')}}">
-    <link rel="stylesheet" type="text/css"
-          href="{{asset('assets/vendor/css/pickers/flatpickr/flatpickr.min.css')}}">
+    <link rel="stylesheet" type="text/css" href="{{asset('assets/vendor/libs/select2/select2.css')}}">
+    <link rel="stylesheet" type="text/css" href="{{asset('assets/vendor/libs/flatpickr/flatpickr.css')}}">
+    <link rel="stylesheet" href="{{asset('assets/vendor/libs/formvalidation/dist/css/formValidation.min.css')}}"/>
+
 @endsection
 
 @section('breadcrumbs')
@@ -13,78 +14,148 @@
 
 @section('content')
     <section class="app-user-edit">
+        <div class="row mb-4">
+            <div class="col-3 ">
+                <div class="card h-100">
+                    <div class="user-avatar-section">
+                        <div class="d-flex align-items-center flex-column mt-4">
+                            <img class="img-fluid rounded mb-3 pt-1 mt-4"
+                                 src="{{$user->image??asset('assets/img/avatars/no-img.png')}}" height="100" width="100"
+                                 alt="User avatar">
+                            <div class="user-info text-center">
+                                <h4 class="mb-2">{{ $user->name }}</h4>
+                                <span class="badge bg-label-primary mt-1">{{ $user->userGroup->name }}</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-9">
+                <!-- Change Password -->
+                <div class="card  h-100">
+                    <h5 class="card-header">Change Password</h5>
+                    <div class="card-body">
+                        <form id="formChangePassword" method="POST" action="{{route('management-user.change-password')}}">
+                            <div class="alert alert-info" role="alert">
+                                <span>Minimum 8 characters long, uppercase & symbol</span>
+                            </div>
+                            @csrf
+                            <input type="hidden" value="{{$user->id_user}}" name="id_user">
+
+                            <div class="row">
+                                <div class="mb-3 col-12 col-sm-6 form-password-toggle">
+                                    <label class="form-label" for="newPassword">New Password</label>
+                                    <div class="input-group input-group-merge">
+                                        <input
+                                            class="form-control"
+                                            type="password"
+                                            id="newPassword"
+                                            name="newPassword"
+                                            placeholder="&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;"
+                                        />
+                                        <span class="input-group-text cursor-pointer"><i
+                                                class="ti ti-eye-off"></i></span>
+                                    </div>
+                                </div>
+
+                                <div class="mb-3 col-12 col-sm-6 form-password-toggle">
+                                    <label class="form-label" for="newPassword_confirmation">Confirm New Password</label>
+                                    <div class="input-group input-group-merge">
+                                        <input
+                                            class="form-control"
+                                            type="password"
+                                            name="newPassword_confirmation"
+                                            id="newPassword_confirmation"
+                                            placeholder="&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;"
+                                        />
+                                        <span class="input-group-text cursor-pointer"><i
+                                                class="ti ti-eye-off"></i></span>
+                                    </div>
+                                </div>
+                                <div class="text-end">
+                                    <button type="submit" class="btn btn-primary me-2">Change Password</button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
         <div class="card">
             <div class="card-body">
                 <!-- Account Tab starts -->
                 <div class="" id="account">
-                    <!-- users edit media object start -->
-                    <div class="media mb-2">
-                        <img src="{{$user->image??asset('assets/images/no-img.png')}}" alt="users avatar"
-                             class="user-avatar users-avatar-shadow rounded mr-2 my-25 cursor-pointer" height="90"
-                             width="90"/>
-                        <div class="media-body mt-50">
-                            <h4>{{ $user->name }}</h4>
-                            <div class="col-12 d-flex mt-1 px-0">
-                                <label class="form-label" class="btn btn-primary mr-75 mb-0" for="change-picture">
-                                    <span class="d-none d-sm-block">Change</span>
-                                    <input class="form-control" type="file" id="change-picture" hidden
-                                           accept="image/png, image/jpeg, image/jpg"/>
-                                    <span class="d-block d-sm-none">
-                                                        <i class="mr-0" data-feather="edit"></i>
-                                                    </span>
-                                </label>
-                            </div>
-                        </div>
-                    </div>
-                    <!-- users edit media object ends -->
+
                     <!-- users edit account form start -->
                     <form class="form-validate" method="POST"
                           action="{{route('management-user.update', $user->id_user)}}">
                         @csrf
                         <div class="row g-3">
                             <div class="col-md-4">
-
+                                <input type="hidden" value="{{$user->id_user}}" name="id_user">
                                 <label class="form-label" for="username">Username</label>
-                                <input type="text" class="form-control" placeholder="Username"
+                                <input type="text" class="form-control @error('username') is-invalid @enderror"
+                                       placeholder="Username"
                                        value="{{ $user->username }}" name="username" id="username"/>
-
+                                @error('username')
+                                <div class="alert alert-danger">{{ $message }}</div>
+                                @enderror
                             </div>
                             <div class="col-md-4">
 
                                 <label class="form-label" for="name">Name</label>
-                                <input type="text" class="form-control" placeholder="Name"
+                                <input type="text" class="form-control @error('name') is-invalid @enderror"
+                                       placeholder="Name"
                                        value="{{ $user->name }}" name="name" id="name"/>
+                                @error('name')
+                                <div class="alert alert-danger">{{ $message }}</div>
+                                @enderror
                             </div>
                             <div class="col-md-4">
-
                                 <label class="form-label" for="email">E-mail</label>
-                                <input type="email" class="form-control" placeholder="Email"
+                                <input type="email" class="form-control @error('email') is-invalid @enderror"
+                                       placeholder="Email"
                                        value="{{ $user->email }}" name="email" id="email"/>
+                                @error('email')
+                                <div class="alert alert-danger">{{ $message }}</div>
+                                @enderror
                             </div>
                             <div class="col-md-4">
-
                                 <label class="form-label" for="npk">NPK</label>
-                                <input type="text" class="form-control" placeholder="NPK"
+                                <input type="text" class="form-control @error('npk') is-invalid @enderror"
+                                       placeholder="NPK"
                                        value="{{ $user->npk }}" name="npk" id="npk"/>
+                                @error('npk')
+                                <div class="alert alert-danger">{{ $message }}</div>
+                                @enderror
                             </div>
                             <div class="col-lg-4">
                                 <label class="form-label" for="mobile">Phone Number</label>
-                                <input id="mobile" type="text" class="form-control" value="{{ $user->phone }}"
+                                <input id="number" type="text" class="form-control @error('phone') is-invalid @enderror"
+                                       placeholder="Phone Number" value="{{ $user->phone }}"
                                        name="phone"/>
+                                @error('phone')
+                                <span class="text-danger">{{ $errors->first('phone') }}</span>
+                                @enderror
                             </div>
                             <div class="col-md-4">
                                 <label class="form-label" for="user-group">Group User</label>
-                                <select class="form-control" id="user-group" name="userGroup">
+                                <select class="form-control select2 @error('userGroup') is-invalid @enderror"
+                                        id="user-group" name="userGroup" data-placeholder="Pilih Group User">
+                                    <option></option>
                                     @foreach($userGroup as $group)
                                         <option value="{{$group->id_user_group}}"
                                                 @if($group->id_user_group==$user->id_user_group) selected @endif>{{$group->name}}</option>
                                     @endforeach
                                 </select>
+                                @error('userGroup')
+                                <div class="alert alert-danger">{{ $message }}</div>
+                                @enderror
                             </div>
-                            <div class="col-md-4">
+                            <div class="col-md-6">
                                 <label class="form-label" for="areaSelect">Patrol Area</label>
-                                <select id="areaSelect" class="form-control selectpicker" name="area"
-                                        data-style="btn-default">
+                                <select id="areaSelect" class="form-control select2 @error('area') is-invalid @enderror"
+                                        name="area" data-style="btn-default" data-placeholder="Pilih Area">
                                     <option></option>
                                     @foreach($area as $a)
                                         <option value="{{ $a->id_detail_patrol_config }}"
@@ -93,25 +164,32 @@
                                             ) {{ $a->name }}</option>
                                     @endforeach
                                 </select>
+                                @error('area')
+                                <div class="alert alert-danger">{{ $message }}</div>
+                                @enderror
                                 <div class="form-text">Patrol Area based on specific level of area in user
                                     configuration.
                                 </div>
                             </div>
-                            <div class="col-md-4">
+                            <div class="col-md-6">
                                 <label class="form-label" for="status">Status</label>
-                                <select class="form-control" id="status" name="status">
+                                <select class="form-control select2  @error('status') is-invalid @enderror" id="status"
+                                        name="status" data-placeholder="Pilih Status">
+                                    <option></option>
                                     <option @selected($user->status==1) value="1">Active</option>
                                     <option @selected($user->status==0) value="0">In Active</option>
                                 </select>
+                                @error('status')
+                                <div class="alert alert-danger">{{ $message }}</div>
+                                @enderror
                             </div>
-
 
                             <div class="col-12">
                                 <div class="table-responsive border rounded mt-1">
-                                    <h6 class="py-1 mx-1 mb-0 font-medium-2">
+                                    <h5 class="p-3 pb-0 mb-0 font-medium-2">
                                         <i data-feather="lock" class="font-medium-3 mr-25"></i>
                                         <span class="align-middle">Permission</span>
-                                    </h6>
+                                    </h5>
                                     <table class="table table-striped table-borderless">
                                         <thead class="thead-light">
                                         <tr>
@@ -128,36 +206,36 @@
                                                 <td>{{$privilege->menu->name}}</td>
                                                 <td>
 
-                                                    <div class="form-check mt-3">
+                                                    <div class="form-check">
                                                         <input class="form-check-input" type="checkbox" value="1"
-                                                               id="view_{{strtolower(str_replace(" ","_",$privilege->menu->title))}}"
+                                                               id="view_{{$privilege->id_user_group_privilege}}"
                                                                @if($privilege->has_edit) checked @endif
                                                                name="privilege[{{$privilege->id_user_group_privilege}}][has_view]"
                                                         />
                                                     </div>
                                                 </td>
                                                 <td>
-                                                    <div class="form-check mt-3">
+                                                    <div class="form-check">
                                                         <input class="form-check-input" type="checkbox" value="1"
-                                                               id="write_{{strtolower(str_replace(" ","_",$privilege->menu->title))}}"
+                                                               id="write_{{$privilege->id_user_group_privilege}}"
                                                                @if($privilege->has_edit) checked @endif
                                                                name="privilege[{{$privilege->id_user_group_privilege}}][has_edit]"
                                                         />
                                                     </div>
                                                 </td>
                                                 <td>
-                                                    <div class="form-check mt-3">
+                                                    <div class="form-check">
                                                         <input class="form-check-input" type="checkbox" value="1"
-                                                               id="create_{{strtolower(str_replace(" ","_",$privilege->menu->title))}}"
+                                                               id="create_{{$privilege->id_user_group_privilege}}"
                                                                @if($privilege->has_edit) checked @endif
                                                                name="privilege[{{$privilege->id_user_group_privilege}}][has_create]"
                                                         />
                                                     </div>
                                                 </td>
                                                 <td>
-                                                    <div class="form-check mt-3">
+                                                    <div class="form-check">
                                                         <input class="form-check-input" type="checkbox" value="1"
-                                                               id="delete_{{strtolower(str_replace(" ","_",$privilege->menu->title))}}"
+                                                               id="delete_{{$privilege->id_user_group_privilege}}"
                                                                @if($privilege->has_edit) checked @endif
                                                                name="privilege[{{$privilege->id_user_group_privilege}}][has_delete]"
                                                         />
@@ -183,17 +261,88 @@
             </div>
         </div>
     </section>
+
 @endsection
 
 @section('vendor-script')
     <!-- BEGIN: Page Vendor JS-->
-    <script src="{{asset('assets/vendor/js/forms/select/select2.full.min.js')}}"></script>
-    <script src="{{asset('assets/vendor/js/forms/validation/jquery.validate.min.js')}}"></script>
-    <script src="{{asset('assets/vendor/js/pickers/flatpickr/flatpickr.min.js')}}"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/zxcvbn/4.4.2/zxcvbn.js"></script>
+    <script src="{{asset('assets/vendor/libs/select2/select2.js')}}"></script>
+    <script src="{{asset('assets/vendor/libs/flatpickr/flatpickr.js')}}"></script>
+    <script src="{{asset('assets/vendor/libs/formvalidation/dist/js/FormValidation.min.js')}}"></script>
+    <script src="{{asset('assets/vendor/libs/formvalidation/dist/js/plugins/Bootstrap5.min.js')}}"></script>
+    <script src="{{asset('assets/vendor/libs/formvalidation/dist/js/plugins/AutoFocus.min.js')}}"></script>
+    <script src="{{asset('assets/vendor/libs/formvalidation/dist/js/plugins/PasswordStrength.js')}}"></script>
+
     <!-- END: Page Vendor JS-->
 @endsection
 
 @section('page-script')
-    <script src="{{asset('assets/js/scripts/pages/app-user-edit.js')}}"></script>
+    <script nonce="{{csp_nonce()}}">
+        $('.select2').select2();
 
+        const formChangePass = document.querySelector('#formChangePassword');
+
+        // Form validation for Change password
+        if (formChangePass) {
+            const fv = FormValidation.formValidation(formChangePass, {
+                fields: {
+                    newPassword: {
+                        validators: {
+                            notEmpty: {
+                                message: 'Please enter new password'
+                            },
+                            stringLength: {
+                                min: 8,
+                                message: 'Password must be more than 8 characters'
+                            }
+                        }
+                    },
+                    newPassword_confirmation: {
+                        validators: {
+                            notEmpty: {
+                                message: 'Please confirm new password'
+                            },
+                            identical: {
+                                compare: function () {
+                                    return formChangePass.querySelector('[name="newPassword"]').value;
+                                },
+                                message: 'The password and its confirm are not the same'
+                            },
+                            stringLength: {
+                                min: 8,
+                                message: 'Password must be more than 8 characters'
+                            }
+                        }
+                    }
+                },
+                plugins: {
+                    trigger: new FormValidation.plugins.Trigger(),
+                    bootstrap5: new FormValidation.plugins.Bootstrap5({
+                        eleValidClass: '',
+                        rowSelector: '.form-password-toggle'
+                    }),
+                    // Submit the form when all fields are valid
+                    defaultSubmit: new FormValidation.plugins.DefaultSubmit(),
+                    autoFocus: new FormValidation.plugins.AutoFocus(),
+                    passwordStrength: new FormValidation.plugins.PasswordStrength({
+                        field: 'newPassword',
+                        message: 'The password is weak',
+                        minimalScore: 3,
+                        onValidated: function (valid, message, score) {
+                            console.log(valid, message, score)
+                        }
+
+                    }),
+                },
+                init: instance => {
+                    instance.on('plugins.message.placed', function (e) {
+                        if (e.element.parentElement.classList.contains('input-group')) {
+                            e.element.parentElement.insertAdjacentElement('afterend', e.messageElement);
+                        }
+                    });
+                }
+            });
+        }
+    </script>
 @endsection
