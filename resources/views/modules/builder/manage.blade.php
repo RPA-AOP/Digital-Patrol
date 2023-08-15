@@ -284,7 +284,7 @@
                             <input type="hidden" name="idCompany" value="{{$company->id_company}}">
                             <x-fileinput
                                 label=""
-                                id="import-data patroli"
+                                id="import-data-patroli"
                                 placeholder="Choose configuration file (.xslx)"
                                 :required="true"
                                 :multiple="false"

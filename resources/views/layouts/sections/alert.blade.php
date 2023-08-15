@@ -13,15 +13,19 @@ if (Session::has('info')){
     $type = 'alert-info';
 }
 if ($errors->any()){
-    $type = 'alert-info';
-    $message ='Please check the form below for errors';
+    $type = 'alert-danger';
+    $message ='Please check the form below for errors: <ul class="mb-0">';
+    foreach ($errors->all() as $error) {
+        $message .= "<li>$error</li>";
+    }
+    $message .= "</ul>";
 }
 
 @endphp
 @if($type)
     <div class="alert {{$type}}" role="alert">
         <div class="alert-body">
-            <span>{{$message}}</span>
+            <span>{!! $message !!}</span>
         </div>
     </div>
 @endif

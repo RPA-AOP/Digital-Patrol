@@ -28,7 +28,7 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', [AuthController::class, 'login'])->name('login');
 Route::post('/login', [AuthController::class, 'doLogin'])->name('doLogin');
 
-Route::group(['middleware' => ['auth', 'check-permission']], function () {
+Route::group(['middleware' => ['auth']], function () {
 
     Route::get('/logout', [AuthController::class, 'logout'])->name('logout');
     Route::controller(Select2Controller::class)->prefix('select2')->name('select2.')->group(function () {
@@ -84,6 +84,7 @@ Route::group(['middleware' => ['auth', 'check-permission']], function () {
             Route::get('/detail-user-patrol/{id}', [UserController::class, 'userListPatrol'])->name('user-list-patrol');
             Route::get('/edit/{id}', [UserController::class, 'edit'])->name('edit');
             Route::post('/edit/{id}', [UserController::class, 'update'])->name('update');
+            Route::post('/change-password', [UserController::class, 'changePassword'])->name('change-password');
             Route::delete('/delete/{id}', [UserController::class, 'destroy'])->name('delete');
             Route::post('/update-user-group/{id}', [UserController::class, 'updateUserGroup'])->name('updateUserGroup');
         });

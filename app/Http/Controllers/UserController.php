@@ -157,7 +157,7 @@ class UserController extends Controller
      * @param int $id
      * @return Application|Factory|View
      */
-    public function edit(int $id): Factory|View|Application
+    public function edit(Request $request, int $id): Factory|View|Application
     {
         $permission = Permission::get();
         if ($permission->has_edit) {
@@ -182,21 +182,23 @@ class UserController extends Controller
      * @param int $id
      * @return RedirectResponse
      */
-    public function update(Request $request, int $id): RedirectResponse
+    public function update(Request $request)
     {
         $permission = Permission::get();
+
         if ($permission->has_edit) {
             $request->validate([
+                'id_user' => 'required',
                 'name' => 'required|max:255',
                 'npk' => 'required',
                 'email' => 'email:rfc,dns|required',
-                'phone' => 'required|numeric|digits:15',
+                'phone' => 'required|numeric|digits_between:10,15',
                 'status' => 'required',
-                'user-name' => 'required',
-                'default-password' => 'required|confirmed',
+                'username' => 'required',
             ]);
 
-            $user = Users::find($id);
+
+            $user = Users::find($request->id_user);
             $user->id_user_group = $request->userGroup;
             $user->name = $request->name;
             $user->phone = $request->phone;
@@ -212,6 +214,7 @@ class UserController extends Controller
             return redirect()->route('management-user.index')
                 ->with('error', 'User Gagal Di Update');
         }
+
         abort(403);
     }
 
@@ -251,5 +254,25 @@ class UserController extends Controller
         if ($deleted)
             return \response()->json(['msg' => 'User deleted']);
         return \response()->json(['msg' => 'User failed to delete'], 502);
+    }
+
+    public function changePassword(Request $request)
+    {
+        $request->validate([
+            'newPassword' => 'required|confirmed',
+            'id_user' => 'required',
+        ]);
+        $user = Users::find($request->post('id_user'));
+        if ($user) {
+            $user->password = Hash::make($request->post('newPassword'));
+            if ($user->save()){
+                return redirect()->route('management-user.edit',['id'=>$user->id_user])
+                    ->with('success', 'User password telah di Update');
+            }
+
+        }
+        return redirect()->route('management-user.edit',['id'=>$user->id_user])
+            ->with('error', 'User Gagal Di Update');
+
     }
 }

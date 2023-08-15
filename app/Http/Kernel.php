@@ -26,6 +26,9 @@ use Illuminate\Routing\Middleware\ThrottleRequests;
 use Illuminate\Routing\Middleware\ValidateSignature;
 use Illuminate\Session\Middleware\StartSession;
 use Illuminate\View\Middleware\ShareErrorsFromSession;
+use Spatie\Csp\AddCspHeaders;
+use Spatie\ResponseCache\Middlewares\CacheResponse;
+use Spatie\ResponseCache\Middlewares\DoNotCacheResponse;
 
 class Kernel extends HttpKernel
 {
@@ -56,22 +59,19 @@ class Kernel extends HttpKernel
             EncryptCookies::class,
             AddQueuedCookiesToResponse::class,
             StartSession::class,
-            // \Illuminate\Session\Middleware\AuthenticateSession::class,
             ShareErrorsFromSession::class,
             VerifyCsrfToken::class,
             SubstituteBindings::class,
-            LocaleMiddleware::class,
-            \Spatie\Csp\AddCspHeaders::class,
-            \Spatie\ResponseCache\Middlewares\CacheResponse::class,
-
+//            LocaleMiddleware::class,
+//            \Spatie\Csp\AddCspHeaders::class,
         ],
 
         'api' => [
             // \Laravel\Sanctum\Http\Middleware\EnsureFrontendRequestsAreStateful::class,
             'throttle:1000,1',
             SubstituteBindings::class,
-            \Spatie\Csp\AddCspHeaders::class,
-            \Spatie\ResponseCache\Middlewares\CacheResponse::class,
+            AddCspHeaders::class,
+//            \Spatie\ResponseCache\Middlewares\CacheResponse::class,
         ],
     ];
 
@@ -93,8 +93,8 @@ class Kernel extends HttpKernel
         'throttle' => ThrottleRequests::class,
         'verified' => EnsureEmailIsVerified::class,
         'check-permission' => CheckPermission::class,
-        'doNotCacheResponse' => \Spatie\ResponseCache\Middlewares\DoNotCacheResponse::class,
-        'cacheResponse' => \Spatie\ResponseCache\Middlewares\CacheResponse::class,
+        'doNotCacheResponse' => DoNotCacheResponse::class,
+        'cacheResponse' => CacheResponse::class,
 
 
     ];
