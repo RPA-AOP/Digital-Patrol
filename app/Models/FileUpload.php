@@ -6,6 +6,8 @@ use Eloquent;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Carbon;
+use Spatie\Activitylog\LogOptions;
+use Spatie\Activitylog\Traits\LogsActivity;
 
 /**
  * App\Models\FileUpload
@@ -31,6 +33,12 @@ use Illuminate\Support\Carbon;
  */
 class FileUpload extends Model
 {
+    use LogsActivity;
+    public function getActivitylogOptions(): LogOptions
+    {
+        return LogOptions::defaults()->logAll();
+    }
+
     protected $table = 'file_upload';
     protected $primaryKey = 'id_file_upload';
     protected $fillable = [

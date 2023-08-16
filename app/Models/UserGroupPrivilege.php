@@ -7,6 +7,8 @@ use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Support\Carbon;
+use Spatie\Activitylog\LogOptions;
+use Spatie\Activitylog\Traits\LogsActivity;
 
 /**
  * App\Models\UserGroupPrivilege
@@ -44,7 +46,13 @@ use Illuminate\Support\Carbon;
  * @mixin Eloquent
  */
 class UserGroupPrivilege extends Model
-{
+{ use LogsActivity;
+
+    public function getActivitylogOptions(): LogOptions
+    {
+        return LogOptions::defaults()->logAll();
+    }
+
     protected $table = 'user_group_privileges';
     protected $primaryKey = 'id_user_group_privilege';
     protected $fillable = [

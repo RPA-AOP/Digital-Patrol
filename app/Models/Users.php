@@ -14,6 +14,8 @@ use Illuminate\Notifications\Notifiable;
 use Illuminate\Support\Carbon;
 use Laravel\Sanctum\HasApiTokens;
 use Laravel\Sanctum\PersonalAccessToken;
+use Spatie\Activitylog\LogOptions;
+use Spatie\Activitylog\Traits\LogsActivity;
 
 
 /**
@@ -79,6 +81,12 @@ use Laravel\Sanctum\PersonalAccessToken;
 class Users extends Authenticatable
 {
     use HasApiTokens, Notifiable;
+    use LogsActivity;
+
+    public function getActivitylogOptions(): LogOptions
+    {
+        return LogOptions::defaults()->logAll();
+    }
 
     protected $hidden = ['password'];
     protected $table = 'users';
@@ -131,4 +139,5 @@ class Users extends Authenticatable
     {
         return $this->belongsTo(DetailPatrolConfig::class, 'area', 'id_detail_patrol_config');
     }
+
 }

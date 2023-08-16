@@ -10,6 +10,8 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Support\Carbon;
+use Spatie\Activitylog\LogOptions;
+use Spatie\Activitylog\Traits\LogsActivity;
 
 /**
  * App\Models\PatrolActivity
@@ -49,8 +51,15 @@ use Illuminate\Support\Carbon;
 class PatrolActivity extends Model
 {
   use HasFactory;
+    use LogsActivity;
 
-  protected $table = 'patrol_activity';
+    public function getActivitylogOptions(): LogOptions
+    {
+        return LogOptions::defaults()->logAll();
+    }
+
+
+    protected $table = 'patrol_activity';
   protected $primaryKey = 'id_patrol_activity';
   protected $fillable = [
     'id_company',

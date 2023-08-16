@@ -38,11 +38,27 @@ class AuthController extends Controller
                 if (Hash::check($request->password, $user->password)) {
                     Session::put('id_user', $user->id_user);
                     Auth::login($user);
+                    activity('login')
+                        ->causedBy($user)
+                        ->performedOn($user)
+                        ->withProperties($user)
+                        ->event('login')
+                        ->log('login');
                     return redirect()->route('login');
                 } else {
+                    activity('login')
+                        ->causedBy($user)
+                        ->performedOn($user)
+                        ->withProperties($user)
+                        ->event('login_failed')
+                        ->log('login credentials not match');
                     return redirect('/login')->with(['error' => 'Username / Password Salah!']);
                 }
             } else {
+                activity('login')
+                    ->event('user_not_found')
+                    ->withProperties($request->session())
+                    ->log('user not found');
                 return redirect()->route('login')->with(['error' => 'Username / Password Salah!']);
             }
         } else {
@@ -52,6 +68,10 @@ class AuthController extends Controller
 
     public function logout(): Redirector|Application|RedirectResponse
     {
+        activity('logout')
+            ->withProperties(\auth()->user())
+            ->event('logout')
+            ->log('logout user');
         Session::flush();
         return redirect('/');
     }

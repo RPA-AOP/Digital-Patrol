@@ -7,6 +7,8 @@ use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Carbon;
+use Spatie\Activitylog\LogOptions;
+use Spatie\Activitylog\Traits\LogsActivity;
 
 /**
  * App\Models\UserGroup
@@ -39,6 +41,13 @@ use Illuminate\Support\Carbon;
  */
 class UserGroup extends Model
 {
+    use LogsActivity;
+
+    public function getActivitylogOptions(): LogOptions
+    {
+        return LogOptions::defaults()->logAll();
+    }
+
     const ADMINISTRATOR = 1;
     const ADMIN_HOLDING = 2;
     const ADMIN_COMPANY = 3;

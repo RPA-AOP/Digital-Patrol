@@ -28,7 +28,7 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', [AuthController::class, 'login'])->name('login');
 Route::post('/login', [AuthController::class, 'doLogin'])->name('doLogin');
 
-Route::group(['middleware' => ['auth']], function () {
+Route::group(['middleware' => ['auth', 'check-permission']], function () {
 
     Route::get('/logout', [AuthController::class, 'logout'])->name('logout');
     Route::controller(Select2Controller::class)->prefix('select2')->name('select2.')->group(function () {

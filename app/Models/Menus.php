@@ -7,6 +7,8 @@ use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Carbon;
+use Spatie\Activitylog\LogOptions;
+use Spatie\Activitylog\Traits\LogsActivity;
 
 /**
  * App\Models\Menus
@@ -48,7 +50,14 @@ use Illuminate\Support\Carbon;
  */
 class Menus extends Model
 {
-  protected $table = 'menus';
+    use LogsActivity;
+
+    public function getActivitylogOptions(): LogOptions
+    {
+        return LogOptions::defaults()->logAll();
+    }
+
+    protected $table = 'menus';
   protected $primaryKey = 'id_menu';
   protected $fillable = [
     'title',

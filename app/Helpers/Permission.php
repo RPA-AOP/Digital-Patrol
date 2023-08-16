@@ -27,6 +27,10 @@ class Permission
 
         $menu = Menus::where('url', $current_url)->first();
         if (!$menu) {
+            activity('page_access_denied')
+                ->event('access_denied')
+                ->withProperties(Request::header())
+                ->log(Request::url());
             abort(403);
         }
         $user = Users::query()->select('id_user_group')
@@ -39,6 +43,10 @@ class Permission
         if ($priv) {
             return $priv;
         } else {
+            activity('page_access_denied')
+                ->event('access_denied')
+                ->withProperties(Request::header())
+                ->log(Request::url());
             abort(403);
 
         }

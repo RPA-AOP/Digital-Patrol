@@ -20,6 +20,11 @@ class CheckPermission
      */
     public function handle(Request $request, Closure $next)
     {
+        activity('page_access')
+            ->event('access')
+            ->withProperties($request->header())
+            ->log($request->url());
+
         $except = ['logout', 'login', 'profile'];
         $requestUrl = \Illuminate\Support\Facades\Request::segment(1);
         if (in_array($requestUrl, $except)) {
@@ -40,8 +45,11 @@ class CheckPermission
                     return $next($request);
                 break;
             default:
+                activity('page_access_denied')
+                    ->event('access_denied')
+                    ->withProperties($request->header())
+                    ->log($request->url());
                 abort(403);
-
         }
     }
 }

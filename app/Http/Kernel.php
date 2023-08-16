@@ -62,8 +62,8 @@ class Kernel extends HttpKernel
             ShareErrorsFromSession::class,
             VerifyCsrfToken::class,
             SubstituteBindings::class,
-//            LocaleMiddleware::class,
-//            \Spatie\Csp\AddCspHeaders::class,
+            LocaleMiddleware::class,
+            \Spatie\Csp\AddCspHeaders::class,
         ],
 
         'api' => [
@@ -71,7 +71,7 @@ class Kernel extends HttpKernel
             'throttle:1000,1',
             SubstituteBindings::class,
             AddCspHeaders::class,
-//            \Spatie\ResponseCache\Middlewares\CacheResponse::class,
+            \Spatie\ResponseCache\Middlewares\CacheResponse::class,
         ],
     ];
 
@@ -95,7 +95,5 @@ class Kernel extends HttpKernel
         'check-permission' => CheckPermission::class,
         'doNotCacheResponse' => DoNotCacheResponse::class,
         'cacheResponse' => CacheResponse::class,
-
-
     ];
 }
