@@ -18,6 +18,7 @@ use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\View\View;
+use Spatie\Activitylog\Models\Activity;
 use Yajra\DataTables\DataTables;
 
 class UserController extends Controller
@@ -265,14 +266,30 @@ class UserController extends Controller
         $user = Users::find($request->post('id_user'));
         if ($user) {
             $user->password = Hash::make($request->post('newPassword'));
-            if ($user->save()){
-                return redirect()->route('management-user.edit',['id'=>$user->id_user])
+            if ($user->save()) {
+                return redirect()->route('management-user.edit', ['id' => $user->id_user])
                     ->with('success', 'User password telah di Update');
             }
 
         }
-        return redirect()->route('management-user.edit',['id'=>$user->id_user])
+        return redirect()->route('management-user.edit', ['id' => $user->id_user])
             ->with('error', 'User Gagal Di Update');
+
+    }
+
+    public function activity(): Factory|\Illuminate\Contracts\View\View|Application
+    {
+        if (\auth()->user()->id_user_group != UserGroup::ADMINISTRATOR)
+            abort(403);
+        return view('modules.user_activity.index');
+    }
+
+    public function activityList()
+    {
+        if (\auth()->user()->id_user_group != UserGroup::ADMINISTRATOR)
+            abort(403);
+        $activity = Activity::all();
+        return DataTables::of($activity)->addIndexColumn()->make(true);
 
     }
 }

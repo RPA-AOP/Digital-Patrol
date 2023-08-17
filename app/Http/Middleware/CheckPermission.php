@@ -23,7 +23,7 @@ class CheckPermission
         activity('page_access')
             ->event('access')
             ->withProperties($request->header())
-            ->log($request->url());
+            ->log($request->getUri());
 
         $except = ['logout', 'login', 'profile'];
         $requestUrl = \Illuminate\Support\Facades\Request::segment(1);

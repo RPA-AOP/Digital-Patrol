@@ -78,6 +78,8 @@ Route::group(['middleware' => ['auth', 'check-permission']], function () {
     Route::controller(UserController::class)->prefix('management-user')
         ->name('management-user.')->group(function () {
             Route::get('/', [UserController::class, 'index'])->name('index');
+            Route::get('/activity', [UserController::class, 'activity'])->name('activity');
+            Route::get('/activity/list', [UserController::class, 'activityList'])->name('activity_list');
             Route::get('/list', [UserController::class, 'list'])->name('list');
             Route::post('/store', [UserController::class, 'store'])->name('store');
             Route::get('/detail/{id}', [UserController::class, 'show'])->name('show');

@@ -164,17 +164,23 @@
             <div class="col-xl-4 col-lg-6 col-md-6">
                 <div class="card h-100">
                     <div class="row h-100">
-                        <div class="col-sm-5">
+                        <div class="col-sm-3">
                             <div class="d-flex align-items-end h-100 justify-content-center mt-sm-0 mt-3">
                                 <img src="{{ asset('assets/img/illustrations/add-new-roles.png') }}"
                                      class="img-fluid mt-sm-4 mt-md-0" alt="add-new-roles" width="83">
                             </div>
                         </div>
-                        <div class="col-sm-7">
+                        <div class="col-sm-9">
                             <div class="card-body text-sm-end text-center ps-sm-0">
-                                <button data-bs-target="#offcanvasAddUser" data-bs-toggle="offcanvas"
-                                        class="btn btn-primary mb-2 text-nowrap add-new-role">Add New User
-                                </button>
+                                <div class="">
+                                    @if(Auth::user()->id_user_group == \App\Models\UserGroup::ADMINISTRATOR)
+                                        <a href="{{route('management-user.activity')}}"
+                                           class="btn btn-secondary mb-2 text-nowrap me-2">Log User Activity</a>
+                                    @endif
+                                    <button data-bs-target="#offcanvasAddUser" data-bs-toggle="offcanvas"
+                                            class="btn btn-primary mb-2 text-nowrap add-new-role">Add New User
+                                    </button>
+                                </div>
                                 <p class="mb-0 mt-1">Add user, if it does not exist</p>
                                 <!-- Modal to add new user starts-->
                                 <!-- Modal to add new user Ends-->
@@ -387,8 +393,8 @@
                                 message: 'Please enter phone number '
                             },
                             stringLength: {
-                                min:10,
-                                max:15,
+                                min: 10,
+                                max: 15,
                                 message: 'The name must be more than 10 and less than 15 characters long'
                             },
                             regexp: {
@@ -403,7 +409,7 @@
                                 message: 'Please enter your password'
                             },
                             stringLength: {
-                                min:6,
+                                min: 6,
                                 message: 'The name must be more than 6 and less than 30 characters long'
                             },
                         },
