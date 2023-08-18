@@ -38,6 +38,7 @@ Route::group(['middleware' => ['auth', 'check-permission']], function () {
     });
     Route::get('/dashboard', [HomeController::class, 'dashboard'])->name('dashboard');
     Route::get('/profile', [UserController::class, 'profile'])->name('profile');
+    Route::get('/profile/edit', [UserController::class, 'profileEdit'])->name('profile.edit');
     Route::get('/profile/list', [UserController::class, 'userListPatrol'])->name('list-patrol-user');
 
     Route::controller(HomeController::class)->prefix('dashboard')

@@ -4,12 +4,9 @@ namespace App\Http\Controllers;
 
 use App\Helpers\Permission;
 use App\Helpers\UploadFile;
-use App\Imports\ImportPatrolConfig;
 use App\Imports\ImportPatrolScheduleConfig;
 use App\Models\DetailPatrolConfig;
-use App\Models\MasterCategory;
 use App\Models\MasterCompany;
-use App\Models\PatrolConfig;
 use App\Models\PatrolScheduleConfig;
 use App\Models\PatrolScheduleDetailConfig;
 use App\Models\PatrolScheduleShift;
@@ -115,10 +112,12 @@ class ScheduleConfigController extends Controller
 
     public function import(Request $request): RedirectResponse
     {
+        $maxfilesize = config('app.max_file_size_upload') * 1024;
         $request->validate([
-            'import-data_patroli' => 'required|mimes:xlsx,xls',
+            'import-data_patroli' => "required|mimes:xlsx,xls|max:{$maxfilesize}"
         ]);
 
+        dd($request);
         $idCompany = $request->get('id_company');
         $area = $request->get('area');
         $patrolScheduleConfig = PatrolScheduleConfig::where('id_company', $idCompany)->first();

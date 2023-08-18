@@ -31,7 +31,7 @@
 
 @section('vendor-script')
     <!-- BEGIN: Page Vendor JS-->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/zxcvbn/4.4.2/zxcvbn.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/zxcvbn/4.4.2/zxcvbn.js" nonce="{{csp_nonce()}}"></script>
 
     <script src="{{asset('assets/vendor/libs/moment/moment.js')}}"></script>
     <script src="{{asset('assets/vendor/libs/datatables-bs5/datatables-bootstrap5.js')}}"></script>
@@ -42,7 +42,7 @@
 @endsection
 
 @section('page-script')
-    <script>
+    <script nonce="{{csp_nonce()}}">
         $('#table-activity').DataTable({
             ajax: "{{route('management-user.activity_list')}}",
             responsive: false,
@@ -87,7 +87,7 @@
                     render: function (item,row, full) {
                         return `
                         <div style="width: 400px">
-                            <a class="btn btn-outline-primary me-1 waves-effect waves-light collapsed" data-bs-toggle="collapse" href="#collapse_property_${full['id']}" role="button" aria-expanded="false" aria-controls="collapseExample">
+                            <a class="btn btn-outline-primary  btn-sm me-1 waves-effect waves-light collapsed" data-bs-toggle="collapse" href="#collapse_property_${full['id']}" role="button" aria-expanded="false" aria-controls="collapseExample">
                             Detail Property </a>
                             <div class="collapse mt-1" id="collapse_property_${full['id']}" style="">
                                   <pre>${JSON.stringify(item, undefined, 2)}</pre>

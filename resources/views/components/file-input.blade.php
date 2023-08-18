@@ -14,7 +14,7 @@
                @else name="{{ $id }}" @endif
                accept="@foreach($extensions as $key=>$ext).{{$ext}}@if(($key+1) != count($extensions)),@endif @endforeach"/>
         <div id="defaultFormControlHelp_{{ $id }}" class="form-text">Upload Files only support extensions <cite
-                title="Source Title">{{ implode(',', $extensions) }}   </cite></div>
+                title="Source Title">{{ implode(',', $extensions) }}   </cite> and maximum size {{config('app.max_file_size_upload')}}MB</div>
     </div>
 
 </div>
@@ -23,21 +23,41 @@
     <script nonce="{{csp_nonce()}}">
         $('#{{ $id }}').change(function () {
             @php
-                $allowedExt = implode(',', $extensions)
+                $allowedExt = implode(',', $extensions);
             @endphp
             var ext = $(this).val().split('.').pop().toLowerCase();
             if ($.inArray(ext, [@foreach($extensions as $key=>$ext)'{{$ext}}'@if(($key+1) != count($extensions)),@endif @endforeach]) === -1) {
                 Swal.fire({
-                    title: 'Error!',
+                    title: 'Perhatian!',
                     text: 'File extension tidak didukung, pastikan memilih file {{$allowedExt}}',
-                    icon: 'error',
+                    icon: 'warning',
                     customClass: {
                         confirmButton: 'btn btn-primary'
                     },
                     buttonsStyling: false
                 }).then(function () {
+                    $('#{{ $id }}').val(null)
                 });
-                $('#{{ $id }}').val(null)
+            }
+
+            if (this.files.length > 0) {
+                console.log(this.files[0].size, {{(int)config('app.max_file_size_upload')}} * 1024000)
+                if (this.files[0].size > ({{(int)config('app.max_file_size_upload')}} * 1024000)) {
+                    $(this).val(null);
+                    Swal.fire({
+                        title: 'Perhatian!',
+                        text: 'Maksimal ukuran file  {{config('app.max_file_size_upload')}}Mb',
+                        icon: 'warning',
+                        customClass: {
+                            confirmButton: 'btn btn-primary'
+                        },
+                        buttonsStyling: false
+                    }).then(function () {
+                        $('#{{ $id }}').val(null)
+
+                    });
+                    return false
+                }
             }
         })
     </script>

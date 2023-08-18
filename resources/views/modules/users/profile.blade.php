@@ -21,7 +21,7 @@
 
 @section('page-script')
     {{--      <script src="{{asset('assets/js/pages/profile.js')}}"></script>--}}
-    <script>
+    <script nonce="{{csp_nonce()}}">
         $('#table-user-report-patrol').DataTable({
             ajax: "{{route('list-patrol-user', ['id'=>$user->id_user])}}",
             responsive: false,
@@ -154,7 +154,8 @@
                         <div
                             class="d-flex align-items-md-end align-items-sm-start align-items-center justify-content-md-between justify-content-start mx-4 flex-md-row flex-column gap-4">
                             <div class="user-profile-info">
-                                <h4>{{$user->name}}</h4>
+                                <h4>{{$user->name}}<span> <a href="{{route('profile.edit')}}"
+                                                             class="btn btn-secondary mb-2 text-nowrap me-2">Edit profile</a></span></h4>
                                 <ul
                                     class="list-inline mb-0 d-flex align-items-center flex-wrap justify-content-sm-start justify-content-center gap-2">
                                     <li class="list-inline-item">

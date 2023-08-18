@@ -79,8 +79,9 @@ class PatrolConfigController extends Controller
 
     public function import(Request $request)
     {
+        $maxfilesize = config('app.max_file_size_upload') * 1024;
         $request->validate([
-            'import-data-patroli' => 'required|mimes:xlsx,xls',
+            'import-data-patroli' => "required|mimes:xlsx,xls|max:{$maxfilesize}",
         ]);
 
         $idCompany = $request->get('idCompany');

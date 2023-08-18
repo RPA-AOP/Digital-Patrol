@@ -9,21 +9,5 @@
     "templateFree" => false,
     "templateDescription" => "Patrol System Management & Monitoring",
     "templateKeyword" => "Patrol System Management & Monitoring",
-    "licenseUrl" => "",
-    "livePreview" => "",
-    "productPage" => "",
-    "support" => "",
-    "moreThemes" => "",
-    "documentation" => "",
-    "generator" => "",
-    "changelog" => "",
-    "repository" => "",
-    "gitRepo" => "",
-    "gitRepoAccess" => "e",
-    "githubFreeUrl" => "",
-    "facebookUrl" => "",
-    "twitterUrl" => "",
-    "githubUrl" => "",
-    "dribbbleUrl" => "",
-    "instagramUrl" => ""
+
   ];

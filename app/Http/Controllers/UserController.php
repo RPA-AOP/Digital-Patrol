@@ -143,6 +143,20 @@ class UserController extends Controller
         ];
         return view('modules.users.profile', compact('user', 'summary'));
     }
+    public function profileEdit(Request $request): Factory|View|Application
+    {
+        $user = Users::query()->where('id_user', Auth::user()->id_user)->with('privileges.menu', 'userGroup')->first();
+        if (!$user)
+            abort(404, 'User not found');
+        $userGroup = UserGroup::query()->where('status', 1)->get();
+        $area = DetailPatrolConfig::where('level', '<=', 2)
+            ->where('id_company', $user->id_company)
+            ->whereStatus(true)
+            ->orderBy('level')
+            ->get();
+
+        return view('modules.users.profile_edit', compact('user', 'userGroup', 'area'));
+    }
 
     public function userListPatrol()
     {
