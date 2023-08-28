@@ -7,6 +7,7 @@ use Illuminate\Auth\AuthenticationException;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
 use Illuminate\Http\Exceptions\HttpResponseException;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Http\Request;
 use Illuminate\Validation\ValidationException;
 use Symfony\Component\HttpFoundation\Response;
 use Throwable;
@@ -115,5 +116,26 @@ class Handler extends ExceptionHandler
         $response['status'] = $statusCode;
 
         return response()->json($response, $statusCode);
+    }
+
+    /**
+     * Convert an authentication exception into an unauthenticated response.
+     *
+     * @param Request $request
+     * @param AuthenticationException $exception
+     * @return JsonResponse
+     */
+    protected function unauthenticated($request, AuthenticationException $exception): JsonResponse
+    {
+        if ($request->expectsJson()) {
+            return response()->json(
+                [
+                    'status' => false,
+                    'error' => 'Unauthenticated.'
+                ],
+                401);
+        }
+
+        return redirect()->guest(route('login'));
     }
 }

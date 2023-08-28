@@ -117,7 +117,6 @@ class ScheduleConfigController extends Controller
             'import-data_patroli' => "required|mimes:xlsx,xls|max:{$maxfilesize}"
         ]);
 
-        dd($request);
         $idCompany = $request->get('id_company');
         $area = $request->get('area');
         $patrolScheduleConfig = PatrolScheduleConfig::where('id_company', $idCompany)->first();

@@ -92,13 +92,9 @@ Route::group(['middleware' => ['auth', 'check-permission']], function () {
             Route::post('/update-user-group/{id}', [UserController::class, 'updateUserGroup'])->name('updateUserGroup');
         });
 
-
-
-
     Route::controller(QrcodeController::class)->prefix('qr-code')->name('qr-code.')->group(function () {
         Route::get('/', [QrcodeController::class, 'index'])->name('index');
         Route::get('/dectypQrCode/{id}', [QrcodeController::class, 'index'])->name('decrypt');
-
     });
 
     Route::controller(MasterCompanyController::class)->prefix('master-company')

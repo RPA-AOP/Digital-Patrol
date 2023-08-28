@@ -14,6 +14,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Storage;
 use Symfony\Component\HttpFoundation\StreamedResponse;
+use Validator;
 
 
 /**
@@ -23,6 +24,25 @@ class ReportController extends BaseApiController
 {
     public function postReportAccident(Request $request): JsonResponse
     {
+        $maxfilesize = config('app.max_api_file_size_upload') * 1024;
+
+        $validate = Validator::make($request->all(),
+            [
+                'title' => 'required|alpha_dash',
+                'description' => 'boolean|alpha_dash',
+                'image_1' => "max:{$maxfilesize}",
+                'image_2' => "max:{$maxfilesize}",
+                'image_3' => "max:{$maxfilesize}",
+            ]);
+
+        if ($validate->fails()) {
+            return response()->json([
+                'status' => false,
+                'message' => 'validation error',
+                'errors' => $validate->errors()
+            ], 401);
+        }
+
         $data = ReportAccident::create([
             'created_by' => $this->user->id_user,
             'id_company' => $this->user->id_company,
@@ -45,7 +65,7 @@ class ReportController extends BaseApiController
 
             if ($request->file('image_3')) {
                 $file = $request->file('image_3');
-                $data['image_2'] = $this->uploadAttachment($file, $data['report_accident_id']);
+                $data['image_3'] = $this->uploadAttachment($file, $data['report_accident_id']);
             }
             return response()->json($data);
         }
@@ -85,6 +105,22 @@ class ReportController extends BaseApiController
 
     public function postReport(Request $request): JsonResponse
     {
+        $maxfilesize = config('app.max_api_file_size_upload') * 1024;
+
+        $validate = Validator::make($request->all(),
+            [
+                'detail_temuan.*.image_1' => "max:{$maxfilesize}",
+                'detail_temuan.*.image_2' => "max:{$maxfilesize}",
+                'detail_temuan.*.image_3' => "max:{$maxfilesize}",
+            ]);
+
+        if ($validate->fails()) {
+            return response()->json([
+                'status' => false,
+                'message' => 'validation error',
+                'errors' => $validate->errors()
+            ], 401);
+        }
         $dataReport = Arr::except($request->post(), ['detail_temuan']);
         $dataDetail = $request->post('detail_temuan');
         $dataReport = array_filter($dataReport, fn($value) => !is_null($value) && $value !== 'null');
@@ -156,8 +192,20 @@ class ReportController extends BaseApiController
         return response()->json($report);
     }
 
-    public function preview(Request $request): StreamedResponse
+    public function preview(Request $request): StreamedResponse|JsonResponse
     {
+        $validate = Validator::make($request->all(),
+            [
+                'path' => "required",
+            ]);
+
+        if ($validate->fails()) {
+            return response()->json([
+                'status' => false,
+                'message' => 'validation error',
+                'errors' => $validate->errors()
+            ], 401);
+        }
         $filePath = $request->get('path');
         if (Storage::exists($filePath)) {
             return Storage::response($filePath);

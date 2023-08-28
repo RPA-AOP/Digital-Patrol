@@ -58,4 +58,19 @@ class AuthController extends Controller
             ], 500);
         }
     }
+
+    public function logoutUser(Request $request): JsonResponse
+    {
+        $deleted = $request->user()->tokens()->delete();
+        if ($deleted) {
+            return response()->json([
+                'status' => true,
+                'message' => 'Logout successfully'
+            ], 200);
+        }
+        return response()->json([
+            'status' => false,
+            'message' => 'Error when try to logout users'
+        ], 500);
+    }
 }

@@ -233,6 +233,7 @@ return [
         'Excel' => Maatwebsite\Excel\Facades\Excel::class,
     ],
 
-    'max_file_size_upload' => env('MAX_FILE_SIZE', 5) //default 5mb
+    'max_file_size_upload' => env('MAX_FILE_SIZE', 5), //default 5mb
+    'max_api_file_size_upload' => env('MAX_API_FILE_SIZE', 5) //default 5mb
 
 ];

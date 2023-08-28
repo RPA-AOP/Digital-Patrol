@@ -36,6 +36,7 @@ class ReportPatrolController extends Controller
         if (\Auth::user()->id_user_group == UserGroup::ADMIN_COMPANY) {
             $activity->where('id_company', \Auth::user()->id_company);
         }
+        $activity->orderBy('created_at', 'desc');
         return DataTables::of($activity->get())->addIndexColumn()->make(true);
     }
 

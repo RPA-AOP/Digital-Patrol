@@ -9,7 +9,7 @@ use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Collection;
-use Illuminate\Support\Facades\Log;
+use Validator;
 
 /**
  * @property Authenticatable|null $user
@@ -28,6 +28,22 @@ class PatrolController extends BaseApiController
 
     public function patrolActivity(Request $request): JsonResponse
     {
+        $validate = Validator::make($request->all(),
+            [
+                'patrol_schedule_shift_id' => 'required|alpha_dash',
+                'patrol_date' => 'alpha_dash',
+                'patrol_start_time' => 'date',
+                'patrol_end_time' => 'date',
+                'status' => 'boolean|alpha_dash',
+            ]);
+
+        if ($validate->fails()) {
+            return response()->json([
+                'status' => false,
+                'message' => 'validation error',
+                'errors' => $validate->errors()
+            ], 401);
+        }
         $patrolScheduleShiftId = $request->post('patrol_schedule_shift_id');
         $inShift = $request->post('is_shift');
         $patrolDate = $request->post('patrol_date');
