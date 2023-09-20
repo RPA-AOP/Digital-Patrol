@@ -63,6 +63,10 @@ use Spatie\Activitylog\Traits\LogsActivity;
  * @property-read Collection<int, \App\Models\ReportPatrolDetail> $reportPatrolDetail
  * @method static Builder|ReportPatrol whereDateBetween($fieldName, $fromDate, $toDate)
  * @property-read Collection<int, \App\Models\ReportPatrolDetail> $reportPatrolDetail
+ * @property-read Collection<int, \Spatie\Activitylog\Models\Activity> $activities
+ * @property-read int|null $activities_count
+ * @property-read \App\Models\PatrolActivity|null $activity
+ * @property-read Collection<int, \App\Models\ReportPatrolDetail> $reportPatrolDetail
  * @mixin Eloquent
  */
 class ReportPatrol extends Model

@@ -1,4 +1,4 @@
-@php use App\Helpers\Constant; @endphp
+@php @endphp
 @extends('layouts/layoutMaster')
 @section('title', 'Manage Patrol Configurations')
 @section('vendor-style')
@@ -142,16 +142,59 @@
                         @endif
                     </div>
                     <div class="card-body">
-                        <div class="alert alert-primary d-flex align-items-center mb-0" role="alert">
-                                <span class="alert-icon text-primary me-2">
-                                    <i class="ti ti-info-circle ti-xs"></i>
-                                </span>
-                            @if($dataConfig)
-                                Drag & drop item to change data level and click Update Hierarchy to save
-                            @else
-                                Upload configuration files (.xlsx)
-                            @endif
-                        </div>
+                        <form class="row"
+                              action="{{route('patrolconfig.updateConfig', ['id'=>$dataConfig->id_patrol_config])}}"
+                              method="POST">
+                            @csrf
+                            <div class="col-sm-12 row">
+                                <div class="col-5 d-flex align-items-center">
+                                    <div class="fw-semibold mb-3">Random Checkpoint</div>
+                                </div>
+                                <div class="col-7">
+                                    <label class="switch switch-square">
+                                        <input type="checkbox" class="switch-input" name="random_checkpoint"
+                                               value="1" @checked($dataConfig->random_checkpoint)/>
+                                        <span class="switch-toggle-slider">
+                            <span class="switch-on"><i class="ti ti-check"></i></span>
+                            <span class="switch-off"><i class="ti ti-x"></i></span>
+                          </span>
+                                        <span
+                                            class="switch-label">If Active, checkpoint area will be randomly shown </span>
+                                    </label>
+                                </div>
+                            </div>
+
+                            <div class="col-sm-12 row">
+                                <div class="col-5 d-flex align-items-center">
+                                    <label class="fw-semibold" for="random_percentage">Percentage Random
+                                        Checkpoint</label>
+                                </div>
+                                <div class="col-2">
+                                    <div class="input-group input-group-merge">
+                                        <input type="number" class="form-control"
+                                               placeholder="Random Percentage"
+                                               aria-label="Random Percentage"
+                                               aria-describedby="random_percentage"
+                                               id="random_percentage"
+                                               name="random_checkpoint_percentage"
+                                               maxlength="3"
+                                               max="100"
+                                               value="{{$dataConfig->random_checkpoint_percentage??80}}">
+                                        <span class="input-group-text" id="random_percentage">%</span>
+                                    </div>
+                                </div>
+                                <div class="col-5 d-flex align-items-center p-0">
+                                    <span
+                                        class="switch-label">Percentage of random checkpoint </span>
+                                </div>
+                            </div>
+                            <div class="col-12 row mt-3">
+                                <button id="update-config"
+                                        class="btn btn-primary text-center btn-block waves-effect waves-float waves-light">
+                                    Update Patrol Config
+                                </button>
+                            </div>
+                        </form>
                     </div>
                 </div>
                 <div class="card overflow-hidden mb-4" style="height: 630px;">
@@ -163,8 +206,19 @@
                                 Update Hierarchy
                             </button>
                         @endif
+
                     </div>
                     <div class="card-body" id="nestablePatrolConfigCard">
+                        <div class="alert alert-primary d-flex align-items-center mb-2" role="alert">
+                                <span class="alert-icon text-primary me-2">
+                                    <i class="ti ti-info-circle ti-xs"></i>
+                                </span>
+                            @if($dataConfig)
+                                Drag & drop item to change data level and click Update Hierarchy to save
+                            @else
+                                Upload configuration files (.xlsx)
+                            @endif
+                        </div>
                         @if($dataConfig)
                             <div class="dd " id="nestablePatrolConfig">
                                 <ol class="dd-list">
@@ -327,19 +381,19 @@
                                         </div>
                                     </div>
                                     @if($itemLevel)
-                                    <div class="col-12">
-                                        <div class="mb-3">
-                                            <label class="form-label" for="level_id">Level</label>
-                                            <select name="level_id" id="level_id" class="form-control"
-                                                    data-placeholder="Level">
-                                                <option>-- LEVEL ITEM</option>
-                                                @foreach($itemLevel as $level)
-                                                    <option
-                                                        value="{{$level['level']}}">{{$level['level_name']}}</option>
-                                                @endforeach
-                                            </select>
+                                        <div class="col-12">
+                                            <div class="mb-3">
+                                                <label class="form-label" for="level_id">Level</label>
+                                                <select name="level_id" id="level_id" class="form-control"
+                                                        data-placeholder="Level">
+                                                    <option>-- LEVEL ITEM</option>
+                                                    @foreach($itemLevel as $level)
+                                                        <option
+                                                            value="{{$level['level']}}">{{$level['level_name']}}</option>
+                                                    @endforeach
+                                                </select>
+                                            </div>
                                         </div>
-                                    </div>
                                     @endif
                                     <div class="col-12">
                                         <div class="mb-3">

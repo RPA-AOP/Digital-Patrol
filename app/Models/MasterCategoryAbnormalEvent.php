@@ -40,6 +40,8 @@ use Spatie\Activitylog\Traits\LogsActivity;
  * @property string|null $category_event
  * @method static Builder|MasterCategoryAbnormalEvent whereCategoryEvent($value)
  * @method static Builder|MasterCategoryAbnormalEvent whereIdCategoryEvent($value)
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \Spatie\Activitylog\Models\Activity> $activities
+ * @property-read int|null $activities_count
  * @mixin Eloquent
  */
 class MasterCategoryAbnormalEvent extends Model

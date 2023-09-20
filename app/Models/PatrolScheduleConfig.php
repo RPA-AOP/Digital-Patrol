@@ -35,6 +35,9 @@ use Spatie\Activitylog\Traits\LogsActivity;
  * @property-read Collection<int, \App\Models\DetailPatrolConfig> $patrolDetail
  * @property-read Collection<int, \App\Models\DetailPatrolConfig> $patrolDetail
  * @property-read Collection<int, \App\Models\DetailPatrolConfig> $patrolDetail
+ * @property-read Collection<int, \Spatie\Activitylog\Models\Activity> $activities
+ * @property-read int|null $activities_count
+ * @property-read Collection<int, \App\Models\DetailPatrolConfig> $patrolDetail
  * @mixin Eloquent
  */
 class PatrolScheduleConfig extends Model

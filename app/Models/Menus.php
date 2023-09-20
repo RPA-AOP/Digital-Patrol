@@ -46,6 +46,9 @@ use Spatie\Activitylog\Traits\LogsActivity;
  * @method static Builder|Menus whereUpdatedAt($value)
  * @method static Builder|Menus whereUpdatedBy($value)
  * @method static Builder|Menus whereUrl($value)
+ * @property-read Collection<int, \Spatie\Activitylog\Models\Activity> $activities
+ * @property-read int|null $activities_count
+ * @property-read Collection<int, Menus> $submenu
  * @mixin Eloquent
  */
 class Menus extends Model

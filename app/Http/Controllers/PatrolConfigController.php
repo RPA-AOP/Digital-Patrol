@@ -29,7 +29,7 @@ class PatrolConfigController extends Controller
             $data = ['permission' => $permission];
             return \Auth::user()->id_user_group == UserGroup::ADMIN_COMPANY ? redirect()->route('patrolconfig.manage', ['id' => \Auth::user()->id_company]) : view('modules.builder.index', $data);
         } else {
-             abort(403, 'Anda tidak memiliki akses pada menu ini');
+            abort(403, 'Anda tidak memiliki akses pada menu ini');
         }
     }
 
@@ -113,9 +113,23 @@ class PatrolConfigController extends Controller
 
     }
 
-    public function edit($id)
+    public function updateConfig(Request $request, $id)
     {
-
+        $permission = Permission::get();
+        if ($permission->has_edit) {
+            $request->validate([
+                'random_checkpoint_percentage' => 'numeric|min:20|max:100',
+            ]);
+            $config = PatrolConfig::find($id);
+            $config->random_checkpoint = (bool)$request->post('random_checkpoint',);
+            $config->random_checkpoint_percentage = $request->post('random_checkpoint_percentage', 80);
+            if ($config->save()) {
+                return redirect()->route('patrolconfig.manage', ['id'=> $id])
+                    ->with('success', 'Config Berhasil Di Update');
+            }
+            return redirect()->route('patrolconfig.manage', ['id'=> $id])
+                ->with('error', 'Config Gagal Di Update');
+        }
     }
 
     public function update(Request $request, $id)

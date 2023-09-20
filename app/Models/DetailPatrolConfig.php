@@ -63,6 +63,10 @@ use Spatie\Activitylog\Traits\LogsActivity;
  * @property-read Collection<int, \App\Models\MasterCategoryAbnormalEvent> $event
  * @property-read Collection<int, DetailPatrolConfig> $child
  * @property-read Collection<int, \App\Models\MasterCategoryAbnormalEvent> $event
+ * @property-read Collection<int, \Spatie\Activitylog\Models\Activity> $activities
+ * @property-read int|null $activities_count
+ * @property-read Collection<int, DetailPatrolConfig> $child
+ * @property-read Collection<int, \App\Models\MasterCategoryAbnormalEvent> $event
  * @mixin Eloquent
  */
 class DetailPatrolConfig extends Model

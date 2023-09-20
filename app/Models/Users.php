@@ -67,15 +67,8 @@ use Spatie\Activitylog\Traits\LogsActivity;
  * @method static Builder|Users whereUpdatedAt($value)
  * @method static Builder|Users whereUpdatedBy($value)
  * @method static Builder|Users whereUsername($value)
- * @property-read DatabaseNotificationCollection<int, DatabaseNotification> $notifications
- * @property-read Collection<int, \App\Models\UserGroupPrivilege> $privileges
- * @property-read Collection<int, PersonalAccessToken> $tokens
- * @property-read DatabaseNotificationCollection<int, DatabaseNotification> $notifications
- * @property-read Collection<int, \App\Models\UserGroupPrivilege> $privileges
- * @property-read Collection<int, PersonalAccessToken> $tokens
- * @property-read DatabaseNotificationCollection<int, DatabaseNotification> $notifications
- * @property-read Collection<int, \App\Models\UserGroupPrivilege> $privileges
- * @property-read Collection<int, PersonalAccessToken> $tokens
+ * @property-read Collection<int, \Spatie\Activitylog\Models\Activity> $activities
+ * @property-read int|null $activities_count
  * @mixin Eloquent
  */
 class Users extends Authenticatable

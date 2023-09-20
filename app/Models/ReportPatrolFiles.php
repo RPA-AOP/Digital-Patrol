@@ -39,6 +39,9 @@ use Spatie\Activitylog\Traits\LogsActivity;
  * @method static Builder|ReportPatrolFiles whereType($value)
  * @method static Builder|ReportPatrolFiles whereUpdatedAt($value)
  * @method static Builder|ReportPatrolFiles whereDateBetween($fieldName, $fromDate, $toDate)
+ * @property-read Collection<int, \Spatie\Activitylog\Models\Activity> $activities
+ * @property-read int|null $activities_count
+ * @property-read Collection<int, \App\Models\ReportPatrolDetail> $reportPatrolDetail
  * @mixin Eloquent
  */
 class ReportPatrolFiles extends Model

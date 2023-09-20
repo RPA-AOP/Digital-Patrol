@@ -29,6 +29,8 @@ use Spatie\Activitylog\Traits\LogsActivity;
  * @method static Builder|FileUpload wherePathFile($value)
  * @method static Builder|FileUpload whereTahun($value)
  * @method static Builder|FileUpload whereUpdatedAt($value)
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \Spatie\Activitylog\Models\Activity> $activities
+ * @property-read int|null $activities_count
  * @mixin Eloquent
  */
 class FileUpload extends Model

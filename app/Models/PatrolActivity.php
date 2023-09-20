@@ -46,6 +46,9 @@ use Spatie\Activitylog\Traits\LogsActivity;
  * @method static Builder|PatrolActivity wherePatrolStartTime($value)
  * @method static Builder|PatrolActivity whereStatus($value)
  * @method static Builder|PatrolActivity whereUpdatedAt($value)
+ * @property-read Collection<int, \Spatie\Activitylog\Models\Activity> $activities
+ * @property-read int|null $activities_count
+ * @property-read Collection<int, \App\Models\ReportPatrol> $reportPatrol
  * @mixin Eloquent
  */
 class PatrolActivity extends Model

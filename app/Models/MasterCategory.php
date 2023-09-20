@@ -36,6 +36,8 @@ use Spatie\Activitylog\Traits\LogsActivity;
  * @method static Builder|MasterCategory whereUpdatedBy($value)
  * @method static Builder|MasterCategory whereCategoryCode($value)
  * @method static Builder|MasterCategory whereCategoryName($value)
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \Spatie\Activitylog\Models\Activity> $activities
+ * @property-read int|null $activities_count
  * @mixin Eloquent
  */
 class MasterCategory extends Model

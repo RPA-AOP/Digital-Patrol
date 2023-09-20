@@ -34,6 +34,8 @@ use Spatie\Activitylog\Traits\LogsActivity;
  * @method static Builder|PatrolScheduleDetailConfig wherePatrolScheduleShiftId($value)
  * @method static Builder|PatrolScheduleDetailConfig whereStatus($value)
  * @method static Builder|PatrolScheduleDetailConfig whereUpdatedAt($value)
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \Spatie\Activitylog\Models\Activity> $activities
+ * @property-read int|null $activities_count
  * @mixin Eloquent
  */
 class PatrolScheduleDetailConfig extends Model

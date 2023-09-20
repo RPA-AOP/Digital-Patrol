@@ -67,6 +67,9 @@ use Spatie\Activitylog\Traits\LogsActivity;
  * @method static Builder|ReportAccident whereDateBetween($fieldName, $fromDate, $toDate)
  * @property-read Collection<int, \App\Models\ReportAccidentAttachment> $attachment
  * @property-read int|null $attachment_count
+ * @property-read Collection<int, \Spatie\Activitylog\Models\Activity> $activities
+ * @property-read int|null $activities_count
+ * @property-read Collection<int, \App\Models\ReportAccidentAttachment> $attachment
  * @mixin Eloquent
  */
 class ReportAccident extends Model

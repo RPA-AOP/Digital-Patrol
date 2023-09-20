@@ -62,6 +62,7 @@ Route::group(['middleware' => ['auth', 'check-permission']], function () {
             Route::get('/edit/{id}', [PatrolConfigController::class, 'edit'])->name('edit');
             Route::post('/edit/{id}', [PatrolConfigController::class, 'update'])->name('update');
             Route::post('/updateConfigHierarchy/{id}', [PatrolConfigController::class, 'updateConfigHierarchy'])->name('updateConfigHierarchy');
+            Route::post('/updateConfig/{id}', [PatrolConfigController::class, 'updateConfig'])->name('updateConfig');
             Route::post('/import', [PatrolConfigController::class, 'import'])->name('import');
         });
     Route::controller(ScheduleConfigController::class)->prefix('scheduleconfig')

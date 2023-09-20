@@ -11,6 +11,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Support\Carbon;
 use Spatie\Activitylog\LogOptions;
+use Spatie\Activitylog\Models\Activity;
 use Spatie\Activitylog\Traits\LogsActivity;
 
 /**
@@ -36,9 +37,12 @@ use Spatie\Activitylog\Traits\LogsActivity;
  * @method static Builder|PatrolConfig whereStatus($value)
  * @method static Builder|PatrolConfig whereUpdatedAt($value)
  * @method static Builder|PatrolConfig whereUpdatedBy($value)
- * @property-read Collection<int, \App\Models\DetailPatrolConfig> $patrolDetail
- * @property-read Collection<int, \App\Models\DetailPatrolConfig> $patrolDetail
- * @property-read Collection<int, \App\Models\DetailPatrolConfig> $patrolDetail
+ * @property bool $random_checkpoint
+ * @property int $random_checkpoint_percentage
+ * @property-read Collection<int, Activity> $activities
+ * @property-read int|null $activities_count
+ * @method static Builder|PatrolConfig whereRandomCheckpoint($value)
+ * @method static Builder|PatrolConfig whereRandomCheckpointPercentage($value)
  * @mixin Eloquent
  */
 class PatrolConfig extends Model
@@ -57,6 +61,8 @@ class PatrolConfig extends Model
     protected $primaryKey = 'id_patrol_config';
     protected $fillable = [
         'id_company',
+        'random_checkpoint',
+        'random_checkpoint_percentage',
         'status',
         'created_at',
         'updated_at',

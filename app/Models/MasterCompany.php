@@ -54,6 +54,8 @@ use Spatie\Activitylog\Traits\LogsActivity;
  * @method static Builder|MasterCompany whereStatusBangunan($value)
  * @method static Builder|MasterCompany whereUpdatedAt($value)
  * @method static Builder|MasterCompany whereUpdatedBy($value)
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \Spatie\Activitylog\Models\Activity> $activities
+ * @property-read int|null $activities_count
  * @mixin Eloquent
  */
 class MasterCompany extends Model

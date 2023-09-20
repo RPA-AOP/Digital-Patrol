@@ -43,6 +43,8 @@ use Spatie\Activitylog\Traits\LogsActivity;
  * @method static Builder|UserGroupPrivilege whereIdUserGroupPrivilege($value)
  * @method static Builder|UserGroupPrivilege whereUpdatedAt($value)
  * @method static Builder|UserGroupPrivilege whereUpdatedBy($value)
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \Spatie\Activitylog\Models\Activity> $activities
+ * @property-read int|null $activities_count
  * @mixin Eloquent
  */
 class UserGroupPrivilege extends Model

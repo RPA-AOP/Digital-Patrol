@@ -68,6 +68,10 @@ use Spatie\Activitylog\Traits\LogsActivity;
  * @method static Builder|ReportPatrolDetail whereActionReportedAt($value)
  * @method static Builder|ReportPatrolDetail whereActionStatus($value)
  * @method static Builder|ReportPatrolDetail whereActionUser($value)
+ * @property-read Collection<int, \Spatie\Activitylog\Models\Activity> $activities
+ * @property-read int|null $activities_count
+ * @property-read Collection<int, \App\Models\ReportPatrolFiles> $files
+ * @property-read \App\Models\ReportPatrol|null $reportPatrol
  * @mixin Eloquent
  */
 class ReportPatrolDetail extends Model

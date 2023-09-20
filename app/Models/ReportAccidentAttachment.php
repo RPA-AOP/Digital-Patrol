@@ -33,6 +33,8 @@ use Spatie\Activitylog\Traits\LogsActivity;
  * @method static Builder|ReportAccidentAttachment whereReportAccidentAttachmentId($value)
  * @method static Builder|ReportAccidentAttachment whereReportAccidentId($value)
  * @method static Builder|ReportAccidentAttachment whereUpdatedAt($value)
+ * @property-read Collection<int, \Spatie\Activitylog\Models\Activity> $activities
+ * @property-read int|null $activities_count
  * @mixin Eloquent
  */
 class ReportAccidentAttachment extends Model
