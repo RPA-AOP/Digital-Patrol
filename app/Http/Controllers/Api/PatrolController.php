@@ -3,7 +3,9 @@
 namespace App\Http\Controllers\Api;
 
 use App\Helpers\PatrolConfigHelper;
+use App\Models\DetailPatrolConfig;
 use App\Models\PatrolActivity;
+use App\Models\PatrolConfig;
 use Illuminate\Contracts\Auth\Authenticatable;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
@@ -23,6 +25,7 @@ class PatrolController extends BaseApiController
 //            ->where('level','>',$this->user->area)
 //            ->whereStatus(true)
 //            ->get();
+
         return PatrolConfigHelper::getFlattenConfig($this->user->id_company, $this->user->area);
     }
 
