@@ -14,7 +14,7 @@ use Illuminate\Support\Collection;
  */
 class ScheduleController extends BaseApiController
 {
-    public function getSchedules(Request $request): array|\Illuminate\Database\Eloquent\Collection|Collection
+    public function getSchedules(Request $request)
     {
         $schedules = PatrolScheduleDetailConfig::whereIdUser($this->user->id_user)
             ->whereBetween('patrol_date',
@@ -33,7 +33,6 @@ class ScheduleController extends BaseApiController
             ->where("pss.shift_name", '!=', "LIBUR")
             ->orderBy('patrol_date')
             ->get();
-
         foreach ($schedules as $shift) {
             $dateEnd = $shift->patrol_date;
             if (Carbon::createFromFormat('H:i:s', $shift->start_hour)->gt(Carbon::createFromFormat('H:i:s', $shift->end_hour))) {

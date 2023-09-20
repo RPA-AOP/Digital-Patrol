@@ -43,7 +43,7 @@ class ImportPatrolScheduleConfig implements WithMultipleSheets, SkipsUnknownShee
     {
         return [
             'SHIFT' => new DataScheduleShiftSheetImport($this->idCompany, $this->area),
-            'JADWAL PATROLI' => new DataScheduleSheetImport($this->idCompany, $this->idPatrolScheduleConfig, $this->month, $this->year),
+            'JADWAL PATROLI' => new DataScheduleSheetImport($this->idCompany, $this->idPatrolScheduleConfig, $this->month, $this->year,  $this->area),
         ];
     }
 }

@@ -52,7 +52,7 @@ class AuthController extends Controller
                         ->withProperties($user)
                         ->event('login_failed')
                         ->log('login credentials not match');
-                    return redirect('/login')->with(['error' => 'Username / Password Salah!']);
+                    return redirect()->route('login')->with(['error' => 'Username / Password Salah!']);
                 }
             } else {
                 activity('login')

@@ -73,6 +73,7 @@ class PatrolConfigController extends Controller
 
         $category = MasterCategory::where('id_company', $id)
             ->get(['category_name', 'id_category']);
+        \Cache::flush();
         return view('modules.builder.manage', compact('dataConfig', 'category', 'company', 'itemLevel', 'parentItem'));
 
     }
@@ -86,7 +87,7 @@ class PatrolConfigController extends Controller
 
         $idCompany = $request->get('idCompany');
         $patrolConfig = PatrolConfig::where('id_company', $idCompany)->first();
-        $files = $request->file('import-data_patroli');
+        $files = $request->file('import-data-patroli');
         if ($files) {
             if (!$patrolConfig) {
                 $patrolConfig = PatrolConfig::create([

@@ -26,13 +26,15 @@ class DataScheduleSheetImport implements ToArray, WithCalculatedFormulas, WithHe
     public int $idPatrolScheduleConfig;
     private $month;
     private $year;
+    private int $area;
 
-    public function __construct($idCompany, $idPatrolScheduleConfig, $month, $year)
+    public function __construct($idCompany, $idPatrolScheduleConfig, $month, $year, int $area)
     {
         $this->idCompany = $idCompany;
         $this->idPatrolScheduleConfig = $idPatrolScheduleConfig;
         $this->month = $month;
         $this->year = $year;
+        $this->area = $area;
     }
 
     public function array(array $array)
@@ -71,6 +73,7 @@ class DataScheduleSheetImport implements ToArray, WithCalculatedFormulas, WithHe
 
                 $shift = PatrolScheduleShift::where('shift_name', $v)
                     ->whereIdCompany($this->idCompany)
+                    ->whereArea($this->area)
                     ->orWhere('shift_code', $v)
                     ->first();
                 if (!$shift) {

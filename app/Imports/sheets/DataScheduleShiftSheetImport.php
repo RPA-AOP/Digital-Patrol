@@ -2,10 +2,7 @@
 
 namespace App\Imports\sheets;
 
-use App\Models\PatrolScheduleDetailConfig;
 use App\Models\PatrolScheduleShift;
-use App\Models\Users;
-use Carbon\Carbon;
 use Maatwebsite\Excel\Concerns\ToArray;
 use Maatwebsite\Excel\Concerns\WithCalculatedFormulas;
 use Maatwebsite\Excel\Concerns\WithHeadingRow;
@@ -39,16 +36,17 @@ class DataScheduleShiftSheetImport implements ToArray, WithCalculatedFormulas, W
                 [
                     'id_company' => $this->idCompany,
                     'area' => $this->area,
-                ], [
-                'shift_code' => $item['shift_code'],
-                'area' => $this->area,
-                'shift_name' => $item['shift_name'],
-                'start_hour' => Date::excelToDateTimeObject($item['start_hour'])
-                    ->format('H:i'),
-                'end_hour' => Date::excelToDateTimeObject($item['end_hour'])
-                    ->format('H:i'),
-                'status' => true
-            ]);
+                    'shift_code' => $item['shift_code'],
+                ],
+                [
+                    'area' => $this->area,
+                    'shift_name' => $item['shift_name'],
+                    'start_hour' => Date::excelToDateTimeObject($item['start_hour'])
+                        ->format('H:i'),
+                    'end_hour' => Date::excelToDateTimeObject($item['end_hour'])
+                        ->format('H:i'),
+                    'status' => true
+                ]);
         }
     }
 

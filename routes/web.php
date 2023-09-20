@@ -40,6 +40,8 @@ Route::group(['middleware' => ['auth', 'check-permission']], function () {
     Route::get('/profile', [UserController::class, 'profile'])->name('profile');
     Route::get('/profile/edit', [UserController::class, 'profileEdit'])->name('profile.edit');
     Route::get('/profile/list', [UserController::class, 'userListPatrol'])->name('list-patrol-user');
+    Route::post('/profile/edit/', [UserController::class, 'update'])->name('profile.update');
+    Route::post('/profile/change-password', [UserController::class, 'changePassword'])->name('profile.change-password');
 
     Route::controller(HomeController::class)->prefix('dashboard')
         ->name('dashboard.')->group(function () {

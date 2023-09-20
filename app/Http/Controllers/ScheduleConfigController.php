@@ -137,6 +137,7 @@ class ScheduleConfigController extends Controller
                     $year = $request->get('year');
 
                     Excel::import(new ImportPatrolScheduleConfig($idCompany, $patrolScheduleConfig->patrol_schedule_id, $month, $year, $area), $filePath);
+                    \Cache::flush();
                     return redirect()->route('scheduleconfig.manage', $idCompany)->with('success', 'Import Success.');
                 } else {
                     return redirect()->back(501)->with('error', 'upload failed, ');

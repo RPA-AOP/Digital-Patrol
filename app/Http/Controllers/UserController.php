@@ -17,6 +17,7 @@ use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash as PasswordHash;
 use Illuminate\View\View;
 use Spatie\Activitylog\Models\Activity;
 use Yajra\DataTables\DataTables;
@@ -143,6 +144,7 @@ class UserController extends Controller
         ];
         return view('modules.users.profile', compact('user', 'summary'));
     }
+
     public function profileEdit(Request $request): Factory|View|Application
     {
         $user = Users::query()->where('id_user', Auth::user()->id_user)->with('privileges.menu', 'userGroup')->first();
@@ -273,15 +275,32 @@ class UserController extends Controller
 
     public function changePassword(Request $request)
     {
-        $request->validate([
-            'newPassword' => 'required|confirmed',
-            'id_user' => 'required',
-        ]);
-        $user = Users::find($request->post('id_user'));
+
+        if (\Auth::user()->id_user_group == UserGroup::ADMIN_COMPANY) {
+            $request->validate([
+                'newPassword' => 'required|confirmed',
+                'id_user' => 'required',
+            ]);
+            $user = Users::find($request->post('id_user'));
+        } else {
+            $request->validate([
+                'newPassword' => 'required|confirmed',
+                'currentPassword' => 'required',
+                'id_user' => 'required',
+            ]);
+            $user = Auth::user();
+
+            if (!PasswordHash::check($request->currentPassword, $user->password)) {
+                return redirect()->route('profile.edit', ['id' => $user->id_user])
+                    ->with('error', 'User Gagal Di Update, Current password salah!');
+            }
+
+        }
+
         if ($user) {
             $user->password = Hash::make($request->post('newPassword'));
             if ($user->save()) {
-                return redirect()->route('management-user.edit', ['id' => $user->id_user])
+                return redirect()->route('profile.edit', ['id' => $user->id_user])
                     ->with('success', 'User password telah di Update');
             }
 

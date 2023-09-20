@@ -35,7 +35,8 @@
                 <div class="card  h-100">
                     <h5 class="card-header">Change Password</h5>
                     <div class="card-body">
-                        <form id="formChangePassword" method="POST" action="{{route('management-user.change-password')}}">
+                        <form id="formChangePassword" method="POST"
+                              action="{{route('profile.change-password')}}">
                             <div class="alert alert-info" role="alert">
                                 <span>Minimum 8 characters long, uppercase & symbol</span>
                             </div>
@@ -58,8 +59,24 @@
                                     </div>
                                 </div>
 
+
                                 <div class="mb-3 col-12 col-sm-6 form-password-toggle">
-                                    <label class="form-label" for="newPassword_confirmation">Confirm New Password</label>
+                                    <label class="form-label" for="currentPassword">Current Password</label>
+                                    <div class="input-group input-group-merge">
+                                        <input
+                                            class="form-control"
+                                            type="password"
+                                            id="currentPassword"
+                                            name="currentPassword"
+                                            placeholder="&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;"
+                                        />
+                                        <span class="input-group-text cursor-pointer"><i
+                                                class="ti ti-eye-off"></i></span>
+                                    </div>
+                                </div>
+                                <div class="mb-3 col-12 col-sm-6 form-password-toggle">
+                                    <label class="form-label" for="newPassword_confirmation">Confirm New
+                                        Password</label>
                                     <div class="input-group input-group-merge">
                                         <input
                                             class="form-control"
@@ -72,8 +89,10 @@
                                                 class="ti ti-eye-off"></i></span>
                                     </div>
                                 </div>
-                                <div class="text-end">
-                                    <button type="submit" class="btn btn-primary me-2">Change Password</button>
+                                <div class="mb-3 col-12 col-sm-6 ">
+                                    <div class="text-end">
+                                        <button type="submit" class="btn btn-primary mt-4">Change Password</button>
+                                    </div>
                                 </div>
                             </div>
                         </form>
