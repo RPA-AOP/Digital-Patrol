@@ -15,6 +15,8 @@ class Permission
 {
     public static function get()
     {
+        $property = json_encode(Request::header(), JSON_FORCE_OBJECT);
+
         $default_priv = new stdClass();
         $default_priv->has_view = 0;
         $default_priv->has_create = 0;
@@ -29,7 +31,7 @@ class Permission
         if (!$menu) {
             activity('page_access_denied')
                 ->event('access_denied')
-                ->withProperties(Request::header())
+                ->withProperties($property)
                 ->log(Request::url());
             abort(403);
         }
@@ -45,7 +47,7 @@ class Permission
         } else {
             activity('page_access_denied')
                 ->event('access_denied')
-                ->withProperties(Request::header())
+                ->withProperties($property)
                 ->log(Request::url());
             abort(403);
 

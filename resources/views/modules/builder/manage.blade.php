@@ -147,10 +147,10 @@
                               method="POST">
                             @csrf
                             <div class="col-sm-12 row">
-                                <div class="col-5 d-flex align-items-center">
+                                <div class="col-4 d-flex align-items-center">
                                     <div class="fw-semibold mb-3">Random Checkpoint</div>
                                 </div>
-                                <div class="col-7">
+                                <div class="col-8">
                                     <label class="switch switch-square">
                                         <input type="checkbox" class="switch-input" name="random_checkpoint"
                                                value="1" @checked($dataConfig->random_checkpoint)/>
@@ -159,17 +159,17 @@
                             <span class="switch-off"><i class="ti ti-x"></i></span>
                           </span>
                                         <span
-                                            class="switch-label">If Active, checkpoint area will be randomly shown </span>
+                                            class="switch-label">If Active, Checkpoint will be randomly shown each Zone</span>
                                     </label>
                                 </div>
                             </div>
 
                             <div class="col-sm-12 row">
-                                <div class="col-5 d-flex align-items-center">
+                                <div class="col-4 d-flex align-items-center">
                                     <label class="fw-semibold" for="random_percentage">Percentage Random
-                                        Checkpoint</label>
+                                        Checkpoint </label>
                                 </div>
-                                <div class="col-2">
+                                <div class="col-3">
                                     <div class="input-group input-group-merge">
                                         <input type="number" class="form-control"
                                                placeholder="Random Percentage"
@@ -185,7 +185,7 @@
                                 </div>
                                 <div class="col-5 d-flex align-items-center p-0">
                                     <span
-                                        class="switch-label">Percentage of random checkpoint </span>
+                                        class="switch-label">Percentage of random checkpoint each Zone</span>
                                 </div>
                             </div>
                             <div class="col-12 row mt-3">

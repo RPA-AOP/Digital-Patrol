@@ -9,6 +9,8 @@
     <link rel="stylesheet" href="{{asset('assets/vendor/libs/datatables-responsive-bs5/responsive.bootstrap5.css')}}"/>
     <link rel="stylesheet"
           href="{{asset('assets/vendor/libs/datatables-checkboxes-jquery/datatables.checkboxes.css')}}"/>
+    <link rel="stylesheet" href="{{asset('assets/vendor/libs/spinkit/spinkit.css')}}" />
+
 @endsection
 
 @section('page-style')
@@ -29,6 +31,7 @@
     <script src="{{asset('assets/vendor/libs/cleavejs/cleave.js')}}"></script>
     <script src="{{asset('assets/vendor/libs/cleavejs/cleave-phone.js')}}"></script>
     <script src="{{asset('assets/vendor/libs/select2/select2.js')}}"></script>
+    <script src="{{asset('assets/vendor/libs/block-ui/block-ui.js')}}"></script>
 
 
     <script nonce="{{ csp_nonce() }}">
@@ -368,7 +371,6 @@
             getData({}, function (resp) {
                 var series = resp.chart.series
                 var label = resp.chart.label
-                console.log(series)
                 window.weeklyEarningReports.updateOptions({
                     series: series,
                     labels: label
@@ -382,7 +384,6 @@
             getData(data, function (resp) {
                 var series = resp.chart.series
                 var label = resp.chart.label
-                console.log(series)
                 window.weeklyEarningReports.updateOptions({
                     series: series,
                     labels: label
@@ -395,11 +396,7 @@
     </script>
 
     <script nonce="{{csp_nonce()}}">
-        var data = generateDayWiseTimeSeries(new Date("22 Apr 2017").getTime(), 115, {
-            min: 30,
-            max: 90
-        });
-        var options1 = {
+        var optionsAbnormalLineTimeSeriesChart = {
             chart: {
                 id: "chart2",
                 type: "area",
@@ -408,7 +405,8 @@
                 toolbar: {
                     autoSelected: "pan",
                     show: false
-                }
+                },
+
             },
             colors: ["#ea5455"],
             stroke: {
@@ -439,16 +437,18 @@
                 strokeColor: "#ea5455",
                 strokeWidth: 3
             },
-            series: [
-                {
-                    data: data
-                }
-            ],
+            series: [],
             tooltip: {
-                theme: "dark"
+                theme: "light"
             },
             xaxis: {
-                type: "datetime"
+                type: "datetime",
+                datetimeFormatter: {
+                    year: 'yyyy',
+                    month: 'MMM \'yy',
+                    day: 'dd MMM',
+                    hour: 'HH:mm'
+                }
             },
             yaxis: {
                 min: 0,
@@ -456,11 +456,11 @@
             }
         };
 
-        var chart1 = new ApexCharts(document.querySelector("#chart-area"), options1);
+        var abnormalLineTimeSeriesChart = new ApexCharts(document.querySelector("#chart-area"), optionsAbnormalLineTimeSeriesChart);
 
-        chart1.render();
+        abnormalLineTimeSeriesChart.render();
 
-        var options2 = {
+        var optionsAbnormalBarTimeSeriesChart = {
             chart: {
                 id: "chart1",
                 height: 130,
@@ -476,18 +476,11 @@
                         color: "#fff",
                         opacity: 0.4
                     },
-                    xaxis: {
-                        min: new Date("27 Jul 2017 10:00:00").getTime(),
-                        max: new Date("14 Aug 2017 10:00:00").getTime()
-                    }
+
                 }
             },
             colors: ["#0d47a1"],
-            series: [
-                {
-                    data: data
-                }
-            ],
+            series: [],
             stroke: {
                 width: 0
             },
@@ -499,6 +492,9 @@
             },
             xaxis: {
                 type: "datetime",
+                labels: {
+                    format: 'dd MMM \'yy',
+                },
                 tooltip: {
                     enabled: false
                 }
@@ -508,9 +504,26 @@
             }
         };
 
-        var chart2 = new ApexCharts(document.querySelector("#chart-bar"), options2);
+        var abnormalBarTimeSeriesChart = new ApexCharts(document.querySelector("#chart-bar"), optionsAbnormalBarTimeSeriesChart);
 
-        chart2.render();
+        abnormalBarTimeSeriesChart.render();
+
+
+        getDataAbnormalTimeSeries(function (resp) {
+            var series = {
+                name: "Total Abnormal",
+                data: resp
+            }
+            abnormalLineTimeSeriesChart.updateOptions({
+                series: [series],
+            });
+
+            abnormalBarTimeSeriesChart.updateOptions({
+                series: [series],
+            });
+            $('#card-timeseries').unblock()
+        })
+
 
         function generateDayWiseTimeSeries(baseval, count, yrange) {
             var i = 0;
@@ -527,6 +540,38 @@
             console.log(series)
             return series;
         }
+
+        function getDataAbnormalTimeSeries(callback) {
+            $.ajax({
+                headers: {
+                    'X-CSRF-TOKEN': '{{ csrf_token() }}'
+                },
+                url: '{{route('dashboard.abnormal-timeseries')}}',
+                method: 'GET',
+                data: {},
+                dataType: "JSON",
+                success: function (resp) {
+                    if (resp) {
+                        callback(resp)
+                    }
+                }
+            });
+
+        }
+
+            $('#card-timeseries').block({
+                message:
+                    '<div class="sk-wave mx-auto"><div class="sk-rect sk-wave-rect"></div> <div class="sk-rect sk-wave-rect"></div> <div class="sk-rect sk-wave-rect"></div> <div class="sk-rect sk-wave-rect"></div> <div class="sk-rect sk-wave-rect"></div></div>',
+                css: {
+                    backgroundColor: 'transparent',
+                    color: '#fff',
+                    border: '0'
+                },
+                overlayCSS: {
+                    opacity: 0.5
+                }
+            });
+
 
     </script>
 @endsection
@@ -695,10 +740,10 @@
             <!--/ Earning Reports -->
 
             <div class="col-12 mb-4">
-                <div class="card h-100">
-                    <div class="card-header d-flex justify-content-between pb-0">
+                <div class="card h-100" id="card-timeseries">
+                    <div class="card-header d-flex justify-content-between pb-0" >
                         <div class="card-title mb-0">
-                            <h5 class="mb-0">Laporan Abnormality</h5>
+                            <h5 class="mb-0">Abnormality Time Series</h5>
                             {{--            <small class="text-muted">Last 7 Days</small>--}}
                         </div>
                     </div>

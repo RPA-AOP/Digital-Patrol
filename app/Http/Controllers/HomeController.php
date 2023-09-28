@@ -130,6 +130,6 @@ class HomeController extends Controller
     function getAbnormalTimeseries(Request $request)
     {
         $data = DashboardHelper::getAbnormalTimeSeries(120);
-        dd($data);
+        return response()->json($data);
     }
 }

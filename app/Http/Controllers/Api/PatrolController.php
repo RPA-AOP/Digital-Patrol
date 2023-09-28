@@ -3,9 +3,7 @@
 namespace App\Http\Controllers\Api;
 
 use App\Helpers\PatrolConfigHelper;
-use App\Models\DetailPatrolConfig;
 use App\Models\PatrolActivity;
-use App\Models\PatrolConfig;
 use Illuminate\Contracts\Auth\Authenticatable;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
@@ -21,11 +19,6 @@ class PatrolController extends BaseApiController
 
     public function getPatrolConfig(Request $request): array|\Illuminate\Database\Eloquent\Collection|Collection
     {
-//        return DetailPatrolConfig::whereIdCompany($this->user->id_company)
-//            ->where('level','>',$this->user->area)
-//            ->whereStatus(true)
-//            ->get();
-
         return PatrolConfigHelper::getFlattenConfig($this->user->id_company, $this->user->area);
     }
 
@@ -51,22 +44,23 @@ class PatrolController extends BaseApiController
         $inShift = $request->post('is_shift');
         $patrolDate = $request->post('patrol_date');
         $patrolStartTime = $request->post('patrol_start_time');
-        $patrolEndTime = $request->post('patrol_end_time');
+        $patrolEndTime = $request->post('patrol_end_time',);
         $status = $request->post('status');
-
-        $activity = new PatrolActivity();
-        $activity->id_user = $this->user->id_user;
-        $activity->id_company = $this->user->id_company;
-        $activity->patrol_schedule_shift_id = $patrolScheduleShiftId;
-        $activity->patrol_date = Carbon::createFromFormat('Y-m-d', $patrolDate);
-        $activity->patrol_start_time = Carbon::createFromFormat('Y-m-d H:i:s', $patrolStartTime);
-        if ($inShift == 'true') {
-            $activity->in_shift = true;
-
-        }
-        if ($patrolEndTime)
-            $activity->patrol_end_time = Carbon::createFromFormat('Y-m-d H:i:s', $patrolEndTime);
-        $activity->status = $status;
+        $activity = PatrolActivity::updateOrCreate(
+            [
+                'id_user' => $this->user->id_user,
+                'id_company' => $this->user->id_company,
+                'patrol_schedule_shift_id' => $patrolScheduleShiftId,
+                'patrol_date' => Carbon::createFromFormat('Y-m-d', $patrolDate),
+                'in_shift' => $inShift == 'true',
+                'patrol_start_time' => Carbon::createFromFormat('Y-m-d H:i:s', $patrolStartTime),
+            ],
+            [
+                'status' => $status,
+                'patrol_end_time' => $request->has('patrol_end_time') ? Carbon::createFromFormat('Y-m-d H:i:s', $patrolEndTime) : null
+            ]
+        );
+        $activity->refresh();
 
         if ($activity->save()) {
             $activity = $activity->refresh();
@@ -82,6 +76,7 @@ class PatrolController extends BaseApiController
             ->whereIdUser($this->user->id_user)
             ->wherePatrolDate(Carbon::now())
             ->where('patrol_schedule_shift_id', $request->get('shiftId'))
+            ->latest('created_at')
             ->first();
         return response()->json($activity);
     }

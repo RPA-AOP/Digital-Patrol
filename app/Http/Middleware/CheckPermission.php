@@ -20,9 +20,10 @@ class CheckPermission
      */
     public function handle(Request $request, Closure $next)
     {
+        $property = json_encode($request->headers->all(), JSON_FORCE_OBJECT);
         activity('page_access')
             ->event('access')
-            ->withProperties($request->header())
+            ->withProperties($property)
             ->log($request->getUri());
 
         $except = ['logout', 'login', 'profile'];
@@ -47,7 +48,7 @@ class CheckPermission
             default:
                 activity('page_access_denied')
                     ->event('access_denied')
-                    ->withProperties($request->header())
+                    ->withProperties($property)
                     ->log($request->url());
                 abort(403);
         }

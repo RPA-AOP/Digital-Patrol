@@ -17,6 +17,7 @@ use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash as PasswordHash;
 use Illuminate\View\View;
 use Spatie\Activitylog\Models\Activity;
@@ -321,7 +322,7 @@ class UserController extends Controller
     {
         if (\auth()->user()->id_user_group != UserGroup::ADMINISTRATOR)
             abort(403);
-        $activity = Activity::all();
+        $activity = DB::table('activity_log')->orderByDesc('created_at');
         return DataTables::of($activity)->addIndexColumn()->make(true);
 
     }

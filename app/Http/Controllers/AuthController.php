@@ -57,7 +57,7 @@ class AuthController extends Controller
             } else {
                 activity('login')
                     ->event('user_not_found')
-                    ->withProperties($request->session())
+                    ->withProperties(json_encode($request->session(), JSON_FORCE_OBJECT))
                     ->log('user not found');
                 return redirect()->route('login')->with(['error' => 'Username / Password Salah!']);
             }

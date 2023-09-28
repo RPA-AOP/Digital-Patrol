@@ -32,6 +32,7 @@ class ScheduleController extends BaseApiController
                 'end_hour'])
             ->where("pss.shift_name", '!=', "LIBUR")
             ->orderBy('patrol_date')
+            ->orderBy('start_hour')
             ->get();
         foreach ($schedules as $shift) {
             $dateEnd = $shift->patrol_date;
@@ -58,12 +59,13 @@ class ScheduleController extends BaseApiController
             $dateEnd = Carbon::now()->add("day", -1)->format('Y-m-d');
         }
         foreach ($shifts as $shift) {
+            $baseDateEnd = $dateEnd;
             if (Carbon::parse($shift->start_hour)->gt(Carbon::parse($shift->end_hour))) {
-                $dateEnd = Carbon::parse($dateEnd)->add("day", 1)->format('Y-m-d');
+                $baseDateEnd = Carbon::parse($dateEnd)->add("day", 1)->format('Y-m-d');
             }
 
             $shift->start_hour = Carbon::parse($dateStart . " " . $shift->start_hour)->format('Y-m-d H:i:s');;
-            $shift->end_hour = Carbon::parse($dateEnd . " " . $shift->end_hour)->format('Y-m-d H:i:s');
+            $shift->end_hour = Carbon::parse($baseDateEnd . " " . $shift->end_hour)->format('Y-m-d H:i:s');
         }
         return $shifts;
     }

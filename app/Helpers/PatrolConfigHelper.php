@@ -39,8 +39,8 @@ class PatrolConfigHelper
                 $checkpointsCount = DetailPatrolConfig::where('level', 4)
                     ->whereParentId($parentId)
                     ->where('id_company', $idCompany)->get();
-                $randomCheckpoitnCount = $checkpointsCount;
-                if (count($checkpointsCount) != 0)
+                $randomCheckpoitnCount = 1;
+                if (count($checkpointsCount) > 1)
                     $randomCheckpoitnCount = ($percentage / 100) * count($checkpointsCount);
 
                 $detailConfig = $detailConfig->inRandomOrder()

@@ -6,6 +6,35 @@
     <link rel="stylesheet" href="{{asset('assets/vendor/libs/datatables-responsive-bs5/responsive.bootstrap5.css')}}">
     <link rel="stylesheet" href="{{asset('assets/vendor/libs/datatables-buttons-bs5/buttons.bootstrap5.css')}}">
     <link rel="stylesheet" href="{{asset('assets/vendor/libs/select2/select2.css')}}"/>
+    <style>
+        pre {
+            outline: 1px solid #ccc;
+            padding: 5px;
+            margin: 5px;
+            background-color: #333333;
+        }
+
+        .string {
+            color: green;
+        }
+
+        .number {
+            color: darkorange;
+        }
+
+        .boolean {
+            color: blue;
+        }
+
+        .null {
+            color: magenta;
+        }
+
+        .key {
+            color: red;
+        }
+
+    </style>
 @endsection
 
 @section('breadcrumbs')
@@ -24,6 +53,26 @@
                 </div>
             </div>
             <!--/ Role Table -->
+        </div>
+    </div>
+    <div class="modal fade" id="modalScrollable" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-scrollable" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="modalScrollableTitle">Detail Property</h5>
+                    <button
+                        type="button"
+                        class="btn-close"
+                        data-bs-dismiss="modal"
+                        aria-label="Close"
+                    ></button>
+                </div>
+                <div class="modal-body">
+                    <pre id="modal-content" class="pre">
+
+                    </pre>
+                </div>
+            </div>
         </div>
     </div>
 
@@ -46,6 +95,8 @@
         $('#table-activity').DataTable({
             ajax: "{{route('management-user.activity_list')}}",
             responsive: false,
+            processing: true,
+            serverSide: true,
             columns: [
                 {
                     data: 'id',
@@ -70,29 +121,37 @@
                 {
                     data: 'description',
                     name: 'description',
-                    title: 'DESCRIPTION'
+                    title: 'DESCRIPTION',
+                    render: function (item, row, full) {
+                        return `
+                        <p style="height: 200px; width: 300px" class="overflow-auto">
+                          ${item}
+                        </p>`
+                    }
                 },
                 {
                     data: 'event',
                     name: 'event',
                     title: 'EVENT',
                     render: function (item, row, full) {
-                        return item
+                        return `<span class="badge bg-label-primary">${item}</span>`
                     }
                 },
                 {
                     data: 'properties',
                     name: 'properties',
                     title: 'PROPERTIES',
-                    render: function (item,row, full) {
+                    render: function (item, row, full) {
                         return `
-                        <div style="width: 400px">
-                            <a class="btn btn-outline-primary  btn-sm me-1 waves-effect waves-light collapsed" data-bs-toggle="collapse" href="#collapse_property_${full['id']}" role="button" aria-expanded="false" aria-controls="collapseExample">
-                            Detail Property </a>
-                            <div class="collapse mt-1" id="collapse_property_${full['id']}" style="">
-                                  <pre>${JSON.stringify(item, undefined, 2)}</pre>
-                            </div>
-                        </>`
+                        <button
+                          type="button"
+                          class="btn btn-sm btn-primary"
+                          data-bs-toggle="modal"
+                          data-bs-target="#modalScrollable"
+                          onclick="showContent('${item}')"
+                        >
+                          Detail Property
+                        </button>`
                     }
                 },
 
@@ -104,11 +163,49 @@
                 search: '',
                 searchPlaceholder: 'Search..',
             },
-            buttons: [
-            ],
+            buttons: [],
 
         });
         $('div.head-label').html('<h5 class="card-title mb-0">Activity Report</h5>');
 
+
+        function syntaxHighlight(json) {
+            if (typeof json != "string") {
+                json = JSON.stringify(json, null, "\t");
+            }
+
+            json = json
+                .replace(/&/g, "&amp;")
+                .replace(/</g, "&lt;")
+                .replace(/>/g, "&gt;");
+
+            return json.replace(
+                /("(\\u[a-zA-Z0-9]{4}|\\[^u]|[^\\"])*"(\s*:)?|\b(true|false|null)\b|-?\d+(?:\.\d*)?(?:[eE][+\-]?\d+)?)/g,
+                function(match) {
+                    var cls = "number";
+                    if (/^"/.test(match)) {
+                        if (/:$/.test(match)) {
+                            cls = "key";
+                        } else {
+                            cls = "string";
+                        }
+                    } else if (/true|false/.test(match)) {
+                        cls = "boolean";
+                    } else if (/null/.test(match)) {
+                        cls = "null";
+                    }
+                    return '<span class="' + cls + '">' + match + "</span>";
+                }
+            );
+        }
+
+
+
+        function showContent(item) {
+            item = item.replaceAll('["','')
+            item = item.replaceAll('"]','')
+            let str = syntaxHighlight(JSON.parse(item));
+            $('#modal-content').html(str)
+        }
     </script>
 @endsection

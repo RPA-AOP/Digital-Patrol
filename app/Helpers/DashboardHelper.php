@@ -18,7 +18,7 @@ use Illuminate\Support\Carbon;
 class DashboardHelper
 {
 
-    public static function getDateRange($interval, $month, $year): array
+    public static function getDateRange($interval, $month, $year, $date = 1): array
     {
         if ($interval == 1) {
             $dateStart = Carbon::today()->format('Y-m-d h:m:s');
@@ -27,11 +27,33 @@ class DashboardHelper
                 $dateStart = Carbon::today()->add("day", (-1 * $interval))->format('Y-m-d h:m:s');
             }
         } else {
-            $dateStart = Carbon::parse("{$year}-{$month}")->format('Y-m-d h:m:s');
+            $dateStart = Carbon::parse("{$year}-{$month}-{$date}")->format('Y-m-d h:m:s');
             $dateEnd = Carbon::parse("{$year}-{$month}")->add("day", (-1 * $interval))->format('Y-m-d h:m:s');
         }
 
         return [$dateStart, $dateEnd];
+    }
+
+    static function getDateInMonth($month, $year)
+    {
+        $startWeek = Carbon::parse("{$year}-{$month}")->startOfMonth()->format('Y-m-d');
+        $endWeek = Carbon::parse("{$year}-{$month}")->endOfMonth()->format('Y-m-d');
+        $period = CarbonPeriod::create($startWeek, $endWeek)->toArray();
+        $result = [];
+        foreach ($period as $date) {
+            $result[] = $date->format('Y-m-d');
+        }
+        return $result;
+    }
+
+    static function getDateList($from, $to, $format = 'Y-m-d')
+    {
+        $period = CarbonPeriod::create($from, $to)->toArray();
+        $result = [];
+        foreach ($period as $date) {
+            $result[] = $date->format($format);
+        }
+        return $result;
     }
 
     static function getCountAbnormal($interval, $month, $year): int
@@ -40,7 +62,7 @@ class DashboardHelper
         $abnormalObject = ReportPatrolDetail::whereIsNormal(false)
             ->whereDateBetween('created_at', $dateRange[0], $dateRange[1]);
 
-        if (in_array(Auth::user()->id_user_group,  [UserGroup::ADMIN_COMPANY, UserGroup::PIC_GA])) {
+        if (in_array(Auth::user()->id_user_group, [UserGroup::ADMIN_COMPANY, UserGroup::PIC_GA])) {
             $abnormalObject->where('id_company', Auth::user()->id_company);
         }
         if (Auth::user()->id_user_group == UserGroup::SECURITY) {
@@ -48,13 +70,20 @@ class DashboardHelper
         }
         return $abnormalObject->count();
     }
+
     static function getAbnormalTimeSeries($interval): Collection|array
     {
-        $dateRange = DashboardHelper::getDateRange($interval, now()->month, now()->year);
+        $dateRange = DashboardHelper::getDateRange($interval, now()->month, now()->year, now()->day);
         $abnormalObject = ReportPatrolDetail::whereIsNormal(false)
-            ->whereDateBetween('created_at', $dateRange[1], $dateRange[0]);
+            ->whereDateBetween('created_at', $dateRange[1], $dateRange[0])
+            ->select(
+                [
+                    DB::raw('count(id_report_patrol_detail) as count'),
+                    DB::raw(' date(created_at) as date'),
+                ]
+            );
 
-        if (in_array(Auth::user()->id_user_group,  [UserGroup::ADMIN_COMPANY, UserGroup::PIC_GA])) {
+        if (in_array(Auth::user()->id_user_group, [UserGroup::ADMIN_COMPANY, UserGroup::PIC_GA])) {
             $abnormalObject->where('id_company', Auth::user()->id_company);
         }
         if (Auth::user()->id_user_group == UserGroup::SECURITY) {
@@ -64,7 +93,27 @@ class DashboardHelper
                     $query->whereIn('id_patrol_activity', $userActivity);
                 })->get();
         }
-        return $abnormalObject->get();
+        $data = $abnormalObject->groupBy(['date'])->get()->toArray();
+//        $data = $abnormalObject->get()->toArray();
+        if (count($data)==0)
+            return [];
+        $dataAbnormal = [];
+        foreach ($data as $d) {
+            $dataAbnormal[$d['date']] = Arr::except($d, ['date']);
+        }
+        $dates = self::getDateList(Carbon::parse($data[0]['date'])->format('Y-m-d'), now()->format('Y-m-d'));
+        $result = [];
+        foreach ($dates as $key => $date) {
+            $value = 0;
+            if (Arr::has($dataAbnormal, $date))
+                $value = $dataAbnormal[$date]['count'];
+            $result[$key] =  [
+                $date,
+                $value
+            ];
+        }
+
+        return $result;
     }
 
     static function getCountAbnormalByUser($idUser): int
@@ -151,17 +200,6 @@ class DashboardHelper
         return $totalObject->count();
     }
 
-    static function getDateInMonth($month, $year)
-    {
-        $startWeek = Carbon::parse("{$year}-{$month}")->startOfMonth()->format('Y-m-d');
-        $endWeek = Carbon::parse("{$year}-{$month}")->endOfMonth()->format('Y-m-d');
-        $period = CarbonPeriod::create($startWeek, $endWeek)->toArray();
-        $result = [];
-        foreach ($period as $date) {
-            $result[] = $date->format('Y-m-d');
-        }
-        return $result;
-    }
 
     static function getPatrolReportPerDate($month, $year): array
     {
