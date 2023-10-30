@@ -361,6 +361,7 @@
         // Form Validation
         if (newUserForm.length) {
             const formNewUser = document.getElementById('form-new-user')
+            const passwordMeter = document.getElementById('passwordMeter');
 
             const fv = FormValidation.formValidation(formNewUser, {
                 fields: {
@@ -441,7 +442,7 @@
                     passwordStrength: new FormValidation.plugins.PasswordStrength({
                         field: 'default-password',
                         message: 'The password is weak',
-                        minimalScore: 6,
+                        minimalScore: 3,
                     }),
                     submitButton: new FormValidation.plugins.SubmitButton(),
                     // Submit the form when all fields are valid
