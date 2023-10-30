@@ -21,6 +21,7 @@ class DigipatrolPolicy extends Policy
             ->addDirective(Directive::MEDIA, Keyword::SELF)
             ->addDirective(Directive::OBJECT, Keyword::NONE)
             ->addDirective(Directive::SCRIPT, 'self  https://fonts.gstatic.com https://cdnjs.cloudflare.com https://cdnjs.cloudflare.com')
+            ->addDirective(Directive::SCRIPT_ATTR, [Keyword::SELF, Keyword::UNSAFE_HASHES])
             ->addDirective(Directive::STYLE, [Keyword::SELF, 'unsafe-inline', 'http://fonts.googleapis.com'])
             ->addDirective(Directive::FONT, 'self data: https://fonts.gstatic.com https://cdnjs.cloudflare.com https://cdnjs.cloudflare.com')
             ->addDirective(Directive::IMG, 'self data:')
