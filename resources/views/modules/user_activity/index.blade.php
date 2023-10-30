@@ -11,7 +11,7 @@
             outline: 1px solid #ccc;
             padding: 5px;
             margin: 5px;
-            background-color: #333333;
+            background-color: #000000;
         }
 
         .string {
@@ -124,9 +124,9 @@
                     title: 'DESCRIPTION',
                     render: function (item, row, full) {
                         return `
-                        <p style="height: 200px; width: 300px" class="overflow-auto">
-                          ${item}
-                        </p>`
+                        <div style="height: 25px; width: 300px" class="overflow-auto">
+                          <a href="${item}" target="_blank">${item}</a>
+                        </div>`
                     }
                 },
                 {
@@ -145,16 +145,15 @@
                         return `
                         <button
                           type="button"
-                          class="btn btn-sm btn-primary"
+                          class="btn btn-sm btn-primary btn-property"
                           data-bs-toggle="modal"
                           data-bs-target="#modalScrollable"
-                          onclick="showContent('${item}')"
+                          data-property="${item}"
                         >
                           Detail Property
                         </button>`
                     }
                 },
-
             ],
             order: [[0, 'asc']],
             dom: '<"card-header flex-column flex-md-row"<"head-label text-center"><"dt-action-buttons text-end pt-3 pt-md-0"B>><"row"<"col-sm-12 col-md-6"l><"col-sm-12 col-md-6 d-flex justify-content-center justify-content-md-end"f>>t<"row"<"col-sm-12 col-md-6"i><"col-sm-12 col-md-6"p>>',
@@ -181,7 +180,7 @@
 
             return json.replace(
                 /("(\\u[a-zA-Z0-9]{4}|\\[^u]|[^\\"])*"(\s*:)?|\b(true|false|null)\b|-?\d+(?:\.\d*)?(?:[eE][+\-]?\d+)?)/g,
-                function(match) {
+                function (match) {
                     var cls = "number";
                     if (/^"/.test(match)) {
                         if (/:$/.test(match)) {
@@ -200,10 +199,17 @@
         }
 
 
+        $(document).ready(function () {
+            $("#table-activity").on("click", ".btn-property", function (e) {
+                let item = JSON.parse($(this).data('property')[0])
+                let str = syntaxHighlight(item);
+                $('#modal-content').html(str)
+            });
+        });
 
         function showContent(item) {
-            item = item.replaceAll('["','')
-            item = item.replaceAll('"]','')
+            item = item.replaceAll('["', '')
+            item = item.replaceAll('"]', '')
             let str = syntaxHighlight(JSON.parse(item));
             $('#modal-content').html(str)
         }
