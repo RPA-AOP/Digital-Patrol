@@ -107,7 +107,7 @@ Route::group(['middleware' => ['auth', 'check-permission']], function () {
             Route::get('/create', [MasterCompanyController::class, 'create'])->name('create');
             Route::post('/store', [MasterCompanyController::class, 'store'])->name('store');
             Route::get('/edit/{id}', [MasterCompanyController::class, 'edit'])->name('edit');
-            Route::post('/edit/{id}', [MasterCompanyController::class, 'update'])->name('edit');
+            Route::post('/edit/{id}', [MasterCompanyController::class, 'update'])->name('update');
 
         });
 
