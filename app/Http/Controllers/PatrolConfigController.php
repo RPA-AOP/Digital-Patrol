@@ -51,9 +51,18 @@ class PatrolConfigController extends Controller
         } else {
             $company = MasterCompany::where('id_company', $id)->first();
         }
+        $patrolConfigExist = PatrolConfig::where('id_company', $id)->exists();
+        if (!$patrolConfigExist){
+            $patrolConfig = PatrolConfig::create([
+                'id_company' => $id,
+                'created_by' => Auth::user()->id,
+                'status' => 1
+            ]);
+        }
         $dataConfig = PatrolConfig::with('company')->with(["patrolDetail" => function ($q) use ($id) {
             $q->where('level', '=', 1)->where('id_company', $id);
         }])->where('id_company', $id)->first();
+
         $itemLevel = null;
         $parentItem = null;
         if ($dataConfig) {

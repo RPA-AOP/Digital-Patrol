@@ -199,20 +199,20 @@
     <script src="{{asset('assets/vendor/libs/formvalidation/dist/js/FormValidation.min.js')}}"></script>
     <!-- END: Page Vendor JS-->
 
-    <script type="text/javascript">
+    <script type="text/javascript" nonce="{{csp_nonce()}}">
         $(document).ready(function () {
             function onLocationError(e) {
                 alert(e.message);
             }
 
             var map = L.map('map').setView([-6.200000, 106.816666], 8);
-            L.tileLayer('https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token={accessToken}', {
-                tileSize: 512,
-                maxZoom: 18,
-                zoomOffset: -1,
-                id: 'mapbox/streets-v11',
-                accessToken: 'pk.eyJ1IjoibWFwYm94IiwiYSI6ImNpejY4NXVycTA2emYycXBndHRqcmZ3N3gifQ.rJcFIG214AriISLbB6B5aw'
-            }).addTo(map);
+            // L.tileLayer('https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token={accessToken}', {
+            //     tileSize: 512,
+            //     maxZoom: 18,
+            //     zoomOffset: -1,
+            //     id: 'mapbox/streets-v11',
+            //     // accessToken: 'pk.eyJ1IjoibWFwYm94IiwiYSI6ImNpejY4NXVycTA2emYycXBndHRqcmZ3N3gifQ.rJcFIG214AriISLbB6B5aw'
+            // }).addTo(map);
             map.locate({setView: true, maxZoom: 18});
             // map.on('locationfound', onLocationFound);
             map.on('locationerror', onLocationError);

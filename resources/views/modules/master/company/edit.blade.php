@@ -51,7 +51,7 @@
                                     <div class="row">
                                         <div class="form-group col-md-12">
                                             <label class="form-label" for="modern-twitter">Nama Perusahaan</label>
-                                            <input type="text" id="nama_perusahaan" class="form-control" value="{{$data->company_name}}"/>
+                                            <input type="text" id="nama_perusahaan" name="nama_perusahaan" class="form-control" value="{{$data->company_name}}"/>
                                         </div>
                                     </div>
                                     <div class="row">
@@ -60,8 +60,8 @@
                                             <div id="map" style="width:100%; height: 300px;z-index: 0"></div>
                                         </div>
                                     </div>
-                                    <input type="hidden" id="lattitude" name="lattitude" class="form-control">
-                                    <input type="hidden" id="longitude" name="longitude" class="form-control">
+                                    <input type="hidden" id="lattitude" name="lat" class="form-control">
+                                    <input type="hidden" id="longitude" name="long" class="form-control">
                                     <div class="row">
                                         <div class="form-group col-md-12">
                                             <label class="form-label" for="modern-twitter">Detail Alamat</label>
@@ -72,45 +72,45 @@
                                     <div class="row">
                                         <div class="form-group col-md-12">
                                             <label class="form-label" for="modern-twitter">Nama Produk</label>
-                                            <input type="text" id="nama_produk" class="form-control" value="{{$data->nama_produk}}"/>
+                                            <input type="text" id="nama_produk" name="nama_produk" class="form-control" value="{{$data->nama_produk}}"/>
                                         </div>
                                     </div>
                                     <div class="row">
                                         <div class="form-group col-md-12">
                                             <label class="form-label" for="modern-twitter">Proses Utama</label>
-                                            <input type="text" id="proses_utama" class="form-control" value="{{$data->proses_utama}}"/>
+                                            <input type="text" id="proses_utama" name="proses_utama" class="form-control" value="{{$data->proses_utama}}"/>
                                         </div>
                                     </div>
                                     <div class="row">
                                         <div class="form-group col-md-6">
                                             <label class="form-label" for="modern-google">Luas Tanah</label>
-                                            <input type="text" id="luas_tanah" class="form-control" value="{{$data->luas_tanah}}"/>
+                                            <input type="text" id="luas_tanah" name="luas_tanah" class="form-control" value="{{$data->luas_tanah}}"/>
                                         </div>
                                         <div class="form-group col-md-6">
                                             <label class="form-label" for="modern-linkedin">Luas Bangunan</label>
-                                            <input type="text" id="luas_bangunan" class="form-control" value="{{$data->luas_bangunan}}"/>
+                                            <input type="text" id="luas_bangunan" name="luas_bangunan" class="form-control" value="{{$data->luas_bangunan}}"/>
                                         </div>
                                     </div>
                                     <div class="row">
                                         <div class="form-group col-md-12">
                                             <label class="form-label" for="modern-google">Status Bangunan</label>
-                                            <input type="text" id="status_bangunan" class="form-control" value="{{$data->status_bangunan}}"/>
+                                            <input type="text" id="status_bangunan" name="status_bangunan" class="form-control" value="{{$data->status_bangunan}}"/>
                                         </div>
                                     </div>
                                     <div class="row">
                                         <div class="form-group col-md-4">
                                             <label class="form-label" for="modern-google">Jumlah Karyawan Tetap</label>
-                                            <input type="text" id="karyawan_tetap" class="form-control" value="{{$data->jumlah_karyawan_tetap}}"/>
+                                            <input type="text" id="karyawan_tetap" name="karyawan_tetap" class="form-control" value="{{$data->jumlah_karyawan_tetap}}"/>
                                         </div>
                                         <div class="form-group col-md-4">
                                             <label class="form-label" for="modern-linkedin">Jumlah Karyawan
                                                 Kontrak</label>
-                                            <input type="text" id="karyawan_kontrak" class="form-control" value="{{$data->jumlah_karyawan_kontrak}}"/>
+                                            <input type="text" id="karyawan_kontrak" name="karyawan_kontrak" class="form-control" value="{{$data->jumlah_karyawan_kontrak}}"/>
                                         </div>
                                         <div class="form-group col-md-4">
                                             <label class="form-label" for="modern-google">Jumlah Karyawan
                                                 Outsource</label>
-                                            <input type="text" id="karyawan_outsource" class="form-control" value="{{$data->jumlah_karyawan_outsource}}"/>
+                                            <input type="text" id="karyawan_outsource" name="karyawan_outsource" class="form-control" value="{{$data->jumlah_karyawan_outsource}}"/>
                                         </div>
                                     </div>
                                     <div class="d-flex justify-content-between mt-5">

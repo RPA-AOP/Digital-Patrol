@@ -84,7 +84,7 @@ class UserController extends Controller
                 'user-fullname' => 'required|max:255',
                 'user-npk' => 'required',
                 'user-email' => 'email:rfc,dns|required',
-                'user-phone' => 'required|numeric|digits:15',
+                'user-phone' => 'required|numeric|digits_between:10,15',
                 'user-group' => 'required',
                 'user-name' => 'required',
                 'default-password' => 'required|confirmed',

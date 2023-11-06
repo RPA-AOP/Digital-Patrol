@@ -102,4 +102,59 @@ class MasterCompanyController extends Controller
         $data = MasterCompany::find($id);
         return view('modules.master.company.edit', compact('data'));
     }
+
+    public function update(Request $request, $id)
+    {
+        $request->validate([
+            'nama_perusahaan' => 'required|max:255',
+            'alamat' => 'required',
+            'luas_tanah' => 'required|int',
+            'luas_bangunan' => 'required|int',
+            'status_bangunan' => 'required',
+            'karyawan_tetap' => 'required|int',
+            'karyawan_kontrak' => 'required|int',
+            'karyawan_outsource' => 'required|int',
+            'nama_produk' => 'required',
+            'proses_utama' => 'required',
+            'lat' => 'required',
+            'long' => 'required',
+        ]);
+
+        $nama_perusahaan = $request->nama_perusahaan;
+        $nama_produk = $request->nama_produk;
+        $proses_utama = $request->proses_utama;
+        $luas_tanah = $request->luas_tanah;
+        $luas_bangunan = $request->luas_bangunan;
+        $status_bangunan = $request->status_bangunan;
+        $karyawan_tetap = $request->karyawan_tetap;
+        $karyawan_kontrak = $request->karyawan_kontrak;
+        $karyawan_outsource = $request->karyawan_outsource;
+        $lat = $request->lat;
+        $long = $request->long;
+        $alamat = $request->alamat;
+
+        $Perusahaan = MasterCompany::find($id);
+        $Perusahaan->company_name = $nama_perusahaan;
+        $Perusahaan->alamat = $alamat;
+        $Perusahaan->nama_produk = $nama_produk;
+        $Perusahaan->luas_tanah = $luas_tanah;
+        $Perusahaan->proses_utama = $proses_utama;
+        $Perusahaan->luas_bangunan = $luas_bangunan;
+        $Perusahaan->status_bangunan = $status_bangunan;
+        $Perusahaan->jumlah_karyawan_tetap = $karyawan_tetap;
+        $Perusahaan->jumlah_karyawan_kontrak = $karyawan_kontrak;
+        $Perusahaan->jumlah_karyawan_outsource = $karyawan_outsource;
+        $Perusahaan->lat = $lat;
+        $Perusahaan->long = $long;
+        $Perusahaan->save();
+        $message = 'Data Perusahaan Berhasil Disimpan';
+
+        $result = [
+            'status' => true,
+            'message' => $message
+        ];
+        return redirect()->route('master.company.index')
+            ->with('success', 'Successfully add company');
+    }
+
 }
