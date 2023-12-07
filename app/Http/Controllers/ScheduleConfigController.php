@@ -44,22 +44,23 @@ class ScheduleConfigController extends Controller
         join('patrol_schedule_shift as pss', 'pss.patrol_schedule_shift_id', 'patrol_schedule_detail.patrol_schedule_shift_id')
             ->join('users as u', 'u.id_user', 'patrol_schedule_detail.id_user')
             ->join('patrol_schedule as ps', 'ps.patrol_schedule_id', 'patrol_schedule_detail.patrol_schedule_id')
+            ->join('detail_patrol_config as dpc', 'dpc.id_detail_patrol_config', 'pss.area', 'left')
             ->where('ps.id_company', $request->idCompany)
             ->whereDate('patrol_date', '>=', $request->start)
             ->whereDate('patrol_date', '<=', $request->end)
             ->select(['patrol_schedule_detail as id', 'pss.shift_code', 'pss.patrol_schedule_shift_id as shift_id',
-                DB::raw('CONCAT(pss.shift_name, \' \',u.name) as title'),
+                DB::raw('CONCAT(\'(\', "dpc".name,\') \', pss.shift_name, \' \', u.name) as title'),
                 'u.name as user',
                 'pss.shift_name',
                 'u.npk',
                 'patrol_schedule_detail.patrol_date',
                 'pss.start_hour',
-                'pss.end_hour'
+                'pss.end_hour',
+                'pss.area'
             ])
             ->get();
         $events = [];
         foreach ($data as $d) {
-//            dd($d);
             $start = Carbon::parse($d->patrol_date . ' ' . $d->start_hour);
             $end = Carbon::parse($d->patrol_date . ' ' . $d->end_hour);
             if ($start->gte($end))
@@ -75,6 +76,7 @@ class ScheduleConfigController extends Controller
                     'calendar' => $d->npk,
                     'shift_name' => $d->shift_name,
                     'shift_id' => $d->shift_id,
+                    'area_id' => $d->area,
                     'user' => $d->user,
                 ]
             ];
@@ -96,9 +98,16 @@ class ScheduleConfigController extends Controller
     public function manage($id): Factory|View|Application
     {
         $company = MasterCompany::where('id_company', $id)->first();
-        $patrolUsersShift = Users::whereIdCompany($id)
-            ->whereStatus(true)
+        $patrolUsersShift = Users::where('users.id_company',$id)
+            ->where('users.status', true)
             ->whereIdUserGroup(4)
+            ->leftJoin('detail_patrol_config as dpc', 'dpc.id_detail_patrol_config', 'users.area')
+            ->select([
+                DB::raw('CONCAT( "users".name,\' (\', dpc.name,\')\') as name'),
+                'users.id_user',
+                'users.npk',
+                'dpc.name as area_name'
+                ])
             ->get();
         $patrolScheduleShift = PatrolScheduleShift::where('id_company', $id)->get();
         $area = DetailPatrolConfig::where('level', '<=', 2)

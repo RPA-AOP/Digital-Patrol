@@ -52,7 +52,7 @@ class PatrolConfigController extends Controller
             $company = MasterCompany::where('id_company', $id)->first();
         }
         $patrolConfigExist = PatrolConfig::where('id_company', $id)->exists();
-        if (!$patrolConfigExist){
+        if (!$patrolConfigExist) {
             $patrolConfig = PatrolConfig::create([
                 'id_company' => $id,
                 'created_by' => Auth::user()->id,
@@ -74,7 +74,7 @@ class PatrolConfigController extends Controller
 
             $parentItem = DetailPatrolConfig::where('id_patrol_config', $dataConfig->id_patrol_config)
                 ->where('level', '<', 5)
-                ->select(['id_detail_patrol_config', 'name'])
+                ->select(['id_detail_patrol_config', 'name', 'level'])
                 ->orderBy('level')
                 ->get()
                 ->toArray();
@@ -119,7 +119,37 @@ class PatrolConfigController extends Controller
 
     public function store(Request $request)
     {
+    }
 
+    public function addItem(Request $request)
+    {
+        $validated = (object) $request->validate([
+            'parent_id' => 'string|nullable',
+            'level_id' => 'required',
+            'code' => 'required',
+            'name' => 'required',
+            'identification_key' => 'string|nullable',
+            'category_id' => 'string|nullable',
+            'id_patrol_config'=> 'required'
+        ]);
+        $patrolConfig = PatrolConfig::findOrFail($validated->id_patrol_config);
+        $detailConfig = new DetailPatrolConfig();
+        $detailConfig->id_patrol_config = $patrolConfig->id_patrol_config;
+        $detailConfig->id_company = $patrolConfig->id_company;
+        $detailConfig->code = $validated->code;
+        $detailConfig->name = $validated->name;
+        $detailConfig->parent_id = $validated->parent_id;
+        $detailConfig->identification_key = $validated->identification_key;
+        if ($request->post('level_id')) {
+            $detailConfig->level = $validated->level_id;
+        }
+        if ($request->post('category_id'))
+            $detailConfig->category_id = $validated->category_id;
+        if ($detailConfig->save()) {
+            $detailConfig->refresh();
+            return response()->json(['status' => 'new item addedd', 'data' => $detailConfig->toArray()], 200);
+        }
+        return response()->json(['status' => 'update failed',], 500);
     }
 
     public function updateConfig(Request $request, $id)
@@ -133,18 +163,18 @@ class PatrolConfigController extends Controller
             $config->random_checkpoint = (bool)$request->post('random_checkpoint',);
             $config->random_checkpoint_percentage = $request->post('random_checkpoint_percentage', 80);
             if ($config->save()) {
-                return redirect()->route('patrolconfig.manage', ['id'=> $id])
+                return redirect()->route('patrolconfig.manage', ['id' => $id])
                     ->with('success', 'Config Berhasil Di Update');
             }
-            return redirect()->route('patrolconfig.manage', ['id'=> $id])
+            return redirect()->route('patrolconfig.manage', ['id' => $id])
                 ->with('error', 'Config Gagal Di Update');
         }
     }
 
     public function update(Request $request, $id)
     {
-        $idDetailCOnfig = $request->post('id_detail_patrol_config');
-        $detailConfig = DetailPatrolConfig::find($idDetailCOnfig);
+        $idDetailConfig = $request->post('id_detail_patrol_config');
+        $detailConfig = DetailPatrolConfig::find($idDetailConfig);
         $detailConfig->code = $request->code;
         $detailConfig->name = $request->name;
         $detailConfig->parent_id = $request->parent_id;

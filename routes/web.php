@@ -58,6 +58,7 @@ Route::group(['middleware' => ['auth', 'check-permission']], function () {
             Route::get('/create', [PatrolConfigController::class, 'create'])->name('create');
             Route::delete('/delete', [PatrolConfigController::class, 'destroy'])->name('delete');
             Route::post('/store', [PatrolConfigController::class, 'store'])->name('store');
+            Route::post('/add-item', [PatrolConfigController::class, 'addItem'])->name('add-item');
             Route::get('/manage/{id}', [PatrolConfigController::class, 'manage'])->name('manage');
             Route::get('/edit/{id}', [PatrolConfigController::class, 'edit'])->name('edit');
             Route::post('/edit/{id}', [PatrolConfigController::class, 'update'])->name('update');

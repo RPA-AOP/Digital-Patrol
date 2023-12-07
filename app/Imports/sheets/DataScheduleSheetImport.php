@@ -6,7 +6,6 @@ use App\Models\PatrolScheduleDetailConfig;
 use App\Models\PatrolScheduleShift;
 use App\Models\Users;
 use Carbon\Carbon;
-use Illuminate\Foundation\Auth\User;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Maatwebsite\Excel\Concerns\ToArray;
@@ -39,10 +38,6 @@ class DataScheduleSheetImport implements ToArray, WithCalculatedFormulas, WithHe
 
     public function array(array $array)
     {
-        DB::table('patrol_schedule_detail')
-            ->where('patrol_schedule_id', $this->idPatrolScheduleConfig)
-            ->whereMonth('patrol_date', $this->month)
-            ->delete();
 
         foreach ($array as $index => $item) {
             if (!$item[0]) continue;
@@ -57,7 +52,7 @@ class DataScheduleSheetImport implements ToArray, WithCalculatedFormulas, WithHe
                     ->where('id_user_group', 4)
                     ->first();
 
-                if (!$user){
+                if (!$user) {
                     $user = new Users();
                     $user->username = $k;
                     $user->password = Hash::make($k);
@@ -76,13 +71,23 @@ class DataScheduleSheetImport implements ToArray, WithCalculatedFormulas, WithHe
                     ->whereArea($this->area)
                     ->orWhere('shift_code', $v)
                     ->first();
-                if (!$shift) {
+                if ($shift) {
+                    PatrolScheduleDetailConfig::wherePatrolScheduleShiftId($shift->patrol_schedule_shift_id)
+                        ->where('patrol_schedule_id', $this->idPatrolScheduleConfig)
+                        ->where('patrol_date', $patrolDate)
+                        ->delete();
+                    // DB::table('patrol_schedule_detail')
+                    //            ->where('patrol_schedule_id', $this->idPatrolScheduleConfig)
+                    //            ->whereMonth('patrol_date', $this->month)
+                    //            ->delete();
+                } else {
                     $shift = new PatrolScheduleShift();
                     $shift->id_company = $this->idCompany;
                     $shift->shift_name = $v;
                     $shift->shift_code = $v;
                     $shift->status = true;
                     $shift->save();
+                    $shift->refresh();
                 }
                 $detailConfig = new PatrolScheduleDetailConfig();
                 $detailConfig->patrol_schedule_id = $this->idPatrolScheduleConfig;
@@ -92,6 +97,7 @@ class DataScheduleSheetImport implements ToArray, WithCalculatedFormulas, WithHe
                 $detailConfig->patrol_date = $patrolDate;
                 $detailConfig->status = true;
                 $detailConfig->save();
+
             }
         }
     }

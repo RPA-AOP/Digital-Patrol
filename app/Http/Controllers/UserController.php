@@ -20,7 +20,6 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash as PasswordHash;
 use Illuminate\View\View;
-use Spatie\Activitylog\Models\Activity;
 use Yajra\DataTables\DataTables;
 
 class UserController extends Controller

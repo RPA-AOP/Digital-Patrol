@@ -4,6 +4,7 @@
 @section('vendor-style')
     <link rel="stylesheet" href="{{asset('assets/vendor/libs/animate-css/animate.css')}}"/>
     <link rel="stylesheet" href="{{asset('assets/vendor/libs/sweetalert2/sweetalert2.css')}}"/>
+    <link rel="stylesheet" href="{{asset('assets/vendor/libs/select2/select2.css')}}"/>
     <link rel="stylesheet" href="{{asset('assets/vendor/libs/perfect-scrollbar/perfect-scrollbar.css')}}"/>
     <link rel="stylesheet" href="{{asset('assets/vendor/libs/formvalidation/dist/css/formValidation.min.css')}}"/>
     <link rel="stylesheet" href="{{asset('assets/vendor/libs/nestable/jquery.nestable.css')}}"/>
@@ -43,30 +44,16 @@
                                     </div>
                                     <div class="offcanvas-body mx-0 flex-grow-0 pt-0 h-100">
                                         <form class="form form-vertical" id="form-new-item">
+                                            @csrf
                                             <div
                                                 class="row  modal-body">
                                                 <div class="col-12">
                                                     <div class="mb-3">
-                                                        <label class="form-label"
-                                                               for="new_item_parent_id">Parent</label>
-                                                        <select name="parent_id" id="new_item_parent_id"
-                                                                class="form-control"
-                                                                data-placeholder="Parent Id">
-                                                            <option>-- PARENT ITEM</option>
-                                                            @foreach($parentItem as $parent)
-                                                                <option
-                                                                    value="{{$parent['id_detail_patrol_config']}}">{{$parent['name']}}</option>
-                                                            @endforeach
-                                                        </select>
-                                                    </div>
-                                                </div>
-                                                <div class="col-12">
-                                                    <div class="mb-3">
                                                         <label class="form-label" for="new_item_level_id">Level</label>
                                                         <select name="level_id" id="new_item_level_id"
-                                                                class="form-control"
+                                                                class="form-control select2"
                                                                 data-placeholder="Level">
-                                                            <option>-- LEVEL ITEM</option>
+                                                            <option></option>
                                                             @foreach($itemLevel as $level)
                                                                 <option
                                                                     value="{{$level['level']}}">{{$level['level_name']}}</option>
@@ -76,13 +63,30 @@
                                                 </div>
                                                 <div class="col-12">
                                                     <div class="mb-3">
+                                                        <label class="form-label"
+                                                               for="new_item_parent_id">Parent</label>
+                                                        <select name="parent_id" id="new_item_parent_id"
+                                                                class="form-control select2"
+                                                                data-placeholder="Parent Item">
+                                                            <option></option>
+                                                            @foreach($parentItem as $parent)
+                                                                <option
+                                                                    value="{{$parent['id_detail_patrol_config']}}"
+                                                                    data-level=""{{$parent['level']}}>{{$parent['name']}}</option>
+                                                            @endforeach
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                                <div class="col-12">
+                                                    <div class="mb-3">
                                                         <label class="form-label" for="new_item_code">Code</label>
                                                         <input type="text" id="new_item_code" class="form-control"
                                                                name="code" placeholder="Code">
-                                                        <input type="hidden" id="new_item_id_detail_patrol_config"
+                                                        <input type="hidden" id="new_item_id_patrol_config"
                                                                class="form-control"
-                                                               name="id_detail_patrol_config"
-                                                               placeholder="id_detail_patrol_config">
+                                                               name="id_patrol_config"
+                                                               value="{{$dataConfig->id_patrol_config}}"
+                                                               placeholder="id_patrol_config">
                                                     </div>
                                                 </div>
                                                 <div class="col-12">
@@ -92,7 +96,8 @@
                                                                name="name" placeholder="Name">
                                                     </div>
                                                 </div>
-                                                <div class="col-12">
+                                                <div class="col-12" style="display: none"
+                                                     id="container_new_item_identification_key">
                                                     <div class="mb-3">
                                                         <label class="form-label" for="new_item_identification_key">Identification
                                                             Key</label>
@@ -102,13 +107,15 @@
                                                                placeholder="Identification Key">
                                                     </div>
                                                 </div>
-                                                <div class="col-12">
+                                                <div class="col-12" style="display: none"
+                                                     id="container_new_item_category">
                                                     <div class="mb-3">
                                                         <label class="form-label"
                                                                for="new_item_category">Category</label>
                                                         <select name="category_id" id="new_item_category"
                                                                 class="form-control"
                                                                 data-placeholder="Category">
+                                                            <option></option>
                                                             @foreach($category as $c)
                                                                 <option
                                                                     value="{{$c->id_category}}">{{$c->category_name}}</option>
@@ -129,7 +136,7 @@
                                                     </div>
                                                 </div>
                                                 <div class="col-12">
-                                                    <button id="btn add-new-item"
+                                                    <button id="add-new-item"
                                                             class="btn btn-primary text-center btn-block waves-effect waves-float waves-light">
                                                         Add new item
                                                     </button>
@@ -157,7 +164,7 @@
                                         <span class="switch-toggle-slider">
                             <span class="switch-on"><i class="ti ti-check"></i></span>
                             <span class="switch-off"><i class="ti ti-x"></i></span>
-                          </span>
+                                        </span>
                                         <span
                                             class="switch-label">If Active, Checkpoint will be randomly shown each Zone</span>
                                     </label>
@@ -479,7 +486,6 @@
     <script src="{{asset('assets/vendor/libs/cleavejs/cleave-phone.js')}}"></script>
     <script src="{{asset('assets/vendor/libs/moment/moment.js')}}"></script>
     <script src="{{asset('assets/vendor/libs/flatpickr/flatpickr.js')}}"></script>
-    <script src="{{asset('assets/vendor/libs/select2/select2.js')}}"></script>
     <!-- END: Page Vendor JS-->
 @endsection
 
@@ -488,6 +494,10 @@
         <script nonce="{{ csp_nonce() }}">
 
             $(document).ready(function () {
+                $('#form-new-item .select2').select2({
+                    dropdownParent: $("#form-new-item")
+                });
+
                 const configContainer = document.getElementById('nestablePatrolConfigCard');
 
                 new PerfectScrollbar(configContainer, {
@@ -620,6 +630,55 @@
                 });
             })
             @endif
+            $("#new_item_level_id").on("change", function (e) {
+                console.log(e)
+                if ($(this).val() === '5') {
+                    $('#container_new_item_category').show()
+                } else {
+                    $('#container_new_item_category').hide()
+                }
+                if ($(this).val() === '4') {
+                    $('#container_new_item_identification_key').show()
+                } else {
+                    $('#container_new_item_identification_key').hide()
+                }
+            });
+            $('#add-new-item').on('click', function (e) {
+                e.preventDefault();
+                var dataForm = convertFormToJSON($("#form-new-item"))
+                $.ajax({
+                    type: "POST",
+                    url: "{{route('patrolconfig.add-item')}}",
+                    data: dataForm,
+                    success: function (response) {
+                        Swal.fire({
+                            title: 'Success!',
+                            text: 'Add new item Success!',
+                            icon: 'success',
+                            customClass: {
+                                confirmButton: 'btn btn-primary'
+                            },
+                            buttonsStyling: false
+                        }).then(function () {
+                            window.location.reload()
+                        });
+                    },
+                    error: function (xhr, status, error) {
+                        console.log(error)
+                        Swal.fire({
+                            title: 'Error!',
+                            text: error,
+                            icon: 'error',
+                            customClass: {
+                                confirmButton: 'btn btn-primary'
+                            },
+                            buttonsStyling: false
+                        }).then(function () {
+                            // window.location.reload()
+                        });
+                    }
+                });
+            })
 
         </script>
         <!-- END: Page JS-->

@@ -43,6 +43,20 @@
                     <hr class="container-m-nx mb-4 mt-3">
 
                     <!-- Filter -->
+                    <div class="mb-2 ms-3">
+                        <small class="text-small text-muted text-uppercase align-middle">Filter Area</small>
+                    </div>
+                    <div class="mb-3 ms-3">
+                        <select id="filterArea" class="form-control selectpicker" data-style="btn-default">
+                            <option></option>
+                            @foreach($area as $a)
+                                <option value="{{ $a->id_detail_patrol_config }}">(Level {{ $a->level }}
+                                    ) {{ $a->name }}</option>
+                            @endforeach
+                        </select>
+                        <div class="form-text">Patrol Area based on specific level of area in user configuration.</div>
+                    </div>
+
                     <div class="mb-3 ms-3">
                         <small class="text-small text-muted text-uppercase align-middle">Filter Shift</small>
                     </div>
