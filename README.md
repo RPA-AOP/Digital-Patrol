@@ -1,64 +1,131 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400"></a></p>
+<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://digipatrol.id/assets/img/illustrations/opening_digpat.svg" width="400"></a></p>
 
-<p align="center">
-<a href="https://travis-ci.org/laravel/framework"><img src="https://travis-ci.org/laravel/framework.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+> ### This is private repository, 
+## About DigiPatrol
 
-## About Laravel
+Digipatrol is a system intended to digitize the security patrol process in company patrol areas, the features contained in the digipatrol application are such as:
+- Patrol Analytics
+- Patrol Abnormality Report
+- Patrol Performace Report
+- Schedule and Shift Management
+- Area Configuration
+- Multiple Company Plant and Building Configuration
+- etc
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+## System Requirement
+- PHP >= 8.0
+- PostgreSQL
+- Webserver Nginx or Apache (Production Server)
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+## How to Install (Local Development)
+- Create new PostgreSQL database
+- Clone this repository 
+>`git clone https://gitlab.com/imamsy/digipatrol-backend.git`
+- Run composer install
+> `composer i`
+- Copy file config
+> - Copy [.env.example](.env.example) and rename to .env 
+- Update Config
+```DB_CONNECTION=pgsql
+DB_HOST=your db host, example localhost, 127.0.0.1
+DB_PORT=db port, default db port for posgresql 5432
+DB_DATABASE=your db name
+DB_USERNAME=your db username
+DB_PASSWORD=your db password
+```
+- Run database and seeders 
+>```php artisan migrate:fresh --seed```
+- Run Application
+> ```php artisan serve```
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+## How to Install (Server Ubuntu, with apache webserver)
+- Install all requirement, 
+> - Install apachehttps://www.digitalocean.com/community/tutorials/how-to-install-the-apache-web-server-on-ubuntu-20-04
+> - Install PHP 8.0 https://medium.com/@laraveltuts/how-to-install-and-run-php-8-x-on-ubuntu-20-04-8f18e7565c41
+> - Install PostgreSQL https://www.digitalocean.com/community/tutorials/how-to-install-and-use-postgresql-on-ubuntu-20-04
+- Create new PostgreSQL database
+- Go to apache site directory
+```shell
+cd /var/www/
+```
+```shell
+mkdir apps
+```
+- Clone this repository
+```shell
+git clone https://gitlab.com/imamsy/digipatrol-backend.git .
+```
+- Assign ownership of the directiry
+```shell
+sudo chown -R $USER:$USER /var/www/apps
+```
+- Run composer install 
+```shell
+  composer i
+```
+- Copy file config
+Copy [.env.example](.env.example) and rename to .env
+- Update Config
+``` dotenv
+DB_CONNECTION=pgsql
+DB_HOST=your db host, example localhost, 127.0.0.1
+DB_PORT=db port, default db port for posgresql 5432
+DB_DATABASE=your db name
+DB_USERNAME=your db username
+DB_PASSWORD=your db password
+```
+- Run database and seeders
+```shell
+php artisan migrate:fresh --seed
+```
+- Go to apache config directory
+```shell
+cd /etc/apache2/site-available/
+```
+```shell
+sudo nano 000-default.conf
+```
+- update config and set virtualhost
+```apacheconf
+<VirtualHost *:80>
+# The ServerName directive sets the request scheme, hostname and port that
+# the server uses to identify itself. This is used when creating
+# redirection URLs. In the context of virtual hosts, the ServerName
+# specifies what hostname must appear in the request's Host: header to
+# match this virtual host. For the default virtual host (this file) this
+# value is not decisive as it is used as a last resort host regardless.
+# However, you must set it for any further virtual host explicitly.
+#ServerName www.example.com
 
-## Learning Laravel
+        ServerAdmin webmaster@localhost
+        DocumentRoot /var/www/apps/digipatrol-backend/public/
+        <Directory  /var/www/apps/digipatrol-backend/public/>
+                Options Indexes FollowSymLinks
+                AllowOverride All
+                Require all granted
+        </Directory>
+        # Available loglevels: trace8, ..., trace1, debug, info, notice, warn,
+        # error, crit, alert, emerg.
+        # It is also possible to configure the loglevel for particular
+        # modules, e.g.
+        #LogLevel info ssl:warn
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+        LogLevel debug
+        ErrorLog ${APACHE_LOG_DIR}/error.log
+        CustomLog ${APACHE_LOG_DIR}/access.log combined
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains over 2000 video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
-
-## Laravel Sponsors
-
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the Laravel [Patreon page](https://patreon.com/taylorotwell).
-
-### Premium Partners
-
-- **[Vehikl](https://vehikl.com/)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Cubet Techno Labs](https://cubettech.com)**
-- **[Cyber-Duck](https://cyber-duck.co.uk)**
-- **[Many](https://www.many.co.uk)**
-- **[Webdock, Fast VPS Hosting](https://www.webdock.io/en)**
-- **[DevSquad](https://devsquad.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel/)**
-- **[OP.GG](https://op.gg)**
-- **[WebReinvent](https://webreinvent.com/?utm_source=laravel&utm_medium=github&utm_campaign=patreon-sponsors)**
-- **[Lendio](https://lendio.com)**
-
-## Contributing
-
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
-
-## Code of Conduct
-
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
-
-## Security Vulnerabilities
-
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
-
-## License
-
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+        # For most configuration files from conf-available/, which are
+        # enabled or disabled at a global level, it is possible to
+        # include a line for only one particular virtual host. For example the
+        # following line enables the CGI configuration for this host only
+        # after it has been globally disabled with "a2disconf".
+        #Include conf-available/serve-cgi-bin.conf
+</VirtualHost>
+```
+- restart apache server
+```shell
+sudo systemctl status apache2
+```
+for other reference, you can visit this tutorials
+- https://www.hostinger.co.id/tutorial/install-laravel-di-ubuntu
+- https://www.niagahoster.co.id/blog/cara-install-laravel-di-ubuntu/
