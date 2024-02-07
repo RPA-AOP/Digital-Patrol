@@ -30,7 +30,7 @@ class ReportAccidentController extends Controller
     public function list(Request $request)
     {
         $activity = ReportAccident::with('user', 'company', 'user.company', 'attachment');
-        if (\Auth::user()->id_user_group == UserGroup::ADMIN_COMPANY) {
+        if (\Auth::user()->id_user_group == UserGroup::ADMIN_COMPANY||\Auth::user()->id_user_group == UserGroup::PIC_GA) {
             $activity->where('id_company', \Auth::user()->id_company);
         }
         return DataTables::of($activity->get())->addIndexColumn()->make(true);
@@ -40,13 +40,13 @@ class ReportAccidentController extends Controller
     public function detail($id): Factory|View|Application
     {
         $activityPatrol = PatrolActivity::where('id_patrol_activity', $id);
-        if (\Auth::user()->id_user_group == UserGroup::ADMIN_COMPANY) {
+        if (\Auth::user()->id_user_group == UserGroup::ADMIN_COMPANY||\Auth::user()->id_user_group == UserGroup::PIC_GA) {
             $activityPatrol->where('id_company', \Auth::user()->id_company);
         }
         $activityPatrol = $activityPatrol->first();
         $reportPatrol = ReportPatrol::with('user', 'patrolShift', 'reportPatrolDetail')
             ->where('id_patrol_activity', $id);
-        if (\Auth::user()->id_user_group == UserGroup::ADMIN_COMPANY) {
+        if (\Auth::user()->id_user_group == UserGroup::ADMIN_COMPANY||\Auth::user()->id_user_group == UserGroup::PIC_GA) {
             $reportPatrol->where('id_company', \Auth::user()->id_company);
         }
         $reportPatrol = $reportPatrol->get();

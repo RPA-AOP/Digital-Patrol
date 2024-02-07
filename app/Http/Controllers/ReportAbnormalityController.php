@@ -50,7 +50,7 @@ class ReportAbnormalityController extends Controller
                 });
                 break;
         }
-        if (\Auth::user()->id_user_group == UserGroup::ADMIN_COMPANY) {
+        if (\Auth::user()->id_user_group == UserGroup::ADMIN_COMPANY||\Auth::user()->id_user_group == UserGroup::PIC_GA) {
             $activity->where('id_company', \Auth::user()->id_company);
         }
         return DataTables::of($activity->get())->addIndexColumn()->make(true);

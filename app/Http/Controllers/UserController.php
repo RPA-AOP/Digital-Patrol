@@ -202,20 +202,24 @@ class UserController extends Controller
     public function update(Request $request)
     {
         $permission = Permission::get();
-
         if ($permission->has_edit) {
-            $request->validate([
-                'id_user' => 'required',
-                'name' => 'required|max:255',
-                'npk' => 'required',
-                'email' => 'email:rfc,dns|required',
-                'phone' => 'required|numeric|digits_between:10,15',
-                'status' => 'required',
-                'username' => 'required',
-            ]);
-
-
-            $user = Users::find($request->id_user);
+            $validator = \Validator::make($request->all(),
+                [
+                    'id_user' => 'required',
+                    'name' => 'required|max:255',
+                    'npk' => 'required',
+                    'email' => 'email',
+                    'phone' => 'nullable|numeric|digits_between:10,15',
+                    'status' => 'required',
+                    'username' => 'required',
+                ]
+            );
+            if ($validator->fails()){
+                return redirect()->back()
+                    ->withErrors($validator)
+                    ->withInput();
+            }
+            $user = Users::where('id_user',$request->id_user)->first();
             $user->id_user_group = $request->userGroup;
             $user->name = $request->name;
             $user->phone = $request->phone;
@@ -228,8 +232,7 @@ class UserController extends Controller
                 return redirect()->route('management-user.index')
                     ->with('success', 'User Berhasil Di Update');
             }
-            return redirect()->route('management-user.index')
-                ->with('error', 'User Gagal Di Update');
+            return redirect()->back()->with('error', 'User Gagal Di Update');
         }
 
         abort(403);

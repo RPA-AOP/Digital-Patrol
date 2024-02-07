@@ -127,9 +127,14 @@
                     title: 'PERUSAHAAN'
                 },
                 {
-                    data: 'object.name',
-                    name: 'object.name',
-                    title: 'NAMA OBJEK'
+                    data: 'object',
+                    name: 'object',
+                    title: 'NAMA OBJEK',
+                    render: function (item, row, full) {
+                        if (item)
+                            return item.name
+                        return '-'
+                    }
                 },
                 {
                     data: 'quick_action',
@@ -175,7 +180,7 @@
                         return moment(item).format('DD MMMM YYYY, HH:mm:ss')
                     }
                 },
-                    @if(Arr::has([UserGroup::ADMIN_COMPANY, UserGroup::ADMIN_COMPANY], auth()->user()->id_user_group))
+                    @if(in_array(Auth::user()->id_user_group, [UserGroup::ADMIN_COMPANY, UserGroup::PIC_GA]))
                 {
                     data: 'id_report_patrol_detail',
                     name: 'id_report_patrol_detail',

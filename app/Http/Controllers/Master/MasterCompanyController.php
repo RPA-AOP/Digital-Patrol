@@ -45,20 +45,27 @@ class MasterCompanyController extends Controller
 
     public function store(Request $request)
     {
-        $request->validate([
-            'nama_perusahaan' => 'required|max:255',
-            'alamat' => 'required',
-            'luas_tanah' => 'required|int',
-            'luas_bangunan' => 'required|int',
-            'status_bangunan' => 'required',
-            'karyawan_tetap' => 'required|int',
-            'karyawan_kontrak' => 'required|int',
-            'karyawan_outsource' => 'required|int',
-            'nama_produk' => 'required',
-            'proses_utama' => 'required',
-            'lat' => 'required',
-            'long' => 'required',
-        ]);
+        $validator = \Validator::make($request->all(),
+            [
+                'nama_perusahaan' => 'required|max:255',
+                'alamat' => 'required',
+                'luas_tanah' => 'required|int',
+                'luas_bangunan' => 'required|int',
+                'status_bangunan' => 'required',
+                'karyawan_tetap' => 'required|int',
+                'karyawan_kontrak' => 'required|int',
+                'karyawan_outsource' => 'required|int',
+                'nama_produk' => 'required',
+                'proses_utama' => 'required',
+                'lat' => 'required',
+                'long' => 'required',
+            ]
+        );
+        if ($validator->fails()){
+            return redirect()->back()
+                ->withErrors($validator)
+                ->withInput();
+        }
 
         $nama_perusahaan = $request->nama_perusahaan;
         $nama_produk = $request->nama_produk;
@@ -89,10 +96,6 @@ class MasterCompanyController extends Controller
         $Perusahaan->save();
         $message = 'Data Perusahaan Berhasil Disimpan';
 
-        $result = [
-            'status' => true,
-            'message' => $message
-        ];
         return redirect()->route('master.company.index')
             ->with('success', 'Successfully add company');
     }

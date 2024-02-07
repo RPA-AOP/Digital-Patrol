@@ -33,7 +33,7 @@ class ReportPatrolController extends Controller
     public function list(Request $request)
     {
         $activity = PatrolActivity::with('user', 'patrolShift', 'company', 'reportPatrol');
-        if (\Auth::user()->id_user_group == UserGroup::ADMIN_COMPANY) {
+        if (\Auth::user()->id_user_group == UserGroup::ADMIN_COMPANY||\Auth::user()->id_user_group == UserGroup::PIC_GA) {
             $activity->where('id_company', \Auth::user()->id_company);
         }
         $activity->orderBy('created_at', 'desc');
@@ -43,13 +43,13 @@ class ReportPatrolController extends Controller
     public function detail($id): Factory|View|Application
     {
         $activityPatrol = PatrolActivity::where('id_patrol_activity', $id);
-        if (\Auth::user()->id_user_group == UserGroup::ADMIN_COMPANY) {
+        if (\Auth::user()->id_user_group == UserGroup::ADMIN_COMPANY||\Auth::user()->id_user_group == UserGroup::PIC_GA) {
             $activityPatrol->where('id_company', \Auth::user()->id_company);
         }
         $activityPatrol = $activityPatrol->first();
         $reportPatrol = ReportPatrol::with( 'patrolShift', 'reportPatrolDetail')
             ->where('id_patrol_activity', $id);
-        if (\Auth::user()->id_user_group == UserGroup::ADMIN_COMPANY) {
+        if (\Auth::user()->id_user_group == UserGroup::ADMIN_COMPANY||\Auth::user()->id_user_group == UserGroup::PIC_GA) {
             $reportPatrol->where('id_company', \Auth::user()->id_company);
         }
         $reportPatrol = $reportPatrol->get();

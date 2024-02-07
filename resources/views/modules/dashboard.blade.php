@@ -9,7 +9,7 @@
     <link rel="stylesheet" href="{{asset('assets/vendor/libs/datatables-responsive-bs5/responsive.bootstrap5.css')}}"/>
     <link rel="stylesheet"
           href="{{asset('assets/vendor/libs/datatables-checkboxes-jquery/datatables.checkboxes.css')}}"/>
-    <link rel="stylesheet" href="{{asset('assets/vendor/libs/spinkit/spinkit.css')}}" />
+    <link rel="stylesheet" href="{{asset('assets/vendor/libs/spinkit/spinkit.css')}}"/>
 
 @endsection
 
@@ -51,9 +51,14 @@
                     title: 'PERUSAHAAN'
                 },
                 {
-                    data: 'object.name',
-                    name: 'object.name',
-                    title: 'NAMA OBJEK'
+                    data: 'object',
+                    name: 'object',
+                    title: 'NAMA OBJEK',
+                    render: function (item, row, full) {
+                        if (item)
+                            return item.name
+                        return '-'
+                    }
                 },
                 {
                     data: 'patrol_note',
@@ -559,18 +564,18 @@
 
         }
 
-            $('#card-timeseries').block({
-                message:
-                    '<div class="sk-wave mx-auto"><div class="sk-rect sk-wave-rect"></div> <div class="sk-rect sk-wave-rect"></div> <div class="sk-rect sk-wave-rect"></div> <div class="sk-rect sk-wave-rect"></div> <div class="sk-rect sk-wave-rect"></div></div>',
-                css: {
-                    backgroundColor: 'transparent',
-                    color: '#fff',
-                    border: '0'
-                },
-                overlayCSS: {
-                    opacity: 0.5
-                }
-            });
+        $('#card-timeseries').block({
+            message:
+                '<div class="sk-wave mx-auto"><div class="sk-rect sk-wave-rect"></div> <div class="sk-rect sk-wave-rect"></div> <div class="sk-rect sk-wave-rect"></div> <div class="sk-rect sk-wave-rect"></div> <div class="sk-rect sk-wave-rect"></div></div>',
+            css: {
+                backgroundColor: 'transparent',
+                color: '#fff',
+                border: '0'
+            },
+            overlayCSS: {
+                opacity: 0.5
+            }
+        });
 
 
     </script>
@@ -741,7 +746,7 @@
 
             <div class="col-12 mb-4">
                 <div class="card h-100" id="card-timeseries">
-                    <div class="card-header d-flex justify-content-between pb-0" >
+                    <div class="card-header d-flex justify-content-between pb-0">
                         <div class="card-title mb-0">
                             <h5 class="mb-0">Abnormality Time Series</h5>
                             {{--            <small class="text-muted">Last 7 Days</small>--}}

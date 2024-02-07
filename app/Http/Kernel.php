@@ -63,7 +63,7 @@ class Kernel extends HttpKernel
             VerifyCsrfToken::class,
             SubstituteBindings::class,
             LocaleMiddleware::class,
-            \Spatie\Csp\AddCspHeaders::class,
+            AddCspHeaders::class,
         ],
 
         'api' => [
@@ -71,7 +71,7 @@ class Kernel extends HttpKernel
             'throttle:1000,1',
             SubstituteBindings::class,
             AddCspHeaders::class,
-            \Spatie\ResponseCache\Middlewares\CacheResponse::class,
+            CacheResponse::class,
         ],
     ];
 
