@@ -18,7 +18,7 @@ class MenusSeeder extends Seeder
             [
                 'name' => 'Dashboard',
                 'icon' => 'menu-icon tf-icons ti ti-smart-home',
-                'url' => '/',
+                'url' => '/dashboard',
                 'type' => 'menu',
                 'slug' => 'dashboard',
                 'is_hidden' => 0,
