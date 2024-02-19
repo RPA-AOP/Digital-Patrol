@@ -12,12 +12,12 @@ npm-debug.log
 yarn-error.log
 /.idea
 /.vscode
-/public/css
-/public/js
+#/public/css
+#/public/js
 /public/mix-manifest.json
 # But not these files...
-!/public/assets/*
+#!/public/assets/*
 #/public/assets/js
 #/public/assets/css
 .env
-#/public/assets/vendor/
+/public/assets/vendor/
