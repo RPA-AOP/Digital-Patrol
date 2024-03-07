@@ -4,7 +4,6 @@ namespace App\Providers;
 
 use App\View\Components\FileInput;
 use App\View\Components\Select2;
-use Barryvdh\LaravelIdeHelper\IdeHelperServiceProvider;
 use Bpocallaghan\Generators\GeneratorsServiceProvider;
 use Illuminate\Support\Facades\Blade;
 use Illuminate\Support\ServiceProvider;
@@ -19,9 +18,7 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        if ($this->app->isLocal()) {
-            $this->app->register(IdeHelperServiceProvider::class);
-        }
+
     }
 
     /**

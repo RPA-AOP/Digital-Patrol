@@ -27,7 +27,8 @@ class PatrolConfigController extends Controller
         $permission = Permission::get();
         if ($permission->has_view) {
             $data = ['permission' => $permission];
-            return \Auth::user()->id_user_group == UserGroup::ADMIN_COMPANY ? redirect()->route('patrolconfig.manage', ['id' => \Auth::user()->id_company]) : view('modules.builder.index', $data);
+            return \Auth::user()->id_user_group == UserGroup::ADMIN_COMPANY ? redirect()->route('patrolconfig.manage',
+                ['id' => \Auth::user()->id_company]) : view('modules.builder.index', $data);
         } else {
             abort(403, 'Anda tidak memiliki akses pada menu ini');
         }
@@ -53,15 +54,17 @@ class PatrolConfigController extends Controller
         }
         $patrolConfigExist = PatrolConfig::where('id_company', $id)->exists();
         if (!$patrolConfigExist) {
-            $patrolConfig = PatrolConfig::create([
+            $patrolConfighit = PatrolConfig::create([
                 'id_company' => $id,
                 'created_by' => Auth::user()->id,
                 'status' => 1
             ]);
         }
-        $dataConfig = PatrolConfig::with('company')->with(["patrolDetail" => function ($q) use ($id) {
-            $q->where('level', '=', 1)->where('id_company', $id);
-        }])->where('id_company', $id)->first();
+        $dataConfig = PatrolConfig::with('company')->with([
+            "patrolDetail" => function ($q) use ($id) {
+                $q->where('level', '=', 1)->where('id_company', $id);
+            }
+        ])->where('id_company', $id)->first();
 
         $itemLevel = null;
         $parentItem = null;
@@ -130,7 +133,7 @@ class PatrolConfigController extends Controller
             'name' => 'required',
             'identification_key' => 'string|nullable',
             'category_id' => 'string|nullable',
-            'id_patrol_config'=> 'required'
+            'id_patrol_config' => 'required'
         ]);
         $patrolConfig = PatrolConfig::findOrFail($validated->id_patrol_config);
         $detailConfig = new DetailPatrolConfig();
@@ -143,8 +146,9 @@ class PatrolConfigController extends Controller
         if ($request->post('level_id')) {
             $detailConfig->level = $validated->level_id;
         }
-        if ($request->post('category_id'))
+        if ($request->post('category_id')) {
             $detailConfig->category_id = $validated->category_id;
+        }
         if ($detailConfig->save()) {
             $detailConfig->refresh();
             return response()->json(['status' => 'new item addedd', 'data' => $detailConfig->toArray()], 200);
@@ -160,7 +164,7 @@ class PatrolConfigController extends Controller
                 'random_checkpoint_percentage' => 'numeric|min:20|max:100',
             ]);
             $config = PatrolConfig::find($id);
-            $config->random_checkpoint = (bool)$request->post('random_checkpoint',);
+            $config->random_checkpoint = (bool) $request->post('random_checkpoint',);
             $config->random_checkpoint_percentage = $request->post('random_checkpoint_percentage', 80);
             if ($config->save()) {
                 return redirect()->route('patrolconfig.manage', ['id' => $id])
@@ -182,8 +186,9 @@ class PatrolConfigController extends Controller
         if ($request->post('level_id')) {
             $detailConfig->level = $request->level_id;
         }
-        if ($request->post('category_id'))
+        if ($request->post('category_id')) {
             $detailConfig->category_id = $request->category_id;
+        }
         if ($detailConfig->save()) {
             $detailConfig->refresh();
             return response()->json(['status' => 'updated', 'data' => $detailConfig->toArray()], 200);
@@ -216,9 +221,27 @@ class PatrolConfigController extends Controller
             return response()->json(['status' => 'Update failed, Patrol config not found',], 500);
         }
         $data = json_decode($request->post('data'), true);
-        if ($this->updateList($data[0]['children'], $id, $data[0]['id']))
+        if ($this->updateList($data[0]['children'], $id, $data[0]['id'])) {
             return response()->json(['status' => 'updated'], 200);
+        }
         return response()->json(['status' => 'update failed',], 500);
+
+    }
+
+    function deleteItem($idDetail): JsonResponse
+    {
+        $detail = DetailPatrolConfig::findOrFail($idDetail);
+        if ($detail) {
+            DetailPatrolConfig::where('parent_id', $idDetail)
+                ->update([
+                    'parent_id' => null
+                ]);
+            if ($detail->delete()) {
+                return response()->json(['status' => 'deleted'], 200);
+            }
+            return response()->json(['status' => 'update failed',], 500);
+        }
+        return response()->json(['status' => 'update failed',], 404);
 
     }
 }

@@ -30,7 +30,7 @@
                         @if($dataConfig)
                             <div class="form-modal-ex">
                                 <!-- Button trigger modal -->
-                                <button type="button" class="btn btn-primary" data-toggle="offcanvas"
+                                <button type="button" class="btn btn-primary btn-sm" data-toggle="offcanvas"
                                         data-bs-toggle="offcanvas"
                                         data-target="#offcanvasAddUser" data-bs-target="#offcanvasAddUser">
                                     Add New Item
@@ -137,7 +137,7 @@
                                                 </div>
                                                 <div class="col-12">
                                                     <button id="add-new-item"
-                                                            class="btn btn-primary text-center btn-block waves-effect waves-float waves-light">
+                                                            class="btn btn-primary btn-sm text-center btn-block waves-effect waves-float waves-light">
                                                         Add new item
                                                     </button>
                                                 </div>
@@ -195,18 +195,16 @@
                                         class="switch-label">Percentage of random checkpoint each Zone</span>
                                 </div>
                             </div>
-                            <div class="col-12 row mt-3">
-                                <button id="update-config"
-                                        class="btn btn-primary text-center btn-block waves-effect waves-float waves-light">
-                                    Update Patrol Config
-                                </button>
-                            </div>
+                            <button id="update-config"
+                                    class="btn btn-primary btn-sm text-center btn-block waves-effect waves-float waves-light mt-3">
+                                Update Patrol Config
+                            </button>
                         </form>
                     </div>
                 </div>
                 <div class="card overflow-hidden mb-4" style="height: 630px;">
                     <div class="card-header d-flex justify-content-between align-middle mb-0">
-                        <h5 class="card-title">Area Configuration</h5>
+                        <h5 class="card-title mb-0">Area Configuration</h5>
                         @if($dataConfig)
                             <button id="update-hierarchy"
                                     class="btn btn-primary btn-sm text-center">
@@ -354,7 +352,7 @@
                             </x-fileinput>
                             <div class="row mt-2">
                                 <button type="submit"
-                                        class="btn btn-primary text-center btn-block waves-effect waves-float waves-light">
+                                        class="btn btn-primary btn-sm text-center btn-block waves-effect waves-float waves-light">
                                     UPLOAD
                                 </button>
                             </div>
@@ -366,10 +364,7 @@
                         <div
                             class="card-header d-flex justify-content-between align-items-center pt-75 pb-1">
                             <h5 class="mb-0">Detail Area/Object</h5>
-                            <span class="badge badge-light-secondary" data-toggle="tooltip"
-                                  data-placement="top" title=""
-                                  data-original-title="Level Area"><span id="level">Level Area: </span>
-                                    </span>
+
                         </div>
                         <div class="card-body">
                             <form class="form form-vertical" id="form-detail">
@@ -377,9 +372,9 @@
                                     <div class="col-12">
                                         <div class="mb-3">
                                             <label class="form-label" for="parent_id">Parent</label>
-                                            <select name="parent_id" id="parent_id" class="form-control"
-                                                    data-placeholder="Parent Id">
-                                                <option>-- PARENT ITEM</option>
+                                            <select name="parent_id" id="parent_id" class="select2 form-control"
+                                                    data-placeholder="PARENT ITEM">
+                                                <option>--PARENT ITEM</option>
                                                 @foreach($parentItem as $parent)
                                                     <option
                                                         value="{{$parent['id_detail_patrol_config']}}">{{$parent['name']}}</option>
@@ -391,9 +386,9 @@
                                         <div class="col-12">
                                             <div class="mb-3">
                                                 <label class="form-label" for="level_id">Level</label>
-                                                <select name="level_id" id="level_id" class="form-control"
-                                                        data-placeholder="Level">
-                                                    <option>-- LEVEL ITEM</option>
+                                                <select name="level_id" id="level_id" class="select2 form-control"
+                                                        data-placeholder="-- LEVEL ITEM">
+                                                    <option>--LEVEL ITEM</option>
                                                     @foreach($itemLevel as $level)
                                                         <option
                                                             value="{{$level['level']}}">{{$level['level_name']}}</option>
@@ -453,10 +448,14 @@
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="row">
+                                    <div class="d-flex justify-content-between align-items-center ">
                                         <button id="update-detail"
-                                                class="btn btn-primary text-center btn-block waves-effect waves-float waves-light">
+                                                class="btn btn-primary btn-sm text-center btn-block waves-effect waves-float waves-light col-10 mr-2">
                                             Update Detail
+                                        </button>
+                                        <button id="hapus-detail"
+                                                class="btn btn-danger btn-sm text-center waves-effect waves-float waves-light ml-2">
+                                            <i class="ti ti-trash ti-sm "></i>
                                         </button>
                                     </div>
                                 </div>
@@ -546,6 +545,7 @@
                 $('#identification_key').val(data.identification_key)
                 $('#level').text('Level Area: ' + data.level_name)
                 $('#status').prop('checked', data.status === '1');
+                $('#hapus-detail').val(data.id_detail_patrol_config);
 
             })
             @if($dataConfig)
@@ -610,7 +610,7 @@
                             },
                             buttonsStyling: false
                         }).then(function () {
-                            // window.location.reload()
+                            window.location.reload()
                         });
                     },
                     error: function (xhr, status, error) {
@@ -624,8 +624,61 @@
                             },
                             buttonsStyling: false
                         }).then(function () {
-                            // window.location.reload()
+                            window.location.reload()
                         });
+                    }
+                });
+            })
+
+            $('#hapus-detail').on('click', function (e) {
+                var id_detail = $(this).val();
+                console.log(id_detail)
+                Swal.fire({
+                    title: 'Are you sure?',
+                    text: "You won't be able to revert this!",
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonText: 'Yes, delete it!',
+                    customClass: {
+                        confirmButton: 'btn btn-primary me-3',
+                        cancelButton: 'btn btn-label-secondary'
+                    },
+                    buttonsStyling: false
+                }).then(function (result) {
+                    if (result.value) {
+                        // delete the data
+                        $.ajax({
+                            type: 'DELETE',
+                            url: `{{url('/patrolconfig/delete-item/')}}/${id_detail}`,
+                            success: function success() {
+                                Swal.fire({
+                                    icon: 'success',
+                                    title: 'Deleted!',
+                                    text: 'Item has been deleted!',
+                                    customClass: {
+                                        confirmButton: 'btn btn-success'
+                                    }
+                                }).then(function () {
+                                    window.location.reload()
+                                });
+                            },
+                            error: function error(_error) {
+                                console.log(_error);
+                                Swal.fire({
+                                    title: 'Error, Please try again',
+                                    text: _error,
+                                    icon: 'error',
+                                    customClass: {
+                                        confirmButton: 'btn btn-success'
+                                    }
+                                }).then(function () {
+                                    window.location.reload()
+                                });
+                            }
+                        });
+
+                        // success sweetalert
+
                     }
                 });
             })
