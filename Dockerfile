@@ -58,9 +58,9 @@ RUN composer install --no-dev --prefer-dist
 # [APP STAGE]
 FROM base as app
 # Prepare the frontend files & caching
-COPY . /app/public
+COPY . /app
 
-RUN chown www-data:www-data /app/public
+RUN chown www-data:www-data /app
 RUN php artisan view:cache
 # Setup nginx & supervisor as root user
 USER root
