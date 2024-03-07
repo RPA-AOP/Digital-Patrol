@@ -71,6 +71,8 @@ RUN chown -R www-data:www-data /run/nginx /var/lib/nginx /var/log/nginx && \
 
 RUN composer install --no-dev --prefer-dist
 
+RUN chown -R www-data:www-data /app
+
 RUN php artisan view:cache
 
 # Switch to www-user
