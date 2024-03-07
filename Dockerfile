@@ -60,7 +60,6 @@ FROM base as app
 COPY . /app
 
 RUN chown www-data:www-data /app
-RUN php artisan view:cache
 # Setup nginx & supervisor as root user
 USER root
 RUN apk add --no-progress --quiet --no-cache nginx supervisor
@@ -71,6 +70,9 @@ RUN chown -R www-data:www-data /run/nginx /var/lib/nginx /var/log/nginx && \
     sed -i '/user nginx;/d' /etc/nginx/nginx.conf
 
 RUN composer install --no-dev --prefer-dist
+
+RUN php artisan view:cache
+
 # Switch to www-user
 USER www-data
 EXPOSE 80
