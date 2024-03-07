@@ -49,10 +49,9 @@ RUN docker-php-ext-configure pgsql -with-pgsql=/usr/local/pgsql \
 # Install the composer packages using www-data user
 WORKDIR /app
 RUN chown www-data:www-data /app
-COPY --chown=www-data:www-data . .
+#COPY --chown=www-data:www-data . .
 COPY --from=composer:2.2 /usr/bin/composer /usr/bin/composer
 USER www-data
-RUN composer install --no-dev --prefer-dist
 # [END BASE STAGE]
 
 # [APP STAGE]
@@ -69,7 +68,9 @@ COPY docker/nginx-default.conf /etc/nginx/http.d/default.conf
 COPY docker/supervisord.conf /etc/supervisord.conf
 # Apply the required changes to run nginx as www-data user
 RUN chown -R www-data:www-data /run/nginx /var/lib/nginx /var/log/nginx && \
-    sed -i '/user nginx;/d' /etc/nginx/nginx.conf
+    sed -i '/user nginx;/d' /etc/nginx/nginx.conf \
+
+RUN composer install --no-dev --prefer-dist
 # Switch to www-user
 USER www-data
 EXPOSE 80
