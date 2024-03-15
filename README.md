@@ -139,6 +139,10 @@ sudo systemctl status apache2
 ```bash
   docker run -p <host_port>:80 digipatrol_images
 ```
+- or use docker compose tu build container
+```bash
+APP_PORT=8080 docker compose up  -d
+```
 - digipatrol can be access at http://localhost:<host_port>
 
 # FAQ
