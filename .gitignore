@@ -20,4 +20,4 @@ yarn-error.log
 #/public/assets/js
 #/public/assets/css
 .env
-/public/assets/vendor/
+#/public/assets/vendor/
