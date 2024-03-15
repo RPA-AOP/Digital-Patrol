@@ -126,6 +126,21 @@ sudo nano 000-default.conf
 ```shell
 sudo systemctl status apache2
 ```
+
+## How to Install (Docker)
+- Clone this repository
+- Create databases and users databases,
+- modify .env configurations files 
+- build digipatrol docker images
+```bash
+  docker build . --build-arg app_env=dev --target app -t digipatrol_images
+```
+- then create container, change <host_port> to 8080 or another port
+```bash
+  docker run -p <host_port>:80 digipatrol_images
+```
+- digipatrol can be access at http://localhost:<host_port>
+
 # FAQ
 - ### Error 419 after login
 > Adjust Session configuration 
