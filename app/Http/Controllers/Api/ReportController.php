@@ -29,7 +29,7 @@ class ReportController extends BaseApiController
         $validate = Validator::make($request->all(),
             [
                 'title' => 'required|alpha_dash',
-                'description' => 'boolean|alpha_dash',
+                'description' => 'string|alpha_dash',
                 'image_1' => "max:{$maxfilesize}",
                 'image_2' => "max:{$maxfilesize}",
                 'image_3' => "max:{$maxfilesize}",
