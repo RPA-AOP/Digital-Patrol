@@ -21,3 +21,12 @@ yarn-error.log
 #/public/assets/css
 .env
 #/public/assets/vendor/
+supervisord.log
+.DS_Store
+.idea
+.vscode
+bootstrap/.DS_Store
+public/.DS_Store
+public/assets/.DS_Store
+resources/.DS_Store
+storage/.DS_Store
