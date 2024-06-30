@@ -279,7 +279,7 @@ class UserController extends Controller
     public function changePassword(Request $request)
     {
 
-        if (\Auth::user()->id_user_group == UserGroup::ADMIN_COMPANY) {
+        if (in_array(\Auth::user()->id_user_group, [UserGroup::ADMIN_COMPANY, UserGroup::ADMINISTRATOR])) {
             $request->validate([
                 'newPassword' => 'required|confirmed',
                 'id_user' => 'required',
@@ -303,7 +303,7 @@ class UserController extends Controller
         if ($user) {
             $user->password = Hash::make($request->post('newPassword'));
             if ($user->save()) {
-                return redirect()->route('profile.edit', ['id' => $user->id_user])
+                return redirect()->back()
                     ->with('success', 'User password telah di Update');
             }
 
