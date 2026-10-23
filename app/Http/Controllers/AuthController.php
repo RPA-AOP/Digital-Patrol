@@ -26,8 +26,17 @@ class AuthController extends Controller
             return redirect()->route('dashboard');
         }
 
+        // $pageConfigs = ['myLayout' => 'blank'];
+        // return view('auth.login', ['pageConfigs' => $pageConfigs]);
         $pageConfigs = ['myLayout' => 'blank'];
-        return view('auth.login', ['pageConfigs' => $pageConfigs]);
+        \Log::info('Login page loaded. Session ID: ' . session()->getId());
+    
+        return response()
+            ->view('auth.login', ['pageConfigs' => $pageConfigs])
+            ->header('Cache-Control', 'no-store, no-cache, must-revalidate')
+            ->header('Pragma', 'no-cache')
+            ->header('Expires', '0');
+
     }
 
     public function doLogin(Request $request)

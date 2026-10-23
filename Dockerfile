@@ -1,6 +1,6 @@
 # ./Dockerfile
 # [BASE STAGE]
-FROM php:8.1-fpm-alpine as base
+FROM php:8.4.27-fpm-alpine AS base
 ARG app_env
 # Install the php extension installer from its image
 COPY --from=mlocati/php-extension-installer /usr/bin/install-php-extensions /usr/local/bin/

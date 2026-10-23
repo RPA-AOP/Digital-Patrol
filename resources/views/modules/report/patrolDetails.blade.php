@@ -139,9 +139,15 @@
                                         <div class="col-8">
                                             <table>
                                                 <tr>
+                                                    <td width="40%">CHECKPOINT</td>
+                                                    <td>:</td>
+                                                    <td>{{ $detail->objectParent->name ?? 'No Checkpoint' }}</td>
+                                                </tr>
+                                                <tr>
                                                     <td width="40%">Waktu Checkin</td>
                                                     <td>:</td>
                                                     <td>{{ $report->checkin_time }}</td>
+                                                </tr>
                                                 <tr>
                                                     <td>Waktu Checkout</td>
                                                     <td>:</td>
