@@ -13,7 +13,8 @@ Digipatrol is a system intended to digitize the security patrol process in compa
 - etc
 
 ## System Requirement
-- PHP >= 8.0
+- Laravel 13
+- PHP 8.4.27
 - PostgreSQL
 - Webserver Nginx or Apache (Production Server)
 
@@ -41,7 +42,7 @@ DB_PASSWORD=your db password
 ## How to Install (Server Ubuntu, with apache webserver)
 - Install all requirement, 
 > - Install apachehttps://www.digitalocean.com/community/tutorials/how-to-install-the-apache-web-server-on-ubuntu-20-04
-> - Install PHP 8.0 https://medium.com/@laraveltuts/how-to-install-and-run-php-8-x-on-ubuntu-20-04-8f18e7565c41
+> - Install PHP 8.4.27
 > - Install PostgreSQL https://www.digitalocean.com/community/tutorials/how-to-install-and-use-postgresql-on-ubuntu-20-04
 - Create new PostgreSQL database
 - Go to apache site directory
